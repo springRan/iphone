@@ -8,6 +8,8 @@
 
 #import "SignUpViewController.h"
 #import "CustomCellBackgroundView.h"
+#import "Address.h"
+#import "SBJsonParser.h"
 
 #define EMAIL_FIELD 1
 #define USERNAME_FIELD 2
@@ -17,6 +19,7 @@
 #define HIDDEN_STATUS 1
 #define OK_STATUS 2
 #define WARN_STATUS 3
+
 
 @implementation SignUpViewController
 
@@ -37,7 +40,7 @@
 @synthesize usernameCheckView;
 @synthesize passwordCheckView;
 @synthesize nameCheckView;
-    
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -100,7 +103,7 @@
     [self setCheckView:USERNAME_FIELD status:HIDDEN_STATUS];
     [self setCheckView:PASSWORD_FIELD status:HIDDEN_STATUS];
     [self setCheckView:NAME_FIELD status:HIDDEN_STATUS];
-	
+
 }
 
 - (void)viewDidUnload
@@ -236,7 +239,6 @@
         label.text = message;
         [label sizeToFit];
         float width = label.frame.size.width;
-        NSLog(@"lf",width);
         CGRect frame = label.frame;
         frame.origin.x = checkView.frame.size.width - width;
         [label setFrame:frame];
@@ -248,14 +250,71 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField == self.emailTextField) {
+        NSURL *url = [NSURL URLWithString:[Address checkEmail]];
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+        [request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
+        [request startAsynchronous];
+        [request setDelegate:self];
+        [request setDidFinishSelector:@selector(emailRequestDone:)];
+        [request setDidFailSelector:@selector(requestWentWrong:)];
         
     } else if (textField == self.usernameTextField) {
+        NSURL *url = [NSURL URLWithString:[Address checkUsername]];
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+        [request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
+        [request startAsynchronous];
+        [request setDelegate:self];
+        [request setDidFinishSelector:@selector(usernameRequestDone:)];
+        [request setDidFailSelector:@selector(requestWentWrong:)];
         
     } else if (textField == self.passwordTextField) {
-        
+        if ([self.passwordTextField.text length] <= 4) {
+            [self setCheckView:PASSWORD_FIELD status:WARN_STATUS message:@"Very Weak"];
+        } else {
+            [self setCheckView:PASSWORD_FIELD status:OK_STATUS message:@"OK"];
+        }
     } else if (textField == self.nameTextField) {
         
     }
 }
 
+- (void)emailRequestDone:(ASIHTTPRequest *)request {
+    NSString *responseString = [request responseString];
+    NSLog(@"Email Request Done");
+    NSLog(@"%@",responseString);
+    SBJsonParser *parser = [SBJsonParser new];
+    NSDictionary *dict = [parser objectWithString:responseString];
+    NSString *error = [dict objectForKey:@"error"];
+    if ([NSNull null] == (NSNull *)error) {
+        [self setCheckView:EMAIL_FIELD status:OK_STATUS message:@"OK"];
+        
+    } else {
+        [self setCheckView:EMAIL_FIELD status:WARN_STATUS message:error];
+    }
+
+}
+
+- (void)usernameRequestDone:(ASIHTTPRequest *)request{
+    NSString *responseString = [request responseString];
+    NSLog(@"Username Request Done");
+    NSLog(@"%@",responseString);
+    SBJsonParser *parser = [SBJsonParser new];
+    NSDictionary *dict = [parser objectWithString:responseString];
+    NSString *error = [dict objectForKey:@"error"];
+    if ([NSNull null] == (NSNull *)error) {
+        [self setCheckView:USERNAME_FIELD status:OK_STATUS message:@"OK"];
+        
+    } else {
+        [self setCheckView:USERNAME_FIELD status:WARN_STATUS message:error];
+    }
+}
+
+- (void)requestWentWrong:(ASIHTTPRequest *)request {
+    NSError *error = [request error];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
+}
+
+                                                
 @end

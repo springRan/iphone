@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 
-
-@interface SignUpViewController : UIViewController <UITextFieldDelegate> {
+@interface SignUpViewController : UIViewController <UITextFieldDelegate, ASIHTTPRequestDelegate> {
     
     UITextField *emailTextField;
     UITextField *usernameTextField;
@@ -66,4 +67,7 @@
 -(void) setCheckView:(int)field status:(int)status;
 -(void) setCheckView:(int)field status:(int)status message:(NSString *)message;
 
+- (void)emailRequestDone:(ASIHTTPRequest *)request;
+- (void)usernameRequestDone:(ASIHTTPRequest *)request;
+- (void)requestWentWrong:(ASIHTTPRequest *)request;
 @end

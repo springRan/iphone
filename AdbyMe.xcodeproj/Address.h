@@ -16,5 +16,6 @@
 
 
 +(NSString *) loginURL;
-
++(NSString *) checkEmail;
++(NSString *) checkUsername;
 @end
