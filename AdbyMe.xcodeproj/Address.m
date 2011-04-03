@@ -15,12 +15,20 @@
     return [NSString stringWithFormat:@"%@/users/login.json",HOST_ADDR];
 }
 
-+(NSString *) checkEmail {
++(NSString *) checkEmailURL {
     return [NSString stringWithFormat:@"%@/users/checkRegister/email.json",HOST_ADDR];
 }
 
-+(NSString *) checkUsername {
++(NSString *) checkUsernameURL {
     return [NSString stringWithFormat:@"%@/users/checkRegister/username.json", HOST_ADDR];
+}
+
++(NSString *) registerURL {
+    return [NSString stringWithFormat:@"%@/users/register.json", HOST_ADDR];
+}
+
++(NSString *) adListURL {
+    return [NSString stringWithFormat:@"%@/copy/cover.json", HOST_ADDR];
 }
 
 -(void)dealloc{

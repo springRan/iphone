@@ -36,6 +36,10 @@
     
     int totalSavedControl;
     
+    
+    UIBarButtonItem *activityBarButton;
+    UIActivityIndicatorView *activityIndicatorView;
+    
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *emailTextField;
@@ -59,6 +63,9 @@
 @property (nonatomic, retain) IBOutlet UIView *passwordCheckView;
 @property (nonatomic, retain) IBOutlet UIView *nameCheckView;
 
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *activityBarButton;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+
 
 -(void) savePosition;
 -(void) adjustPosition;
@@ -69,5 +76,10 @@
 
 - (void)emailRequestDone:(ASIHTTPRequest *)request;
 - (void)usernameRequestDone:(ASIHTTPRequest *)request;
+- (void)registerRequestDone:(ASIHTTPRequest *)request;
 - (void)requestWentWrong:(ASIHTTPRequest *)request;
+
+-(IBAction) submitClicked;
+-(IBAction) termsClicked;
 @end
+

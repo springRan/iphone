@@ -16,6 +16,8 @@
 
 
 +(NSString *) loginURL;
-+(NSString *) checkEmail;
-+(NSString *) checkUsername;
++(NSString *) checkEmailURL;
++(NSString *) checkUsernameURL;
++(NSString *) registerURL;
++(NSString *) adListURL;
 @end

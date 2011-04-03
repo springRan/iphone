@@ -10,6 +10,7 @@
 #import "CustomCellBackgroundView.h"
 #import "Address.h"
 #import "SBJsonParser.h"
+#import "AdListViewController.h"
 
 #define EMAIL_FIELD 1
 #define USERNAME_FIELD 2
@@ -40,6 +41,8 @@
 @synthesize usernameCheckView;
 @synthesize passwordCheckView;
 @synthesize nameCheckView;
+@synthesize activityBarButton;
+@synthesize activityIndicatorView;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -104,6 +107,11 @@
     [self setCheckView:PASSWORD_FIELD status:HIDDEN_STATUS];
     [self setCheckView:NAME_FIELD status:HIDDEN_STATUS];
 
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.activityIndicatorView.hidesWhenStopped = YES;
+    
+    self.activityBarButton = [[UIBarButtonItem alloc]initWithCustomView:self.activityIndicatorView];
+    self.navigationItem.rightBarButtonItem = self.activityBarButton;
 }
 
 - (void)viewDidUnload
@@ -250,7 +258,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField == self.emailTextField) {
-        NSURL *url = [NSURL URLWithString:[Address checkEmail]];
+        NSURL *url = [NSURL URLWithString:[Address checkEmailURL]];
         ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
         [request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
         [request startAsynchronous];
@@ -259,7 +267,7 @@
         [request setDidFailSelector:@selector(requestWentWrong:)];
         
     } else if (textField == self.usernameTextField) {
-        NSURL *url = [NSURL URLWithString:[Address checkUsername]];
+        NSURL *url = [NSURL URLWithString:[Address checkUsernameURL]];
         ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
         [request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
         [request startAsynchronous];
@@ -307,6 +315,45 @@
     } else {
         [self setCheckView:USERNAME_FIELD status:WARN_STATUS message:error];
     }
+}
+
+- (void)registerRequestDone:(ASIHTTPRequest *)request{
+    NSString *responseString = [request responseString];
+    NSLog(@"Username Request Done");
+    NSLog(@"%@",responseString);
+    SBJsonParser *parser = [SBJsonParser new];
+    NSDictionary *dict = [parser objectWithString:responseString];
+    NSString *error = [dict objectForKey:@"error"];
+    if ([NSNull null] == (NSNull *)error) {
+        NSLog(@"Success");
+        AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
+        [[self navigationController] pushViewController:aViewController animated:YES];
+        [aViewController release];
+    } else {
+        NSLog(@"Failed");
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sign Up Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
+    [self.activityIndicatorView stopAnimating];
+}
+
+-(IBAction) submitClicked{
+    NSURL *url = [NSURL URLWithString:[Address registerURL]];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    [request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
+    [request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
+    [request setPostValue:self.passwordTextField.text forKey:@"data[User][password]"];
+    [request setPostValue:self.nameTextField.text forKey:@"data[User][name]"];
+    [request startAsynchronous];
+    [request setDelegate:self];
+    [request setDidFinishSelector:@selector(registerRequestDone:)];
+    [request setDidFailSelector:@selector(requestWentWrong:)];
+    [self.activityIndicatorView startAnimating];
+}
+
+-(IBAction) termsClicked{
+    
 }
 
 - (void)requestWentWrong:(ASIHTTPRequest *)request {

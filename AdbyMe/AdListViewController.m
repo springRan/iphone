@@ -7,6 +7,8 @@
 //
 
 #import "AdListViewController.h"
+#import "Address.h"
+#import "SBJsonParser.h"
 
 #define SNSSETTINGS 0
 #define EARNINGS 1
@@ -18,6 +20,7 @@
 @synthesize settingButton;
 @synthesize topView;
 @synthesize theTableView;
+@synthesize adArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,6 +37,7 @@
     [theTableView release];
     [topView release];
     [settingButton release];
+    [adArray release];
     [super dealloc];
 }
 
@@ -53,6 +57,8 @@
     self.navigationItem.rightBarButtonItem = self.settingButton;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    [self loadAd];
 }
 
 - (void)viewDidUnload
@@ -95,6 +101,29 @@
         default:
             break;
     }
+}
+
+-(void)loadAd{
+    NSURL *url = [NSURL URLWithString:[Address adListURL]];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request startAsynchronous];
+    [request setDelegate:self];
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    // Use when fetching text data
+    NSString *responseString = [request responseString];
+    SBJsonParser *parser = [SBJsonParser new];
+    self.adArray = [parser objectWithString:responseString];
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 @end
