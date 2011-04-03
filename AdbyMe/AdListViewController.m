@@ -48,7 +48,7 @@
 
 - (void)viewDidLoad
 {
-    self.settingButton = [[UIBarButtonItem alloc]initWithTitle:@"Setting" style:UIBarButtonItemStyleBordered target:self action:@selector(settingButtonClicked)];
+    self.settingButton = [[UIBarButtonItem alloc]initWithTitle:@"Setting" style:UIBarButtonItemStyleDone target:self action:@selector(settingButtonClicked)];
     self.navigationItem.rightBarButtonItem = self.settingButton;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
