@@ -19,10 +19,24 @@
 
 @synthesize persistentStoreCoordinator=__persistentStoreCoordinator;
 
+@synthesize hViewController;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
     [self.window makeKeyAndVisible];
+    
+    self.hViewController = [[HomeViewController alloc]initWithNibName:@"HomeViewController" bundle:nil];
+    
+    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:self.hViewController];
+    
+    [navController.navigationBar setTintColor:[UIColor colorWithRed:58.0/256.0 green:185.0/256.0 blue:226.0/256.0 alpha:1.0]];
+    
+    [navController setNavigationBarHidden:YES];
+    
+    [self.window addSubview:navController.view];
+    
     return YES;
 }
 
@@ -68,6 +82,7 @@
     [__managedObjectContext release];
     [__managedObjectModel release];
     [__persistentStoreCoordinator release];
+    [hViewController release];
     [super dealloc];
 }
 
