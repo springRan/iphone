@@ -307,7 +307,7 @@
 								<string key="NSFrame">{{20, 278}, {54, 25}}</string>
 								<reference key="NSSuperview" ref="1032900405"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="131669417"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -363,6 +363,7 @@
 								<string key="NSFrame">{{10, 410}, {299, 52}}</string>
 								<reference key="NSSuperview" ref="1032900405"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<int key="IBUITag">14</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -408,8 +409,8 @@
 									</object>
 									<object class="IBUILabel" id="752686134">
 										<reference key="NSNextResponder" ref="997501706"/>
-										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{51, 1}, {135, 21}}</string>
+										<int key="NSvFlags">297</int>
+										<string key="NSFrame">{{51, 3}, {135, 18}}</string>
 										<reference key="NSSuperview" ref="997501706"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="153584415"/>
@@ -419,7 +420,7 @@
 										<int key="IBUITag">2</int>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<string key="IBUIText">Wrong Email Format</string>
+										<string key="IBUIText">Error Message</string>
 										<object class="NSFont" key="IBUIFont" id="731642604">
 											<string key="NSName">Helvetica</string>
 											<double key="NSSize">14</double>
@@ -462,7 +463,7 @@
 									<object class="IBUILabel" id="944681857">
 										<reference key="NSNextResponder" ref="259267527"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{51, 1}, {135, 21}}</string>
+										<string key="NSFrame">{{51, 3}, {135, 18}}</string>
 										<reference key="NSSuperview" ref="259267527"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="145969382"/>
@@ -472,7 +473,7 @@
 										<int key="IBUITag">2</int>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<string key="IBUIText">Wrong Email Format</string>
+										<string key="IBUIText">Error Message</string>
 										<reference key="IBUIFont" ref="731642604"/>
 										<reference key="IBUITextColor" ref="679610016"/>
 										<nil key="IBUIHighlightedColor"/>
@@ -508,7 +509,7 @@
 									<object class="IBUILabel" id="538999676">
 										<reference key="NSNextResponder" ref="983072278"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{51, 1}, {135, 21}}</string>
+										<string key="NSFrame">{{51, 3}, {135, 18}}</string>
 										<reference key="NSSuperview" ref="983072278"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="741056304"/>
@@ -518,7 +519,7 @@
 										<int key="IBUITag">2</int>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<string key="IBUIText">Wrong Email Format</string>
+										<string key="IBUIText">Error Message</string>
 										<reference key="IBUIFont" ref="731642604"/>
 										<reference key="IBUITextColor" ref="679610016"/>
 										<nil key="IBUIHighlightedColor"/>
@@ -532,52 +533,6 @@
 								<reference key="NSNextKeyView" ref="366919516"/>
 								<reference key="IBUIBackgroundColor" ref="473474230"/>
 								<int key="IBUITag">17</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							</object>
-							<object class="IBUIView" id="131669417">
-								<reference key="NSNextResponder" ref="1032900405"/>
-								<int key="NSvFlags">292</int>
-								<object class="NSMutableArray" key="NSSubviews">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<object class="IBUIImageView" id="773710999">
-										<reference key="NSNextResponder" ref="131669417"/>
-										<int key="NSvFlags">274</int>
-										<string key="NSFrame">{{25, 4}, {18, 15}}</string>
-										<reference key="NSSuperview" ref="131669417"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="121424547"/>
-										<int key="IBUITag">1</int>
-										<bool key="IBUIUserInteractionEnabled">NO</bool>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<reference key="IBUIImage" ref="137139608"/>
-									</object>
-									<object class="IBUILabel" id="121424547">
-										<reference key="NSNextResponder" ref="131669417"/>
-										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{51, 1}, {135, 21}}</string>
-										<reference key="NSSuperview" ref="131669417"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="292455868"/>
-										<bool key="IBUIOpaque">NO</bool>
-										<bool key="IBUIClipsSubviews">YES</bool>
-										<int key="IBUIContentMode">7</int>
-										<int key="IBUITag">2</int>
-										<bool key="IBUIUserInteractionEnabled">NO</bool>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<string key="IBUIText">Wrong Email Format</string>
-										<reference key="IBUIFont" ref="731642604"/>
-										<reference key="IBUITextColor" ref="679610016"/>
-										<nil key="IBUIHighlightedColor"/>
-										<int key="IBUIBaselineAdjustment">1</int>
-										<float key="IBUIMinimumFontSize">10</float>
-									</object>
-								</object>
-								<string key="NSFrame">{{114, 281}, {186, 22}}</string>
-								<reference key="NSSuperview" ref="1032900405"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="773710999"/>
-								<reference key="IBUIBackgroundColor" ref="473474230"/>
-								<int key="IBUITag">18</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
 						</object>
@@ -680,14 +635,6 @@
 						<reference key="destination" ref="121548032"/>
 					</object>
 					<int key="connectionID">49</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">nameCheckView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="131669417"/>
-					</object>
-					<int key="connectionID">70</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -837,7 +784,6 @@
 							<reference ref="804804853"/>
 							<reference ref="259267527"/>
 							<reference ref="983072278"/>
-							<reference ref="131669417"/>
 							<reference ref="972742989"/>
 							<reference ref="153584415"/>
 							<reference ref="145969382"/>
@@ -935,11 +881,6 @@
 						<reference key="parent" ref="259267527"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">58</int>
-						<reference key="object" ref="944681857"/>
-						<reference key="parent" ref="259267527"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">59</int>
 						<reference key="object" ref="983072278"/>
 						<object class="NSMutableArray" key="children">
@@ -960,26 +901,6 @@
 						<reference key="parent" ref="983072278"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">62</int>
-						<reference key="object" ref="131669417"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="773710999"/>
-							<reference ref="121424547"/>
-						</object>
-						<reference key="parent" ref="1032900405"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">63</int>
-						<reference key="object" ref="773710999"/>
-						<reference key="parent" ref="131669417"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">64</int>
-						<reference key="object" ref="121424547"/>
-						<reference key="parent" ref="131669417"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">65</int>
 						<reference key="object" ref="972742989"/>
 						<reference key="parent" ref="1032900405"/>
@@ -998,6 +919,11 @@
 						<int key="objectID">69</int>
 						<reference key="object" ref="192161849"/>
 						<reference key="parent" ref="1032900405"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">58</int>
+						<reference key="object" ref="944681857"/>
+						<reference key="parent" ref="259267527"/>
 					</object>
 				</object>
 			</object>
@@ -1032,9 +958,6 @@
 					<string>6.IBPluginDependency</string>
 					<string>60.IBPluginDependency</string>
 					<string>61.IBPluginDependency</string>
-					<string>62.IBPluginDependency</string>
-					<string>63.IBPluginDependency</string>
-					<string>64.IBPluginDependency</string>
 					<string>65.IBPluginDependency</string>
 					<string>67.IBPluginDependency</string>
 					<string>68.IBPluginDependency</string>
@@ -1053,9 +976,6 @@
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="0.0"/>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1134,6 +1054,8 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityBarButton</string>
+							<string>activityIndicatorView</string>
 							<string>emailCheckView</string>
 							<string>emailLabel</string>
 							<string>emailTextField</string>
@@ -1152,6 +1074,8 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIBarButtonItem</string>
+							<string>UIActivityIndicatorView</string>
 							<string>UIView</string>
 							<string>UILabel</string>
 							<string>UITextField</string>
@@ -1173,6 +1097,8 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityBarButton</string>
+							<string>activityIndicatorView</string>
 							<string>emailCheckView</string>
 							<string>emailLabel</string>
 							<string>emailTextField</string>
@@ -1191,6 +1117,14 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">activityBarButton</string>
+								<string key="candidateClassName">UIBarButtonItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">activityIndicatorView</string>
+								<string key="candidateClassName">UIActivityIndicatorView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">emailCheckView</string>
 								<string key="candidateClassName">UIView</string>
