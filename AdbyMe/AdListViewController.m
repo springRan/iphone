@@ -9,6 +9,8 @@
 #import "AdListViewController.h"
 #import "Address.h"
 #import "SBJsonParser.h"
+#import "SNSSettingViewController.h"
+#import "EarningViewController.h"
 
 #define SNSSETTINGS 0
 #define EARNINGS 1
@@ -53,7 +55,7 @@
 
 - (void)viewDidLoad
 {
-    self.settingButton = [[UIBarButtonItem alloc]initWithTitle:@"Setting" style:UIBarButtonItemStyleDone target:self action:@selector(settingButtonClicked)];
+    self.settingButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"seticon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingButtonClicked)];
     self.navigationItem.rightBarButtonItem = self.settingButton;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -88,18 +90,18 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    switch (buttonIndex){
-        case SNSSETTINGS:
-            break;
-        case EARNINGS:
-            break;
-        case LOGOUT:
-            [self logout];
-            break;
-        case CANCEL:
-            break;
-        default:
-            break;
+    if (buttonIndex == SNSSETTINGS) {
+        SNSSettingViewController *sViewController = [[SNSSettingViewController alloc]initWithNibName:@"SNSSettingViewController" bundle:nil];
+        [[self navigationController] pushViewController:sViewController animated:YES];
+        [sViewController release];
+    } else if (buttonIndex == EARNINGS) {
+        EarningViewController *eViewController = [[EarningViewController alloc] initWithNibName:@"EarningViewController" bundle:nil];
+        [[self navigationController] pushViewController:eViewController animated:YES];
+        [eViewController release];
+        
+    } else if (buttonIndex == LOGOUT) {
+        [self logout];
+    } else if (buttonIndex == CANCEL) {
     }
 }
 
