@@ -31,7 +31,7 @@
     
     UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:self.hViewController];
     
-    [navController.navigationBar setTintColor:[UIColor colorWithRed:58.0/256.0 green:185.0/256.0 blue:226.0/256.0 alpha:1.0]];
+    [navController.navigationBar setTintColor:[UIColor colorWithRed:0.0/256.0 green:154.0/256.0 blue:202.0/256.0 alpha:1.0]];
     
     [navController setNavigationBarHidden:YES];
     

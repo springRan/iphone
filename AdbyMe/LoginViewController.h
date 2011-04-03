@@ -7,17 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
+#import "SBJsonParser.h"
 
-
-@interface LoginViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
-    UITableView *theTableView;
-    
+@interface LoginViewController : UIViewController <UITextFieldDelegate, ASIHTTPRequestDelegate> {    
     UITextField *emailField;
     UITextField *passwordField;
+    
+    UIBarButtonItem *activityBarButton;
+    UIActivityIndicatorView *activityIndicatorView;
 }
-@property (nonatomic, retain) IBOutlet UITableView *theTableView;
 @property (nonatomic, retain) IBOutlet UITextField *emailField;
 @property (nonatomic, retain) IBOutlet UITextField *passwordField;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *activityBarButton;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
 -(void) loginCheck;
 

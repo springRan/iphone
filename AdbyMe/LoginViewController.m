@@ -9,11 +9,13 @@
 #import "LoginViewController.h"
 #import "AdListViewController.h"
 #import "CustomCellBackgroundView.h"
+#import "Address.h"
 
 @implementation LoginViewController
-@synthesize theTableView;
 @synthesize emailField;
 @synthesize passwordField;
+@synthesize activityBarButton;
+@synthesize activityIndicatorView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,7 +32,8 @@
 {
     [emailField release];
     [passwordField release];
-    [theTableView release];
+    [activityBarButton release];
+    [activityIndicatorView release];
     [super dealloc];
 }
 
@@ -48,6 +51,11 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.activityIndicatorView.hidesWhenStopped = YES;
+
+    self.activityBarButton = [[UIBarButtonItem alloc]initWithCustomView:self.activityIndicatorView];
+    self.navigationItem.rightBarButtonItem = self.activityBarButton;
 }
 
 - (void)viewDidUnload
@@ -69,66 +77,45 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *CellIdentifier = @"CellIdentifierLogIn";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil){
-        cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]autorelease];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
-    int row = [indexPath row];
-    
-    CustomCellBackgroundView *bgView = [[CustomCellBackgroundView alloc] initWithFrame:CGRectZero];
-    
-    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(8, 11, 280, 31)];
-
-    [textField setFont:[UIFont fontWithName:@"Helvetica-Bold" size: 18.0]];
-    textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    [cell.contentView addSubview:textField];
-    if (row == 0) {
-        textField.placeholder = @"E-Mail";
-        textField.secureTextEntry = NO;
-        textField.keyboardType = UIKeyboardTypeEmailAddress;
-        textField.returnKeyType = UIReturnKeyNext;
-        textField.delegate = self;
-        self.emailField = textField;
-        bgView.position = CustomCellBackgroundViewPositionTop;
-    } else if (row == 1) {
-        textField.placeholder = @"Password";
-        textField.secureTextEntry = YES;
-        textField.keyboardType = UIKeyboardTypeDefault;
-        textField.returnKeyType = UIReturnKeyGo;
-        textField.delegate = self;
-        self.passwordField = textField;
-        bgView.position = CustomCellBackgroundViewPositionBottom;
-    }
-    [textField release];
-    bgView.fillColor = [UIColor whiteColor];
-    
-    cell.backgroundView = bgView;
-    
-    return cell;
-}
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
-}
-
 -(void) loginCheck{
-    AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
-    [[self navigationController] pushViewController:aViewController animated:YES];
-    [aViewController release];
+    NSLog(@"%@",[Address loginURL]);
+    NSURL *url = [NSURL URLWithString:[Address loginURL]];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    [request setPostValue:emailField.text forKey:@"data[User][username_or_email]"];
+    [request setPostValue:passwordField.text forKey:@"data[User][password]"];
+    [request startAsynchronous];
+    [request setDelegate:self];
+    [self.activityIndicatorView startAnimating];
+
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    [self.activityIndicatorView stopAnimating];
+    // Use when fetching text data
+    NSString *responseString = [request responseString];
+    SBJsonParser *parser = [SBJsonParser new];
+    NSDictionary *dict = [parser objectWithString:responseString];
+    NSString *error = [dict objectForKey:@"error"];
+    if ([NSNull null] == (NSNull *)error) {
+        AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
+        [[self navigationController] pushViewController:aViewController animated:YES];
+        [aViewController release];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
+//    NSLog(@"%@",dict);
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    [self.activityIndicatorView stopAnimating];
+    NSError *error = [request error];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:@"Request Failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

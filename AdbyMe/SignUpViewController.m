@@ -19,10 +19,7 @@
 #define WARN_STATUS 3
 
 @implementation SignUpViewController
-@synthesize emailTableView;
-@synthesize usernameTableView;
-@synthesize passwordTableView;
-@synthesize nameTableView;
+
 @synthesize emailTextField;
 @synthesize usernameTextField;
 @synthesize passwordTextField;
@@ -54,10 +51,6 @@
 
 - (void)dealloc
 {
-    [emailTableView release];
-    [usernameTableView release];
-    [passwordTableView release];
-    [nameTableView release];
     [emailTextField release];
     [usernameTextField release];
     [passwordTextField release];
@@ -96,16 +89,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [scrollView setContentSize:CGSizeMake(320.0, 542.0)];
+    [scrollView setContentSize:CGSizeMake(320.0, 480.0)];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    self.totalSavedControl = 14;
+    self.totalSavedControl = 18;
 
-    [self setCheckView:EMAIL_FIELD status:WARN_STATUS message:@"Wrong Email Format"];
-    [self setCheckView:USERNAME_FIELD status:OK_STATUS message:@"OK"];
-    [self setCheckView:PASSWORD_FIELD status:WARN_STATUS message:@"Very Weak"];
+    [self setCheckView:EMAIL_FIELD status:HIDDEN_STATUS];
+    [self setCheckView:USERNAME_FIELD status:HIDDEN_STATUS];
+    [self setCheckView:PASSWORD_FIELD status:HIDDEN_STATUS];
     [self setCheckView:NAME_FIELD status:HIDDEN_STATUS];
 	
 }
@@ -122,75 +115,6 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *CellIdentifier = @"CellIdentifierSignUp";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil){
-        cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]autorelease];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
-    CustomCellBackgroundView *bgView = [[CustomCellBackgroundView alloc] initWithFrame:CGRectZero];
-    bgView.position = CustomCellBackgroundViewPositionSingle;
-    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(8, 11, 280, 31)];
-    
-    [textField setFont:[UIFont fontWithName:@"Helvetica-Bold" size: 18.0]];
-    textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    [cell.contentView addSubview:textField];
-    
-
-    if (tableView == self.emailTableView) {
-        textField.placeholder = @"E-Mail";
-        textField.secureTextEntry = NO;
-        textField.keyboardType = UIKeyboardTypeEmailAddress;
-        textField.returnKeyType = UIReturnKeyNext;
-        textField.delegate = self;
-        self.emailTextField = textField;
-    } else if (tableView == self.usernameTableView) {
-        textField.placeholder = @"Username";
-        textField.secureTextEntry = NO;
-        textField.keyboardType = UIKeyboardTypeDefault;
-        textField.returnKeyType = UIReturnKeyNext;
-        textField.delegate = self;
-        self.usernameTextField = textField;
-    } else if (tableView == self.passwordTableView) {
-        textField.placeholder = @"Password";
-        textField.secureTextEntry = YES;
-        textField.keyboardType = UIKeyboardTypeDefault;
-        textField.returnKeyType = UIReturnKeyNext;
-        textField.delegate = self;
-        self.passwordTextField = textField;
-    } else if (tableView == self.nameTableView) {
-        textField.placeholder = @"Name";
-        textField.secureTextEntry = NO;
-        textField.keyboardType = UIKeyboardTypeDefault;
-        textField.returnKeyType = UIReturnKeyDone;
-        textField.delegate = self;
-        self.nameTextField = textField;
-    }
-    [textField release];
-    bgView.fillColor = [UIColor whiteColor];
-    
-    cell.backgroundView = bgView;
-    
-    return cell;
-}
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-}
-
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == self.emailTextField) {
@@ -229,19 +153,24 @@
 
 -(void)keyboardWillShow:(NSNotification *)notification{
     NSLog(@"Keyboard Show");
+    [UIView beginAnimations:nil context:nil];
 	CGRect frame = [self.scrollView frame];
 	frame.size.height -= 216.0;
 	[self.scrollView setFrame:frame];
     [self adjustPosition];
-    
+    [UIView setAnimationDuration:1.0];
+    [UIView commitAnimations];
 }
 
 -(void)keyboardWillHide:(NSNotification *)notification{
 	NSLog(@"Keyboard Hide");
+    [UIView beginAnimations:nil context:nil];
 	CGRect frame = [self.scrollView frame];
 	frame.size.height += 216.0;
 	[self.scrollView setFrame:frame];
     [self adjustPosition];
+    [UIView setAnimationDuration:1.0];
+    [UIView commitAnimations];
     
 }
 
@@ -314,6 +243,18 @@
         frame = imageView.frame;
         frame.origin.x = label.frame.origin.x - frame.size.width - 5.0;
         [imageView setFrame:frame];
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    if (textField == self.emailTextField) {
+        
+    } else if (textField == self.usernameTextField) {
+        
+    } else if (textField == self.passwordTextField) {
+        
+    } else if (textField == self.nameTextField) {
+        
     }
 }
 

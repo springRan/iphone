@@ -9,11 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface SignUpViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
-    UITableView *emailTableView;
-    UITableView *usernameTableView;
-    UITableView *passwordTableView;
-    UITableView *nameTableView;
+@interface SignUpViewController : UIViewController <UITextFieldDelegate> {
     
     UITextField *emailTextField;
     UITextField *usernameTextField;
@@ -40,10 +36,7 @@
     int totalSavedControl;
     
 }
-@property (nonatomic, retain) IBOutlet UITableView *emailTableView;
-@property (nonatomic, retain) IBOutlet UITableView *usernameTableView;
-@property (nonatomic, retain) IBOutlet UITableView *passwordTableView;
-@property (nonatomic, retain) IBOutlet UITableView *nameTableView;
+
 @property (nonatomic, retain) IBOutlet UITextField *emailTextField;
 @property (nonatomic, retain) IBOutlet UITextField *usernameTextField;
 @property (nonatomic, retain) IBOutlet UITextField *passwordTextField;
