@@ -11,6 +11,7 @@
 #define SNSSETTINGS 0
 #define EARNINGS 1
 #define LOGOUT 2
+#define CANCEL 3
 
 @implementation AdListViewController
 
@@ -71,7 +72,7 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 -(IBAction) settingButtonClicked{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"Logout" destructiveButtonTitle:nil otherButtonTitles:@"SNS Settings",@"Earnings", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"SNS Settings",@"Earnings", @"Logout", nil];
     [actionSheet showInView:self.view];
     [actionSheet release];
 }
@@ -88,6 +89,8 @@
             break;
         case LOGOUT:
             [self logout];
+            break;
+        case CANCEL:
             break;
         default:
             break;
