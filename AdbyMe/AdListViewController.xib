@@ -12,6 +12,7 @@
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<string>IBUITableView</string>
 			<string>IBUIImageView</string>
 			<string>IBUIView</string>
 			<string>IBUILabel</string>
@@ -48,7 +49,7 @@
 						<int key="NSvFlags">274</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUIImageView" id="246691694">
+							<object class="IBUIImageView" id="952804779">
 								<reference key="NSNextResponder" ref="42427636"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{320, 24}</string>
@@ -136,7 +137,7 @@
 								<string key="NSFrame">{{249, 1}, {52, 21}}</string>
 								<reference key="NSSuperview" ref="42427636"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
+								<reference key="NSNextKeyView" ref="645420382"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -153,12 +154,30 @@
 						<string key="NSFrameSize">{320, 24}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="246691694"/>
+						<reference key="NSNextKeyView" ref="952804779"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4zMDU4ODIzNTI5IDAuMzE3NjQ3MDU4OCAwLjQ1NDkwMTk2MDgAA</bytes>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+					</object>
+					<object class="IBUITableView" id="645420382">
+						<reference key="NSNextResponder" ref="191373211"/>
+						<int key="NSvFlags">274</int>
+						<string key="NSFrame">{{0, 24}, {320, 392}}</string>
+						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
+						<reference key="IBUIBackgroundColor" ref="45910876"/>
+						<bool key="IBUIClipsSubviews">YES</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<bool key="IBUIAlwaysBounceVertical">YES</bool>
+						<int key="IBUISeparatorStyle">1</int>
+						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
+						<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
+						<float key="IBUIRowHeight">44</float>
+						<float key="IBUISectionHeaderHeight">22</float>
+						<float key="IBUISectionFooterHeight">22</float>
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 64}, {320, 416}}</string>
@@ -198,6 +217,30 @@
 					</object>
 					<int key="connectionID">5</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">theTableView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="645420382"/>
+					</object>
+					<int key="connectionID">16</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="645420382"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">17</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">dataSource</string>
+						<reference key="source" ref="645420382"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">18</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -214,6 +257,7 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="42427636"/>
+							<reference ref="645420382"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -237,7 +281,7 @@
 							<reference ref="165131215"/>
 							<reference ref="382263987"/>
 							<reference ref="808869555"/>
-							<reference ref="246691694"/>
+							<reference ref="952804779"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -263,8 +307,13 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">14</int>
-						<reference key="object" ref="246691694"/>
+						<reference key="object" ref="952804779"/>
 						<reference key="parent" ref="42427636"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">15</int>
+						<reference key="object" ref="645420382"/>
+						<reference key="parent" ref="191373211"/>
 					</object>
 				</object>
 			</object>
@@ -277,6 +326,7 @@
 					<string>1.IBEditorWindowLastContentRect</string>
 					<string>1.IBPluginDependency</string>
 					<string>14.IBPluginDependency</string>
+					<string>15.IBPluginDependency</string>
 					<string>4.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
 					<string>7.IBPluginDependency</string>
@@ -288,6 +338,7 @@
 					<string>AdListViewController</string>
 					<string>UIResponder</string>
 					<string>{{556, 412}, {320, 480}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -309,7 +360,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">14</int>
+			<int key="maxID">18</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -318,14 +369,35 @@
 					<string key="className">AdListViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">settingButtonClicked</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>settingButtonClicked</string>
+							<string>updateButtonClicked</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">settingButtonClicked</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">settingButtonClicked</string>
-							<string key="candidateClassName">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>settingButtonClicked</string>
+							<string>updateButtonClicked</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">settingButtonClicked</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">updateButtonClicked</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
@@ -335,12 +407,14 @@
 							<string>settingButton</string>
 							<string>theTableView</string>
 							<string>topView</string>
+							<string>updateButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIBarButtonItem</string>
 							<string>UITableView</string>
 							<string>UIView</string>
+							<string>UIBarButtonItem</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -350,6 +424,7 @@
 							<string>settingButton</string>
 							<string>theTableView</string>
 							<string>topView</string>
+							<string>updateButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -364,6 +439,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">topView</string>
 								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">updateButton</string>
+								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 						</object>
 					</object>

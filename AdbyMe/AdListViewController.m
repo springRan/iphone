@@ -23,6 +23,8 @@
 @synthesize topView;
 @synthesize theTableView;
 @synthesize adArray;
+@synthesize updateButton;
+@synthesize adCell;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,6 +42,8 @@
     [topView release];
     [settingButton release];
     [adArray release];
+    [updateButton release];
+    [adCell release];
     [super dealloc];
 }
 
@@ -56,6 +60,8 @@
 - (void)viewDidLoad
 {
     self.settingButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"seticon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingButtonClicked)];
+    self.updateButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(updateButtonClicked)];
+    self.navigationItem.leftBarButtonItem = self.updateButton;
     self.navigationItem.rightBarButtonItem = self.settingButton;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -117,7 +123,12 @@
     // Use when fetching text data
     NSString *responseString = [request responseString];
     SBJsonParser *parser = [SBJsonParser new];
+    if(self.adArray) {
+        [self.adArray  release];
+        self.adArray = nil;
+    }
     self.adArray = [parser objectWithString:responseString];
+    NSLog(@"%@",self.adArray);
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -127,5 +138,43 @@
     [alertView show];
     [alertView release];
 }
+
+-(IBAction) updateButtonClicked{
+    [self loadAd];
+}
+
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *CellIdentifier = @"CellIdentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil){
+        [[NSBundle mainBundle] loadNibNamed:@"AdCell" owner:self options:nil];
+		cell = self.adCell;
+		self.adCell = nil;
+    }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 170.0;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 10;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
+
 
 @end
