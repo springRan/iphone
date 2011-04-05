@@ -36,10 +36,10 @@
     
     int totalSavedControl;
     
-    
     UIBarButtonItem *activityBarButton;
     UIActivityIndicatorView *activityIndicatorView;
     
+    ASIFormDataRequest *request;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *emailTextField;
@@ -65,6 +65,8 @@
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *activityBarButton;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+
+@property (nonatomic, retain) ASIFormDataRequest *request;
 
 
 -(void) savePosition;

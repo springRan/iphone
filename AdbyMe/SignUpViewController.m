@@ -43,6 +43,7 @@
 @synthesize nameCheckView;
 @synthesize activityBarButton;
 @synthesize activityIndicatorView;
+@synthesize request;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -57,6 +58,8 @@
 
 - (void)dealloc
 {
+    [request clearDelegatesAndCancel];  // Cancel request.
+    
     [emailTextField release];
     [usernameTextField release];
     [passwordTextField release];
@@ -73,6 +76,9 @@
     [usernameCheckView release];
     [passwordCheckView release];
     [nameCheckView release];
+    [activityBarButton release];
+    [activityIndicatorView release];
+    [request release];
     [super dealloc];
 }
 
@@ -140,8 +146,9 @@
     return YES;
 }
 -(void) savePosition{
-    
-    self.savedPosition = [[NSMutableDictionary alloc]initWithCapacity:self.totalSavedControl];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithCapacity:self.totalSavedControl];
+    self.savedPosition = dict;
+    [dict release];
     
     for (int i = 1; i <= self.totalSavedControl; ++i) {
         UIView *control = [self.scrollView viewWithTag:i];
@@ -259,21 +266,20 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField == self.emailTextField) {
         NSURL *url = [NSURL URLWithString:[Address checkEmailURL]];
-        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+        self.request = [ASIFormDataRequest requestWithURL:url];
         [request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
-        [request startAsynchronous];
         [request setDelegate:self];
         [request setDidFinishSelector:@selector(emailRequestDone:)];
         [request setDidFailSelector:@selector(requestWentWrong:)];
-        
+        [request startAsynchronous];
     } else if (textField == self.usernameTextField) {
         NSURL *url = [NSURL URLWithString:[Address checkUsernameURL]];
-        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+        self.request = [ASIFormDataRequest requestWithURL:url];
         [request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
-        [request startAsynchronous];
         [request setDelegate:self];
         [request setDidFinishSelector:@selector(usernameRequestDone:)];
         [request setDidFailSelector:@selector(requestWentWrong:)];
+        [request startAsynchronous];
         
     } else if (textField == self.passwordTextField) {
         if ([self.passwordTextField.text length] <= 4) {
@@ -286,8 +292,8 @@
     }
 }
 
-- (void)emailRequestDone:(ASIHTTPRequest *)request {
-    NSString *responseString = [request responseString];
+- (void)emailRequestDone:(ASIHTTPRequest *)aRequest {
+    NSString *responseString = [aRequest responseString];
     NSLog(@"Email Request Done");
     NSLog(@"%@",responseString);
     SBJsonParser *parser = [SBJsonParser new];
@@ -295,30 +301,28 @@
     NSString *error = [dict objectForKey:@"error"];
     if ([NSNull null] == (NSNull *)error) {
         [self setCheckView:EMAIL_FIELD status:OK_STATUS message:@"OK"];
-        
     } else {
         [self setCheckView:EMAIL_FIELD status:WARN_STATUS message:error];
     }
 
 }
 
-- (void)usernameRequestDone:(ASIHTTPRequest *)request{
-    NSString *responseString = [request responseString];
+- (void)usernameRequestDone:(ASIHTTPRequest *)aRequest{
+    NSString *responseString = [aRequest responseString];
     NSLog(@"Username Request Done");
     NSLog(@"%@",responseString);
     SBJsonParser *parser = [SBJsonParser new];
     NSDictionary *dict = [parser objectWithString:responseString];
     NSString *error = [dict objectForKey:@"error"];
     if ([NSNull null] == (NSNull *)error) {
-        [self setCheckView:USERNAME_FIELD status:OK_STATUS message:@"OK"];
-        
+        [self setCheckView:USERNAME_FIELD status:OK_STATUS message:@"OK"];        
     } else {
         [self setCheckView:USERNAME_FIELD status:WARN_STATUS message:error];
     }
 }
 
-- (void)registerRequestDone:(ASIHTTPRequest *)request{
-    NSString *responseString = [request responseString];
+- (void)registerRequestDone:(ASIHTTPRequest *)aRequest{
+    NSString *responseString = [aRequest responseString];
     NSLog(@"Username Request Done");
     NSLog(@"%@",responseString);
     SBJsonParser *parser = [SBJsonParser new];
@@ -340,15 +344,15 @@
 
 -(IBAction) submitClicked{
     NSURL *url = [NSURL URLWithString:[Address registerURL]];
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    self.request = [ASIFormDataRequest requestWithURL:url];
     [request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
     [request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
     [request setPostValue:self.passwordTextField.text forKey:@"data[User][password]"];
     [request setPostValue:self.nameTextField.text forKey:@"data[User][name]"];
-    [request startAsynchronous];
     [request setDelegate:self];
     [request setDidFinishSelector:@selector(registerRequestDone:)];
     [request setDidFailSelector:@selector(requestWentWrong:)];
+    [request startAsynchronous];
     [self.activityIndicatorView startAnimating];
 }
 
@@ -356,8 +360,8 @@
     
 }
 
-- (void)requestWentWrong:(ASIHTTPRequest *)request {
-    NSError *error = [request error];
+- (void)requestWentWrong:(ASIHTTPRequest *)aRequest {
+    NSError *error = [aRequest error];
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
