@@ -11,11 +11,27 @@
 #import "SBJsonParser.h"
 #import "SNSSettingViewController.h"
 #import "EarningViewController.h"
+#import "AdbyMeAppDelegate.h"
 
 #define SNSSETTINGS 0
 #define EARNINGS 1
 #define LOGOUT 2
 #define CANCEL 3
+
+#define FONT_HEIGHT 20
+
+#define ADTEXT 1024
+#define LIST_BORDER 1025
+#define SLOGAN_WEBVIEW 1026
+#define SLOGAN_BG 1027
+#define SLOGAN_BORDER 1028
+#define UV_ICON 1029
+#define UV_TEXT 1030
+#define COPY_ICON 1031
+#define COPY_TEXT 1032
+#define GO_ICON 1033
+#define CONTAINER_VIEW 1034
+#define CPC_TEXT 1035
 
 @implementation AdListViewController
 
@@ -25,6 +41,9 @@
 @synthesize adArray;
 @synthesize updateButton;
 @synthesize adCell4;
+@synthesize numberOfLinesDictionary;
+@synthesize reservedLabel;
+@synthesize availableLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,6 +63,9 @@
     [adArray release];
     [updateButton release];
     [adCell4 release];
+    [reservedLabel release];
+    [availableLabel release];
+    [numberOfLinesDictionary release];
     [super dealloc];
 }
 
@@ -59,6 +81,7 @@
 
 - (void)viewDidLoad
 {
+    self.numberOfLinesDictionary = [[NSMutableDictionary alloc]init];
     self.settingButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"seticon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingButtonClicked)];
     self.updateButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(updateButtonClicked)];
     self.navigationItem.leftBarButtonItem = self.updateButton;
@@ -67,8 +90,17 @@
     // Do any additional setup after loading the view from its nib.
     
     [self loadAd];
-}
+    
+    [self updateDashboard];
 
+}
+-(void)updateDashboard{
+    AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
+    NSLog(@"%@",delegate.userDictionary);
+    
+    self.reservedLabel.text = [NSString stringWithFormat:@"$%@",[delegate.userDictionary objectForKey:@"reserved"]];
+    self.availableLabel.text =[NSString stringWithFormat:@"$%@",[delegate.userDictionary objectForKey:@"deposit"]]; 
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -128,9 +160,26 @@
         self.adArray = nil;
     }
     self.adArray = [parser objectWithString:responseString];
-    NSLog(@"%@",self.adArray);
+    [self getHeight];
+    [self.theTableView reloadData];
 }
 
+-(void)getHeight{
+    [self.numberOfLinesDictionary removeAllObjects];
+    UIFont *cellFont = [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
+    CGSize constraintSize = CGSizeMake(180.0f, MAXFLOAT);
+    for (int i = 0; i < [self.adArray count]; i++) {
+        NSDictionary *dict = [self.adArray objectAtIndex:i];
+        NSDictionary *adDict = [dict objectForKey:@"Ad"];
+        NSString *adTitle = [adDict objectForKey:@"title"];
+        NSLog(@"%@",adTitle);
+//        adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
+        CGSize labelSize = [adTitle sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+        NSString *rowString = [NSString stringWithFormat:@"row%d",i];
+        int numberOfLines = labelSize.height / FONT_HEIGHT;
+        [self.numberOfLinesDictionary setValue:[NSNumber numberWithInt:numberOfLines] forKey:rowString];
+    }
+}
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
@@ -150,18 +199,79 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil){
-        [[NSBundle mainBundle] loadNibNamed:@"AdCell" owner:self options:nil];
+        [[NSBundle mainBundle] loadNibNamed:@"AdCell4" owner:self options:nil];
 		cell = self.adCell4;
 		self.adCell4 = nil;
     }
+    
+    [self configCell:cell andIndexPath:indexPath];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
 
+-(void) addHeight:(double)addHeight forView:(UIView *)cellView{
+    CGRect frame = cellView.frame;
+    frame.size.height += addHeight;
+    [cellView setFrame:frame];
+}
+-(void) addY:(double)addHeight forView:(UIView *)cellView{
+    CGRect frame = cellView.frame;
+    frame.origin.y += addHeight;
+    [cellView setFrame:frame];
+}
+
+-(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath{
+    int row = [indexPath row];
+    NSString *rowString = [NSString stringWithFormat:@"row%d",row];
+    
+    NSDictionary *dict = [self.adArray objectAtIndex:row];
+    NSDictionary *adDict = [dict objectForKey:@"Ad"];
+    
+    UILabel *titleLabel = (UILabel *)[cell viewWithTag:ADTEXT];
+    NSString *adTitle = [adDict objectForKey:@"title"];
+//    adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
+    titleLabel.text =  adTitle;
+    
+    NSNumber *number = [self.numberOfLinesDictionary valueForKey:rowString];
+    int numberOfLines = [number intValue];
+    
+    if (numberOfLines > 3) {
+        double addHeight = (numberOfLines - 3) * 20.0;
+        [self addHeight:addHeight forView:cell.contentView];
+        [self addHeight:addHeight forView:[cell viewWithTag:ADTEXT]];
+        [self addHeight:addHeight forView:[cell viewWithTag:LIST_BORDER]];
+        [self addHeight:addHeight forView:[cell viewWithTag:SLOGAN_BG]];
+        [self addHeight:addHeight forView:[cell viewWithTag:CONTAINER_VIEW]];
+        [self addY:addHeight forView:[cell viewWithTag:SLOGAN_BORDER]];
+        [self addY:addHeight forView:[cell viewWithTag:SLOGAN_WEBVIEW]];
+        [self addY:addHeight forView:[cell viewWithTag:UV_ICON]];
+        [self addY:addHeight forView:[cell viewWithTag:UV_TEXT]];
+        [self addY:addHeight forView:[cell viewWithTag:COPY_ICON]];
+        [self addY:addHeight forView:[cell viewWithTag:COPY_TEXT]];
+        [self addY:addHeight/2 forView:[cell viewWithTag:GO_ICON]];
+    }
+    
+    UILabel *uvLabel = (UILabel *)[cell viewWithTag:UV_TEXT];
+    uvLabel.text = [adDict objectForKey:@"uv"];
+    
+    UILabel *copyLabel = (UILabel *)[cell viewWithTag:COPY_TEXT];
+    copyLabel.text = [adDict objectForKey:@"copy"];
+    
+    UILabel *cpcLabel = (UILabel *)[cell viewWithTag:CPC_TEXT];
+    cpcLabel.text = [NSString stringWithFormat:@"$ %@",[adDict objectForKey:@"cpc"]];
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 170.0;
+    int row = [indexPath row];
+    NSString *rowString = [NSString stringWithFormat:@"row%d",row];
+    NSNumber *number = [self.numberOfLinesDictionary valueForKey:rowString];
+    int numberOfLines = [number intValue];
+    if (numberOfLines <= 3)
+        return 150.0;
+    else
+        return 150.0 + (numberOfLines-3)*20.0;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -169,7 +279,8 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    NSLog(@"count: %d",[self.adArray count]);
+    return [self.adArray count];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

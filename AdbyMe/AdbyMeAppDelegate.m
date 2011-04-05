@@ -21,6 +21,8 @@
 
 @synthesize hViewController;
 
+@synthesize userDictionary;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
@@ -83,6 +85,7 @@
     [__managedObjectModel release];
     [__persistentStoreCoordinator release];
     [hViewController release];
+    [userDictionary release];
     [super dealloc];
 }
 

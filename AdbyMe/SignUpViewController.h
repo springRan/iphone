@@ -27,7 +27,7 @@
     
     UIScrollView *scrollView;
  
-    NSDictionary *savedPosition;
+    NSMutableDictionary *savedPosition;
     
     UIView *emailCheckView;
     UIView *usernameCheckView;
@@ -48,7 +48,7 @@
 @property (nonatomic, retain) IBOutlet UITextField *nameTextField;
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, retain) NSDictionary *savedPosition;
+@property (nonatomic, retain) NSMutableDictionary *savedPosition;
 @property (nonatomic, retain) IBOutlet UILabel *emailLabel;
 @property (nonatomic, retain) IBOutlet UILabel *usernameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *passwordLabel;

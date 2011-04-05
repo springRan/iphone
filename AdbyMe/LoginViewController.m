@@ -11,6 +11,7 @@
 #import "CustomCellBackgroundView.h"
 #import "Address.h"
 #import "AdListViewController.h"
+#import "AdbyMeAppDelegate.h"
 
 @implementation LoginViewController
 @synthesize emailField;
@@ -99,6 +100,8 @@
     NSDictionary *dict = [parser objectWithString:responseString];
     NSString *error = [dict objectForKey:@"error"];
     if ([NSNull null] == (NSNull *)error) {
+        AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
+        delegate.userDictionary = [dict objectForKey:@"user"];
         AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
         [[self navigationController] pushViewController:aViewController animated:YES];
         [aViewController release];

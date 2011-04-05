@@ -18,6 +18,10 @@
     UITableView *theTableView;
     NSArray *adArray;
     UITableViewCell *adCell4;
+    NSMutableDictionary *numberOfLinesDictionary;
+    
+    UILabel *reservedLabel;
+    UILabel *availableLabel;
 }
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *settingButton;
@@ -26,10 +30,18 @@
 @property (nonatomic, retain) NSArray *adArray;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *updateButton;
 @property (nonatomic, retain) IBOutlet UITableViewCell *adCell4;
+@property (nonatomic, retain) NSMutableDictionary *numberOfLinesDictionary;
+@property (nonatomic, retain) IBOutlet UILabel *reservedLabel;
+@property (nonatomic, retain) IBOutlet UILabel *availableLabel;
 
 
+-(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath;
 -(IBAction) settingButtonClicked;
 -(IBAction) updateButtonClicked;
 -(void)logout;
 -(void)loadAd;
+-(void)updateDashboard;
+-(void)getHeight;
+-(void) addHeight:(double)addHeight forView:(UIView *)cellView;
+-(void) addY:(double)addHeight forView:(UIView *)cellView;
 @end

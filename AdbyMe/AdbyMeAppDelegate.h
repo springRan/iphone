@@ -11,6 +11,7 @@
 
 @interface AdbyMeAppDelegate : NSObject <UIApplicationDelegate> {
     HomeViewController *hViewController;
+    NSDictionary *userDictionary;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -19,6 +20,7 @@
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain) HomeViewController *hViewController;
+@property (nonatomic, retain) NSDictionary *userDictionary;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
