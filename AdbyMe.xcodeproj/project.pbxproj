@@ -123,6 +123,7 @@
 		733C8E0713486DCF00A51FEC /* sloganbd.png in Resources */ = {isa = PBXBuildFile; fileRef = 733C8DF713486DCF00A51FEC /* sloganbd.png */; };
 		733C8E0813486DCF00A51FEC /* sloganicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 733C8DF813486DCF00A51FEC /* sloganicon.png */; };
 		733C8E0913486DCF00A51FEC /* uvicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 733C8DF913486DCF00A51FEC /* uvicon.png */; };
+		738416B3134B7CF300F118E4 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 738416B2134B7CF200F118E4 /* ImageDownloader.m */; };
 		73A559F613478F2500C79C5F /* AdListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A559F413478F2500C79C5F /* AdListViewController.m */; };
 		73A559F713478F2500C79C5F /* AdListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A559F513478F2500C79C5F /* AdListViewController.xib */; };
 		73A559FB1347A6AE00C79C5F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A559F91347A6AE00C79C5F /* SignUpViewController.m */; };
@@ -298,6 +299,8 @@
 		733C8DF713486DCF00A51FEC /* sloganbd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sloganbd.png; sourceTree = "<group>"; };
 		733C8DF813486DCF00A51FEC /* sloganicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sloganicon.png; sourceTree = "<group>"; };
 		733C8DF913486DCF00A51FEC /* uvicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uvicon.png; sourceTree = "<group>"; };
+		738416B1134B7CF200F118E4 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
+		738416B2134B7CF200F118E4 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		73A559F313478F2500C79C5F /* AdListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdListViewController.h; sourceTree = "<group>"; };
 		73A559F413478F2500C79C5F /* AdListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdListViewController.m; sourceTree = "<group>"; };
 		73A559F513478F2500C79C5F /* AdListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdListViewController.xib; sourceTree = "<group>"; };
@@ -406,6 +409,8 @@
 				7312C9BD1348C9E000A33091 /* EarningViewController.h */,
 				7312C9BE1348C9E000A33091 /* EarningViewController.m */,
 				7312C9BF1348C9E000A33091 /* EarningViewController.xib */,
+				738416B1134B7CF200F118E4 /* ImageDownloader.h */,
+				738416B2134B7CF200F118E4 /* ImageDownloader.m */,
 				731AB0FA1347453D001C1956 /* Reachability */,
 				731AB074134743C7001C1956 /* ASIHTTPRequest */,
 				731AB11D1347477F001C1956 /* JSON */,
@@ -844,6 +849,7 @@
 				73D2F6B2134854E00065F9D2 /* Address.m in Sources */,
 				7312C9BA1348C80200A33091 /* SNSSettingViewController.m in Sources */,
 				7312C9C01348C9E100A33091 /* EarningViewController.m in Sources */,
+				738416B3134B7CF300F118E4 /* ImageDownloader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

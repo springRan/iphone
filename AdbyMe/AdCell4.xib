@@ -81,7 +81,7 @@
 												<string key="NSFrame">{{5, 5}, {97, 64}}</string>
 												<reference key="NSSuperview" ref="589249286"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="872989706"/>
+												<reference key="NSNextKeyView" ref="187306966"/>
 												<bool key="IBUIUserInteractionEnabled">NO</bool>
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 												<object class="NSCustomResource" key="IBUIImage">
@@ -284,6 +284,17 @@
 												<float key="IBUIMinimumFontSize">10</float>
 												<int key="IBUINumberOfLines">0</int>
 											</object>
+											<object class="IBUIImageView" id="187306966">
+												<reference key="NSNextResponder" ref="589249286"/>
+												<int key="NSvFlags">292</int>
+												<string key="NSFrame">{{8, 9}, {90, 57}}</string>
+												<reference key="NSSuperview" ref="589249286"/>
+												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="872989706"/>
+												<int key="IBUITag">1036</int>
+												<bool key="IBUIUserInteractionEnabled">NO</bool>
+												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+											</object>
 										</object>
 										<string key="NSFrameSize">{320, 100}</string>
 										<reference key="NSSuperview" ref="1047894170"/>
@@ -424,6 +435,7 @@
 							<reference ref="384591504"/>
 							<reference ref="380991465"/>
 							<reference ref="872989706"/>
+							<reference ref="187306966"/>
 						</object>
 						<reference key="parent" ref="1047894170"/>
 					</object>
@@ -487,6 +499,11 @@
 						<reference key="object" ref="735414098"/>
 						<reference key="parent" ref="1047894170"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">21</int>
+						<reference key="object" ref="187306966"/>
+						<reference key="parent" ref="589249286"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -505,6 +522,7 @@
 					<string>18.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
 					<string>2.IBPluginDependency</string>
+					<string>21.IBPluginDependency</string>
 					<string>3.IBPluginDependency</string>
 					<string>4.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
@@ -516,6 +534,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>AdListViewController</string>
 					<string>UIResponder</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -546,7 +565,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">20</int>
+			<int key="maxID">21</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

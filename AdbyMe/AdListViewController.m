@@ -32,6 +32,7 @@
 #define GO_ICON 1033
 #define CONTAINER_VIEW 1034
 #define CPC_TEXT 1035
+#define AD_IMAGE 1036
 
 @implementation AdListViewController
 
@@ -44,6 +45,9 @@
 @synthesize numberOfLinesDictionary;
 @synthesize reservedLabel;
 @synthesize availableLabel;
+@synthesize imageArray;
+@synthesize request;
+@synthesize imageDownloadsInProgress;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -66,6 +70,8 @@
     [reservedLabel release];
     [availableLabel release];
     [numberOfLinesDictionary release];
+    [imageArray release];
+    [imageDownloadsInProgress release];
     [super dealloc];
 }
 
@@ -73,7 +79,8 @@
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
+    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
+	[allDownloads performSelector:@selector(cancelDownload)];
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -82,6 +89,8 @@
 - (void)viewDidLoad
 {
     self.numberOfLinesDictionary = [[NSMutableDictionary alloc]init];
+    self.imageArray = [[NSMutableArray alloc]init];
+    self.imageDownloadsInProgress = [[NSMutableDictionary alloc]init];
     self.settingButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"seticon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingButtonClicked)];
     self.updateButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(updateButtonClicked)];
     self.navigationItem.leftBarButtonItem = self.updateButton;
@@ -145,21 +154,34 @@
 
 -(void)loadAd{
     NSURL *url = [NSURL URLWithString:[Address adListURL]];
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
+    if(allDownloads != nil && [allDownloads count] > 0)
+        [allDownloads performSelector:@selector(cancelDownload)];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
+    request = [ASIHTTPRequest requestWithURL:url];
     [request startAsynchronous];
     [request setDelegate:self];
 }
 
-- (void)requestFinished:(ASIHTTPRequest *)request
+- (void)requestFinished:(ASIHTTPRequest *)aRequest
 {
     // Use when fetching text data
-    NSString *responseString = [request responseString];
+    NSString *responseString = [aRequest responseString];
     SBJsonParser *parser = [SBJsonParser new];
     if(self.adArray) {
         [self.adArray  release];
         self.adArray = nil;
     }
     self.adArray = [parser objectWithString:responseString];
+    [self.imageArray removeAllObjects];
+    int n = [self.adArray count];
+    for (int i = 0; i < n; i++) {
+        [self.imageArray addObject:[NSNull null]];
+    }
     [self getHeight];
     [self.theTableView reloadData];
 }
@@ -180,9 +202,9 @@
         [self.numberOfLinesDictionary setValue:[NSNumber numberWithInt:numberOfLines] forKey:rowString];
     }
 }
-- (void)requestFailed:(ASIHTTPRequest *)request
+- (void)requestFailed:(ASIHTTPRequest *)aRequest
 {
-    NSError *error = [request error];
+    NSError *error = [aRequest error];
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
@@ -261,6 +283,16 @@
     
     UILabel *cpcLabel = (UILabel *)[cell viewWithTag:CPC_TEXT];
     cpcLabel.text = [NSString stringWithFormat:@"$ %@",[adDict objectForKey:@"cpc"]];
+    
+    UIImageView *imageView = (UIImageView *)[cell viewWithTag:AD_IMAGE];
+    UIImage *image = (UIImage *)[self.imageArray objectAtIndex:row];
+    if ((NSNull *)image == [NSNull null]) {
+        if(theTableView.dragging == NO && theTableView.decelerating == NO){
+            [self startImageDownload:indexPath andImageUrl:[adDict objectForKey:@"image"]];
+        }
+    } else {
+        imageView.image = image;
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -285,6 +317,75 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"%d",[indexPath row]);
+}
+
+- (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl
+{
+	ImageDownloader *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
+	if (imageDownloader == nil) 
+	{
+		imageDownloader = [[ImageDownloader alloc] init];
+		imageDownloader.indexPathInTableView = indexPath;
+		imageDownloader.delegate = self;
+		imageDownloader.feedURL = imageUrl;
+		[imageDownloadsInProgress setObject:imageDownloader forKey:indexPath];
+		[imageDownloader startDownload];
+		[imageDownloader release];   
+	}
+}
+
+- (void)loadImagesForOnscreenRows
+{
+	if ([self.imageArray count] > 0)
+	{
+		NSArray *visiblePaths = [self.theTableView indexPathsForVisibleRows];
+		for (NSIndexPath *indexPath in visiblePaths)
+		{
+            //			UIImage *currentImage = [self.realimageArray objectAtIndex:indexPath.row];
+			
+			if ([self.imageArray objectAtIndex:indexPath.row] == [NSNull null]) // avoid the app icon download if the app already has an icon
+			{
+                int row = [indexPath row];
+                
+                NSDictionary *dict = [self.adArray objectAtIndex:row];
+                NSDictionary *adDict = [dict objectForKey:@"Ad"];
+                
+				[self startImageDownload:indexPath andImageUrl:[adDict objectForKey:@"image"]];
+			}
+		}
+	}
+}
+
+- (void)imageDidLoad:(NSIndexPath *)indexPath
+{
+	ImageDownloader *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
+	if (imageDownloader != nil)
+	{
+		UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:imageDownloader.indexPathInTableView];
+		
+		// Display the newly loaded image
+		UIImageView *imageView = (UIImageView *)[cell viewWithTag:AD_IMAGE];
+		imageView.image = imageDownloader.downloadedImage;
+		int row = [indexPath row];
+		[self.imageArray replaceObjectAtIndex:row withObject:imageDownloader.downloadedImage];
+	}
+}
+
+#pragma mark -
+#pragma mark Deferred image loading (UIScrollViewDelegate)
+
+// Load images for all onscreen rows when scrolling is finished
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+	if (!decelerate)
+	{
+		[self loadImagesForOnscreenRows];
+	}
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+	[self loadImagesForOnscreenRows];
 }
 
 

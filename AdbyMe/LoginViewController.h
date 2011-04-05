@@ -17,11 +17,14 @@
     
     UIBarButtonItem *activityBarButton;
     UIActivityIndicatorView *activityIndicatorView;
+    
+    ASIFormDataRequest *request;
 }
 @property (nonatomic, retain) IBOutlet UITextField *emailField;
 @property (nonatomic, retain) IBOutlet UITextField *passwordField;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *activityBarButton;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, retain) ASIFormDataRequest *request;
 
 -(void) loginCheck;
 

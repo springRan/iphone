@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
+#import "ImageDownloader.h"
 
-
-@interface AdListViewController : UIViewController <UIActionSheetDelegate, ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource>{
+@interface AdListViewController : UIViewController <UIActionSheetDelegate, ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, ImageDownloaderDelegate>{
     UIBarButtonItem *settingButton;
     UIBarButtonItem *updateButton;
     UIView *topView;
@@ -22,6 +22,9 @@
     
     UILabel *reservedLabel;
     UILabel *availableLabel;
+    NSMutableArray *imageArray;
+    ASIHTTPRequest *request;
+    NSMutableDictionary *imageDownloadsInProgress;
 }
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *settingButton;
@@ -33,6 +36,9 @@
 @property (nonatomic, retain) NSMutableDictionary *numberOfLinesDictionary;
 @property (nonatomic, retain) IBOutlet UILabel *reservedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *availableLabel;
+@property (nonatomic, retain) NSMutableArray *imageArray;
+@property (nonatomic, retain) ASIHTTPRequest *request;
+@property (nonatomic, retain) NSMutableDictionary *imageDownloadsInProgress;
 
 
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath;
@@ -44,4 +50,6 @@
 -(void)getHeight;
 -(void) addHeight:(double)addHeight forView:(UIView *)cellView;
 -(void) addY:(double)addHeight forView:(UIView *)cellView;
+- (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl;
+- (void)loadImagesForOnscreenRows;
 @end

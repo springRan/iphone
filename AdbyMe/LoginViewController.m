@@ -18,6 +18,7 @@
 @synthesize passwordField;
 @synthesize activityBarButton;
 @synthesize activityIndicatorView;
+@synthesize request;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,6 +37,7 @@
     [passwordField release];
     [activityBarButton release];
     [activityIndicatorView release];
+    [request release];
     [super dealloc];
 }
 
@@ -82,7 +84,7 @@
 -(void) loginCheck{
     NSLog(@"%@",[Address loginURL]);
     NSURL *url = [NSURL URLWithString:[Address loginURL]];
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    request = [ASIFormDataRequest requestWithURL:url];
     [request setPostValue:emailField.text forKey:@"data[User][username_or_email]"];
     [request setPostValue:passwordField.text forKey:@"data[User][password]"];
     [request startAsynchronous];
@@ -91,11 +93,11 @@
 
 }
 
-- (void)requestFinished:(ASIHTTPRequest *)request
+- (void)requestFinished:(ASIHTTPRequest *)aRequest
 {
     [self.activityIndicatorView stopAnimating];
     // Use when fetching text data
-    NSString *responseString = [request responseString];
+    NSString *responseString = [aRequest responseString];
     SBJsonParser *parser = [SBJsonParser new];
     NSDictionary *dict = [parser objectWithString:responseString];
     NSString *error = [dict objectForKey:@"error"];
@@ -113,10 +115,10 @@
 //    NSLog(@"%@",dict);
 }
 
-- (void)requestFailed:(ASIHTTPRequest *)request
+- (void)requestFailed:(ASIHTTPRequest *)aRequest
 {
     [self.activityIndicatorView stopAnimating];
-    NSError *error = [request error];
+    NSError *error = [aRequest error];
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
