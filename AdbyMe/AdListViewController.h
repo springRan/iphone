@@ -17,7 +17,7 @@
     UIView *topView;
     UITableView *theTableView;
     NSArray *adArray;
-    UITableViewCell *adCell;
+    UITableViewCell *adCell4;
 }
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *settingButton;
@@ -25,7 +25,7 @@
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
 @property (nonatomic, retain) NSArray *adArray;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *updateButton;
-@property (nonatomic, retain) IBOutlet UITableViewCell *adCell;
+@property (nonatomic, retain) IBOutlet UITableViewCell *adCell4;
 
 
 -(IBAction) settingButtonClicked;

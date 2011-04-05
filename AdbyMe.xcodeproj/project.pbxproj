@@ -11,7 +11,7 @@
 		7312C9BB1348C80200A33091 /* SNSSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7312C9B91348C80200A33091 /* SNSSettingViewController.xib */; };
 		7312C9C01348C9E100A33091 /* EarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7312C9BE1348C9E000A33091 /* EarningViewController.m */; };
 		7312C9C11348C9E100A33091 /* EarningViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7312C9BF1348C9E000A33091 /* EarningViewController.xib */; };
-		7312C9C31348D05C00A33091 /* AdCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7312C9C21348D05B00A33091 /* AdCell.xib */; };
+		7312C9C31348D05C00A33091 /* AdCell4.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7312C9C21348D05B00A33091 /* AdCell4.xib */; };
 		731AB032134741B7001C1956 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731AB031134741B7001C1956 /* UIKit.framework */; };
 		731AB034134741B7001C1956 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731AB033134741B7001C1956 /* Foundation.framework */; };
 		731AB036134741B7001C1956 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731AB035134741B7001C1956 /* CoreGraphics.framework */; };
@@ -148,7 +148,7 @@
 		7312C9BD1348C9E000A33091 /* EarningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EarningViewController.h; sourceTree = "<group>"; };
 		7312C9BE1348C9E000A33091 /* EarningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EarningViewController.m; sourceTree = "<group>"; };
 		7312C9BF1348C9E000A33091 /* EarningViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EarningViewController.xib; sourceTree = "<group>"; };
-		7312C9C21348D05B00A33091 /* AdCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdCell.xib; sourceTree = "<group>"; };
+		7312C9C21348D05B00A33091 /* AdCell4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdCell4.xib; sourceTree = "<group>"; };
 		731AB02D134741B6001C1956 /* AdbyMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdbyMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		731AB031134741B7001C1956 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		731AB033134741B7001C1956 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -399,7 +399,7 @@
 				73A559F313478F2500C79C5F /* AdListViewController.h */,
 				73A559F413478F2500C79C5F /* AdListViewController.m */,
 				73A559F513478F2500C79C5F /* AdListViewController.xib */,
-				7312C9C21348D05B00A33091 /* AdCell.xib */,
+				7312C9C21348D05B00A33091 /* AdCell4.xib */,
 				7312C9B71348C80200A33091 /* SNSSettingViewController.h */,
 				7312C9B81348C80200A33091 /* SNSSettingViewController.m */,
 				7312C9B91348C80200A33091 /* SNSSettingViewController.xib */,
@@ -770,7 +770,7 @@
 				733C8E0913486DCF00A51FEC /* uvicon.png in Resources */,
 				7312C9BB1348C80200A33091 /* SNSSettingViewController.xib in Resources */,
 				7312C9C11348C9E100A33091 /* EarningViewController.xib in Resources */,
-				7312C9C31348D05C00A33091 /* AdCell.xib in Resources */,
+				7312C9C31348D05C00A33091 /* AdCell4.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

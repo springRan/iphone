@@ -24,7 +24,7 @@
 @synthesize theTableView;
 @synthesize adArray;
 @synthesize updateButton;
-@synthesize adCell;
+@synthesize adCell4;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,7 +43,7 @@
     [settingButton release];
     [adArray release];
     [updateButton release];
-    [adCell release];
+    [adCell4 release];
     [super dealloc];
 }
 
@@ -151,8 +151,8 @@
     
     if (cell == nil){
         [[NSBundle mainBundle] loadNibNamed:@"AdCell" owner:self options:nil];
-		cell = self.adCell;
-		self.adCell = nil;
+		cell = self.adCell4;
+		self.adCell4 = nil;
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -173,7 +173,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    NSLog(@"%d",[indexPath row]);
 }
 
 
