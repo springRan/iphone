@@ -18,6 +18,8 @@
 #define LOGOUT 2
 #define CANCEL 3
 
+#define DEFAULT_CELL_HEIGHT 104
+
 #define FONT_HEIGHT 20
 
 #define ADTEXT 1024
@@ -195,7 +197,7 @@
         NSDictionary *adDict = [dict objectForKey:@"Ad"];
         NSString *adTitle = [adDict objectForKey:@"title"];
         NSLog(@"%@",adTitle);
-//        adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
+        //adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
         CGSize labelSize = [adTitle sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
         NSString *rowString = [NSString stringWithFormat:@"row%d",i];
         int numberOfLines = labelSize.height / FONT_HEIGHT;
@@ -253,7 +255,7 @@
     
     UILabel *titleLabel = (UILabel *)[cell viewWithTag:ADTEXT];
     NSString *adTitle = [adDict objectForKey:@"title"];
-//    adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
+    //adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
     titleLabel.text =  adTitle;
     
     NSNumber *number = [self.numberOfLinesDictionary valueForKey:rowString];
@@ -263,11 +265,11 @@
         double addHeight = (numberOfLines - 3) * 20.0;
         [self addHeight:addHeight forView:cell.contentView];
         [self addHeight:addHeight forView:[cell viewWithTag:ADTEXT]];
-        [self addHeight:addHeight forView:[cell viewWithTag:LIST_BORDER]];
+        //[self addHeight:addHeight forView:[cell viewWithTag:LIST_BORDER]];
         [self addHeight:addHeight forView:[cell viewWithTag:SLOGAN_BG]];
         [self addHeight:addHeight forView:[cell viewWithTag:CONTAINER_VIEW]];
         [self addY:addHeight forView:[cell viewWithTag:SLOGAN_BORDER]];
-        [self addY:addHeight forView:[cell viewWithTag:SLOGAN_WEBVIEW]];
+        //[self addY:addHeight forView:[cell viewWithTag:SLOGAN_WEBVIEW]];
         [self addY:addHeight forView:[cell viewWithTag:UV_ICON]];
         [self addY:addHeight forView:[cell viewWithTag:UV_TEXT]];
         [self addY:addHeight forView:[cell viewWithTag:COPY_ICON]];
@@ -301,9 +303,9 @@
     NSNumber *number = [self.numberOfLinesDictionary valueForKey:rowString];
     int numberOfLines = [number intValue];
     if (numberOfLines <= 3)
-        return 150.0;
+        return DEFAULT_CELL_HEIGHT;
     else
-        return 150.0 + (numberOfLines-3)*20.0;
+        return DEFAULT_CELL_HEIGHT + (numberOfLines-3)*20.0;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
