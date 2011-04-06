@@ -12,6 +12,7 @@
 #import "SNSSettingViewController.h"
 #import "EarningViewController.h"
 #import "AdbyMeAppDelegate.h"
+#import "AdViewController.h"
 
 #define SNSSETTINGS 0
 #define EARNINGS 1
@@ -340,7 +341,13 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%d",[indexPath row]);
+    int row = [indexPath row];
+    NSDictionary *dict = [self.adArray objectAtIndex:row];
+    NSDictionary *adDict = [dict objectForKey:@"Ad"];
+    AdViewController *aViewController = [[AdViewController alloc]initWithNibName:@"AdViewController" bundle:nil];
+    aViewController.adId = [adDict objectForKey:@"id"];
+    [[self navigationController]pushViewController:aViewController animated:YES];
+    [aViewController release];
 }
 
 - (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl

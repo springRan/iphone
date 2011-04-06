@@ -139,6 +139,8 @@
 		7376850A134C9E6100410773 /* twlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 73768501134C9E6100410773 /* twlogo.png */; };
 		7376850B134C9E6100410773 /* upicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 73768502134C9E6100410773 /* upicon.png */; };
 		7376850C134C9E6100410773 /* writebtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 73768503134C9E6100410773 /* writebtn.png */; };
+		73768510134CA95F00410773 /* AdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7376850E134CA95B00410773 /* AdViewController.m */; };
+		73768511134CA95F00410773 /* AdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7376850F134CA95D00410773 /* AdViewController.xib */; };
 		738416B3134B7CF300F118E4 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 738416B2134B7CF200F118E4 /* ImageDownloader.m */; };
 		73A559F613478F2500C79C5F /* AdListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A559F413478F2500C79C5F /* AdListViewController.m */; };
 		73A559F713478F2500C79C5F /* AdListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A559F513478F2500C79C5F /* AdListViewController.xib */; };
@@ -331,6 +333,9 @@
 		73768501134C9E6100410773 /* twlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twlogo.png; sourceTree = "<group>"; };
 		73768502134C9E6100410773 /* upicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = upicon.png; sourceTree = "<group>"; };
 		73768503134C9E6100410773 /* writebtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = writebtn.png; sourceTree = "<group>"; };
+		7376850D134CA95900410773 /* AdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdViewController.h; sourceTree = "<group>"; };
+		7376850E134CA95B00410773 /* AdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdViewController.m; sourceTree = "<group>"; };
+		7376850F134CA95D00410773 /* AdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdViewController.xib; sourceTree = "<group>"; };
 		738416B1134B7CF200F118E4 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		738416B2134B7CF200F118E4 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		73A559F313478F2500C79C5F /* AdListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdListViewController.h; sourceTree = "<group>"; };
@@ -435,6 +440,9 @@
 				73A559F413478F2500C79C5F /* AdListViewController.m */,
 				73A559F513478F2500C79C5F /* AdListViewController.xib */,
 				7312C9C21348D05B00A33091 /* AdCell4.xib */,
+				7376850D134CA95900410773 /* AdViewController.h */,
+				7376850E134CA95B00410773 /* AdViewController.m */,
+				7376850F134CA95D00410773 /* AdViewController.xib */,
 				7312C9B71348C80200A33091 /* SNSSettingViewController.h */,
 				7312C9B81348C80200A33091 /* SNSSettingViewController.m */,
 				7312C9B91348C80200A33091 /* SNSSettingViewController.xib */,
@@ -848,6 +856,7 @@
 				7376850A134C9E6100410773 /* twlogo.png in Resources */,
 				7376850B134C9E6100410773 /* upicon.png in Resources */,
 				7376850C134C9E6100410773 /* writebtn.png in Resources */,
+				73768511134CA95F00410773 /* AdViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -922,6 +931,7 @@
 				7312C9BA1348C80200A33091 /* SNSSettingViewController.m in Sources */,
 				7312C9C01348C9E100A33091 /* EarningViewController.m in Sources */,
 				738416B3134B7CF300F118E4 /* ImageDownloader.m in Sources */,
+				73768510134CA95F00410773 /* AdViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
