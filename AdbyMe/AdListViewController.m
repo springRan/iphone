@@ -35,6 +35,8 @@
 #define CONTAINER_VIEW 1034
 #define CPC_TEXT 1035
 #define AD_IMAGE 1036
+#define STATUS_BGIMAGE 1037
+#define STATUS_IMAGE 1038
 
 @implementation AdListViewController
 
@@ -295,6 +297,25 @@
         }
     } else {
         imageView.image = image;
+    }
+    
+    NSString *status = [adDict objectForKey:@"status"];
+    if ([status isEqualToString:@"active"]){
+        [cpcLabel setHidden:NO];
+        UIImageView *statusBgImageView = (UIImageView *)[cell viewWithTag:STATUS_BGIMAGE];
+        UIImageView *statusImageView = (UIImageView *)[cell viewWithTag:STATUS_IMAGE];
+        
+        [statusImageView setHidden:NO];
+        [statusImageView setImage:[UIImage imageNamed:@"activeicon.png"]];
+        [statusBgImageView setImage:[UIImage imageNamed:@"activeCPUV.png"]];
+    } else{
+        
+        [cpcLabel setHidden:YES];
+        UIImageView *statusBgImageView = (UIImageView *)[cell viewWithTag:STATUS_BGIMAGE];
+        UIImageView *statusImageView = (UIImageView *)[cell viewWithTag:STATUS_IMAGE];
+        
+        [statusImageView setImage:[UIImage imageNamed:@"pausedicon.png"]];
+        [statusBgImageView setImage:[UIImage imageNamed:@"pausedCPUV.png"]];
     }
 }
 
