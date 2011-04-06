@@ -33,6 +33,9 @@
 
 - (void)dealloc
 {
+    
+    [request clearDelegatesAndCancel];  // Cancel request.
+
     [emailField release];
     [passwordField release];
     [activityBarButton release];

@@ -12,11 +12,14 @@
 #import "SNSSettingViewController.h"
 #import "EarningViewController.h"
 #import "AdbyMeAppDelegate.h"
+#import "AdViewController.h"
 
 #define SNSSETTINGS 0
 #define EARNINGS 1
 #define LOGOUT 2
 #define CANCEL 3
+
+#define DEFAULT_CELL_HEIGHT 104
 
 #define FONT_HEIGHT 20
 
@@ -33,6 +36,8 @@
 #define CONTAINER_VIEW 1034
 #define CPC_TEXT 1035
 #define AD_IMAGE 1036
+#define STATUS_BGIMAGE 1037
+#define STATUS_IMAGE 1038
 
 @implementation AdListViewController
 
@@ -61,6 +66,9 @@
 
 - (void)dealloc
 {
+    
+    [request clearDelegatesAndCancel];  // Cancel request.
+
     [theTableView release];
     [topView release];
     [settingButton release];
@@ -139,6 +147,12 @@
     [actionSheet release];
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
+    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
+}
+
 -(void) logout{
     [[self navigationController]popViewControllerAnimated:YES];
 }
@@ -162,13 +176,8 @@
 -(void)loadAd{
     NSURL *url = [NSURL URLWithString:[Address adListURL]];
     NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
-    if(allDownloads != nil && [allDownloads count] > 0)
-        [allDownloads performSelector:@selector(cancelDownload)];
-    if(request){
-        [request clearDelegatesAndCancel];
-        [request release];
-        request = nil;
-    }
+    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
+    
     request = [ASIHTTPRequest requestWithURL:url];
     [request startAsynchronous];
     [request setDelegate:self];
@@ -179,16 +188,13 @@
     // Use when fetching text data
     NSString *responseString = [aRequest responseString];
     SBJsonParser *parser = [SBJsonParser new];
-    if(self.adArray) {
-        [self.adArray  release];
-        self.adArray = nil;
-    }
     self.adArray = [parser objectWithString:responseString];
     [self.imageArray removeAllObjects];
     int n = [self.adArray count];
     for (int i = 0; i < n; i++) {
         [self.imageArray addObject:[NSNull null]];
     }
+    [self.imageDownloadsInProgress removeAllObjects];
     [self getHeight];
     [self.theTableView reloadData];
 }
@@ -202,7 +208,7 @@
         NSDictionary *adDict = [dict objectForKey:@"Ad"];
         NSString *adTitle = [adDict objectForKey:@"title"];
         NSLog(@"%@",adTitle);
-//        adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
+        //adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
         CGSize labelSize = [adTitle sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
         NSString *rowString = [NSString stringWithFormat:@"row%d",i];
         int numberOfLines = labelSize.height / FONT_HEIGHT;
@@ -260,7 +266,7 @@
     
     UILabel *titleLabel = (UILabel *)[cell viewWithTag:ADTEXT];
     NSString *adTitle = [adDict objectForKey:@"title"];
-//    adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
+    //adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
     titleLabel.text =  adTitle;
     
     NSNumber *number = [self.numberOfLinesDictionary valueForKey:rowString];
@@ -270,11 +276,11 @@
         double addHeight = (numberOfLines - 3) * 20.0;
         [self addHeight:addHeight forView:cell.contentView];
         [self addHeight:addHeight forView:[cell viewWithTag:ADTEXT]];
-        [self addHeight:addHeight forView:[cell viewWithTag:LIST_BORDER]];
+        //[self addHeight:addHeight forView:[cell viewWithTag:LIST_BORDER]];
         [self addHeight:addHeight forView:[cell viewWithTag:SLOGAN_BG]];
         [self addHeight:addHeight forView:[cell viewWithTag:CONTAINER_VIEW]];
         [self addY:addHeight forView:[cell viewWithTag:SLOGAN_BORDER]];
-        [self addY:addHeight forView:[cell viewWithTag:SLOGAN_WEBVIEW]];
+        //[self addY:addHeight forView:[cell viewWithTag:SLOGAN_WEBVIEW]];
         [self addY:addHeight forView:[cell viewWithTag:UV_ICON]];
         [self addY:addHeight forView:[cell viewWithTag:UV_TEXT]];
         [self addY:addHeight forView:[cell viewWithTag:COPY_ICON]];
@@ -300,6 +306,25 @@
     } else {
         imageView.image = image;
     }
+    
+    NSString *status = [adDict objectForKey:@"status"];
+    if ([status isEqualToString:@"active"]){
+        [cpcLabel setHidden:NO];
+        UIImageView *statusBgImageView = (UIImageView *)[cell viewWithTag:STATUS_BGIMAGE];
+        UIImageView *statusImageView = (UIImageView *)[cell viewWithTag:STATUS_IMAGE];
+        
+        [statusImageView setHidden:NO];
+        [statusImageView setImage:[UIImage imageNamed:@"activeicon.png"]];
+        [statusBgImageView setImage:[UIImage imageNamed:@"activeCPUV.png"]];
+    } else{
+        
+        [cpcLabel setHidden:YES];
+        UIImageView *statusBgImageView = (UIImageView *)[cell viewWithTag:STATUS_BGIMAGE];
+        UIImageView *statusImageView = (UIImageView *)[cell viewWithTag:STATUS_IMAGE];
+        
+        [statusImageView setImage:[UIImage imageNamed:@"pausedicon.png"]];
+        [statusBgImageView setImage:[UIImage imageNamed:@"pausedCPUV.png"]];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -308,9 +333,9 @@
     NSNumber *number = [self.numberOfLinesDictionary valueForKey:rowString];
     int numberOfLines = [number intValue];
     if (numberOfLines <= 3)
-        return 150.0;
+        return DEFAULT_CELL_HEIGHT;
     else
-        return 150.0 + (numberOfLines-3)*20.0;
+        return DEFAULT_CELL_HEIGHT + (numberOfLines-3)*20.0;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -323,7 +348,13 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%d",[indexPath row]);
+    int row = [indexPath row];
+    NSDictionary *dict = [self.adArray objectAtIndex:row];
+    NSDictionary *adDict = [dict objectForKey:@"Ad"];
+    AdViewController *aViewController = [[AdViewController alloc]initWithNibName:@"AdViewController" bundle:nil];
+    aViewController.adId = [adDict objectForKey:@"id"];
+    [[self navigationController]pushViewController:aViewController animated:YES];
+    [aViewController release];
 }
 
 - (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl

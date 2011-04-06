@@ -25,6 +25,7 @@
     NSMutableArray *imageArray;
     ASIHTTPRequest *request;
     NSMutableDictionary *imageDownloadsInProgress;
+
 }
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *settingButton;

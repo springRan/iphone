@@ -353,11 +353,6 @@
 
 -(IBAction) submitClicked{
     NSURL *url = [NSURL URLWithString:[Address registerURL]];
-    if (request) {
-        [request clearDelegatesAndCancel];
-        [request release];
-        request = nil;
-    }
     self.request = [ASIFormDataRequest requestWithURL:url];
     [request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
     [request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
