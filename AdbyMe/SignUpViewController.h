@@ -40,6 +40,8 @@
     UIActivityIndicatorView *activityIndicatorView;
     
     ASIFormDataRequest *request;
+    
+    BOOL shouldPop;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *emailTextField;
@@ -67,6 +69,8 @@
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
 @property (nonatomic, retain) ASIFormDataRequest *request;
+
+@property (nonatomic, assign) BOOL shouldPop;
 
 
 -(void) savePosition;

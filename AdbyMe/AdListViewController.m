@@ -103,6 +103,13 @@
     [self updateDashboard];
 
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
+    if(allDownloads != nil && [allDownloads count] > 0 )
+        [allDownloads performSelector:@selector(cancelDownload)];
+}
 -(void)updateDashboard{
     AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
     NSLog(@"%@",delegate.userDictionary);
