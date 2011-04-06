@@ -63,6 +63,9 @@
 
 - (void)dealloc
 {
+    
+    [request clearDelegatesAndCancel];  // Cancel request.
+
     [theTableView release];
     [topView release];
     [settingButton release];
@@ -134,6 +137,12 @@
     [actionSheet release];
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
+    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
+}
+
 -(void) logout{
     [[self navigationController]popViewControllerAnimated:YES];
 }
@@ -157,13 +166,8 @@
 -(void)loadAd{
     NSURL *url = [NSURL URLWithString:[Address adListURL]];
     NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
-    if(allDownloads != nil && [allDownloads count] > 0)
-        [allDownloads performSelector:@selector(cancelDownload)];
-    if(request){
-        [request clearDelegatesAndCancel];
-        [request release];
-        request = nil;
-    }
+    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
+    
     request = [ASIHTTPRequest requestWithURL:url];
     [request startAsynchronous];
     [request setDelegate:self];
@@ -174,16 +178,13 @@
     // Use when fetching text data
     NSString *responseString = [aRequest responseString];
     SBJsonParser *parser = [SBJsonParser new];
-    if(self.adArray) {
-        [self.adArray  release];
-        self.adArray = nil;
-    }
     self.adArray = [parser objectWithString:responseString];
     [self.imageArray removeAllObjects];
     int n = [self.adArray count];
     for (int i = 0; i < n; i++) {
         [self.imageArray addObject:[NSNull null]];
     }
+    [self.imageDownloadsInProgress removeAllObjects];
     [self getHeight];
     [self.theTableView reloadData];
 }
