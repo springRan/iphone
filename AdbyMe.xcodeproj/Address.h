@@ -20,4 +20,5 @@
 +(NSString *) checkUsernameURL;
 +(NSString *) registerURL;
 +(NSString *) adListURL;
++(NSString *) adUrl:(NSString *)adId;
 @end

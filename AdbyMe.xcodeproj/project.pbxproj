@@ -121,6 +121,7 @@
 		733C8E0613486DCF00A51FEC /* seticon.png in Resources */ = {isa = PBXBuildFile; fileRef = 733C8DF613486DCF00A51FEC /* seticon.png */; };
 		733C8E0813486DCF00A51FEC /* sloganicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 733C8DF813486DCF00A51FEC /* sloganicon.png */; };
 		733C8E0913486DCF00A51FEC /* uvicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 733C8DF913486DCF00A51FEC /* uvicon.png */; };
+		7361F87F134CC86B00F84E0D /* AdHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7361F87E134CC86B00F84E0D /* AdHeaderView.xib */; };
 		737684F2134C9E5B00410773 /* adbylogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 737684E9134C9E5B00410773 /* adbylogo@2x.png */; };
 		737684F3134C9E5B00410773 /* downicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 737684EA134C9E5B00410773 /* downicon@2x.png */; };
 		737684F4134C9E5B00410773 /* fblogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 737684EB134C9E5B00410773 /* fblogo@2x.png */; };
@@ -315,6 +316,7 @@
 		733C8DF613486DCF00A51FEC /* seticon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seticon.png; sourceTree = "<group>"; };
 		733C8DF813486DCF00A51FEC /* sloganicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sloganicon.png; sourceTree = "<group>"; };
 		733C8DF913486DCF00A51FEC /* uvicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uvicon.png; sourceTree = "<group>"; };
+		7361F87E134CC86B00F84E0D /* AdHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdHeaderView.xib; sourceTree = "<group>"; };
 		737684E9134C9E5B00410773 /* adbylogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "adbylogo@2x.png"; sourceTree = "<group>"; };
 		737684EA134C9E5B00410773 /* downicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "downicon@2x.png"; sourceTree = "<group>"; };
 		737684EB134C9E5B00410773 /* fblogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fblogo@2x.png"; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 				7376850D134CA95900410773 /* AdViewController.h */,
 				7376850E134CA95B00410773 /* AdViewController.m */,
 				7376850F134CA95D00410773 /* AdViewController.xib */,
+				7361F87E134CC86B00F84E0D /* AdHeaderView.xib */,
 				7312C9B71348C80200A33091 /* SNSSettingViewController.h */,
 				7312C9B81348C80200A33091 /* SNSSettingViewController.m */,
 				7312C9B91348C80200A33091 /* SNSSettingViewController.xib */,
@@ -857,6 +860,7 @@
 				7376850B134C9E6100410773 /* upicon.png in Resources */,
 				7376850C134C9E6100410773 /* writebtn.png in Resources */,
 				73768511134CA95F00410773 /* AdViewController.xib in Resources */,
+				7361F87F134CC86B00F84E0D /* AdHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

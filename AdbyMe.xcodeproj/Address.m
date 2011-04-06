@@ -31,6 +31,10 @@
     return [NSString stringWithFormat:@"%@/copy/cover.json", HOST_ADDR];
 }
 
++(NSString *) adUrl:(NSString *)adId{
+    return [NSString stringWithFormat:@"%@/copy/ad/%@.json", HOST_ADDR, adId];
+}
+
 -(void)dealloc{
     [super dealloc];
 }

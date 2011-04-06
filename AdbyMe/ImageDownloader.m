@@ -127,9 +127,7 @@
     self.imageConnection = nil;
         
     // call our delegate and tell it that our icon is ready for display
-    if(delegate)
-        [delegate imageDidLoad:self.indexPathInTableView];
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [delegate imageDidLoad:self.indexPathInTableView];
 }
 
 @end

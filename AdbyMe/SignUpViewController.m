@@ -44,7 +44,6 @@
 @synthesize activityBarButton;
 @synthesize activityIndicatorView;
 @synthesize request;
-@synthesize shouldPop;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -100,9 +99,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (shouldPop)
-        [[self navigationController]popViewControllerAnimated:NO];
-    shouldPop = YES;
 }
 #pragma mark - View lifecycle
 
@@ -202,7 +198,7 @@
 }
 
 -(void)focusPosition:(UITextField *)textField{
-    UILabel *focusLabel;
+//    UILabel *focusLabel;
     /*
     if (textField == self.usernameTextField) {
         focusLabel = self.usernameLabel;
