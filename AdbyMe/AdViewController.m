@@ -53,7 +53,7 @@
     // Do any additional setup after loading the view from its nib.
     [[NSBundle mainBundle] loadNibNamed:@"AdHeaderView" owner:self options:nil];
     self.theTableView.tableHeaderView = self.adHeaderView;
-    NSLog(@"%@",[Address adUrl:self.adId]);
+    [self loadAd];
 }
 
 - (void)viewDidUnload
@@ -96,7 +96,6 @@
 
 -(void)loadAd{
     NSURL *url = [NSURL URLWithString:[Address adUrl:self.adId]];
-    
     request = [ASIHTTPRequest requestWithURL:url];
     [request startAsynchronous];
     [request setDelegate:self];
@@ -106,9 +105,15 @@
 {
     // Use when fetching text data
     NSString *responseString = [aRequest responseString];
+    NSLog(@"%@",responseString);
     SBJsonParser *parser = [SBJsonParser new];
-    adDictionary = [parser objectWithString:responseString];
+    NSError *error = nil;
+    adDictionary = [parser objectWithString:responseString error:&error];
     NSLog(@"%@",adDictionary);
+    NSLog(@"%@",[error description]);
+    NSArray *arr = [parser objectWithString:responseString error:&error];
+    NSLog(@"%@",arr);
+    NSLog(@"%@",[error description]);
     [self.theTableView reloadData];
 }
 
