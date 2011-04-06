@@ -44,6 +44,7 @@
 @synthesize activityBarButton;
 @synthesize activityIndicatorView;
 @synthesize request;
+@synthesize shouldPop;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -94,6 +95,14 @@
     [super viewWillAppear:animated];
     if ([self navigationController].navigationBarHidden == YES)
         [[self navigationController] setNavigationBarHidden:NO animated:YES];
+
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (shouldPop)
+        [[self navigationController]popViewControllerAnimated:NO];
+    shouldPop = YES;
 }
 #pragma mark - View lifecycle
 
@@ -194,7 +203,7 @@
 
 -(void)focusPosition:(UITextField *)textField{
     UILabel *focusLabel;
-    
+    /*
     if (textField == self.usernameTextField) {
         focusLabel = self.usernameLabel;
     } else if (textField == self.passwordTextField) {
@@ -204,13 +213,13 @@
     } else if (textField == self.nameTextField) {
         focusLabel = self.nameLabel;
     }
-    
+    */
     if (self.savedPosition == nil)
         [self savePosition];
     
-    CGRect frame = focusLabel.frame;
+//    CGRect frame = focusLabel.frame;
     
-    [self.scrollView setContentOffset:CGPointMake(0, frame.origin.y) animated:YES];
+//    [self.scrollView setContentOffset:CGPointMake(0, frame.origin.y) animated:YES];
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
