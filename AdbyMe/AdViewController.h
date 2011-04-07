@@ -29,6 +29,8 @@
     
     NSArray *sloganArray;
     
+    NSString *sinceUrl;
+    
 }
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
@@ -44,6 +46,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *cpcLabel;
 @property (nonatomic, retain) NSString *bestSloganId;
 @property (nonatomic, retain) NSArray *sloganArray;
+@property (nonatomic, retain) NSString *sinceUrl;
 
 
 -(void)loadAd;

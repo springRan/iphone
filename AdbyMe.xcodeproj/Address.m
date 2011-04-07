@@ -39,6 +39,10 @@
     return [NSString stringWithFormat:@"%@/copy/ad/%@.json", HOST_ADDR, adId];
 }
 
++(NSString *) makeUrl:(NSString *)rest{
+    return [NSString stringWithFormat:@"%@%@", HOST_ADDR, rest];
+}
+
 -(void)dealloc{
     [super dealloc];
 }

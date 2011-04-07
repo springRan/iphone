@@ -143,6 +143,7 @@
 		73768510134CA95F00410773 /* AdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7376850E134CA95B00410773 /* AdViewController.m */; };
 		73768511134CA95F00410773 /* AdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7376850F134CA95D00410773 /* AdViewController.xib */; };
 		738416B3134B7CF300F118E4 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 738416B2134B7CF200F118E4 /* ImageDownloader.m */; };
+		73988F68134DD69800D0A2EB /* AdCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73988F67134DD69600D0A2EB /* AdCell3.xib */; };
 		73A559F613478F2500C79C5F /* AdListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A559F413478F2500C79C5F /* AdListViewController.m */; };
 		73A559F713478F2500C79C5F /* AdListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A559F513478F2500C79C5F /* AdListViewController.xib */; };
 		73A559FB1347A6AE00C79C5F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A559F91347A6AE00C79C5F /* SignUpViewController.m */; };
@@ -340,6 +341,7 @@
 		7376850F134CA95D00410773 /* AdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdViewController.xib; sourceTree = "<group>"; };
 		738416B1134B7CF200F118E4 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		738416B2134B7CF200F118E4 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		73988F67134DD69600D0A2EB /* AdCell3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdCell3.xib; sourceTree = "<group>"; };
 		73A559F313478F2500C79C5F /* AdListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdListViewController.h; sourceTree = "<group>"; };
 		73A559F413478F2500C79C5F /* AdListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdListViewController.m; sourceTree = "<group>"; };
 		73A559F513478F2500C79C5F /* AdListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdListViewController.xib; sourceTree = "<group>"; };
@@ -446,6 +448,7 @@
 				7376850E134CA95B00410773 /* AdViewController.m */,
 				7376850F134CA95D00410773 /* AdViewController.xib */,
 				7361F87E134CC86B00F84E0D /* AdHeaderView.xib */,
+				73988F67134DD69600D0A2EB /* AdCell3.xib */,
 				7312C9B71348C80200A33091 /* SNSSettingViewController.h */,
 				7312C9B81348C80200A33091 /* SNSSettingViewController.m */,
 				7312C9B91348C80200A33091 /* SNSSettingViewController.xib */,
@@ -861,6 +864,7 @@
 				7376850C134C9E6100410773 /* writebtn.png in Resources */,
 				73768511134CA95F00410773 /* AdViewController.xib in Resources */,
 				7361F87F134CC86B00F84E0D /* AdHeaderView.xib in Resources */,
+				73988F68134DD69800D0A2EB /* AdCell3.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

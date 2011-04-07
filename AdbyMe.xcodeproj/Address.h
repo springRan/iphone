@@ -22,4 +22,5 @@
 +(NSString *) registerURL;
 +(NSString *) adListURL;
 +(NSString *) adUrl:(NSString *)adId;
++(NSString *) makeUrl:(NSString *)rest;
 @end

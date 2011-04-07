@@ -24,6 +24,7 @@
 @synthesize cpcLabel;
 @synthesize bestSloganId;
 @synthesize sloganArray;
+@synthesize sinceUrl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,6 +53,7 @@
     [adTextView release];
     [bestSloganId release];
     [sloganArray release];
+    [sinceUrl release];
     [super dealloc];
 }
 
@@ -89,7 +91,12 @@
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *CellIdentifier = @"CellIdentifier";
+    static NSString *CellIdentifier = @"SloganCellIdentifier";
+    static NSString *MoreCellIdentifier = @"MoreCellIdentifier";
+    
+    int row = [indexPath row];
+    
+    if (row < [self.sloganArray count]) {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -97,15 +104,29 @@
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]autorelease];
     }
     
-    cell.textLabel.text = @"!!";
+    NSDictionary *dict = [self.sloganArray objectAtIndex:[indexPath row]];
+    dict = [dict objectForKey:@"Slogan"];
+    cell.textLabel.text = [dict objectForKey:@"copy"];
     return cell;
+    } else {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MoreCellIdentifier];
+        
+        if (cell == nil){
+            cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MoreCellIdentifier]autorelease];
+        }
+        cell.textLabel.text = @"더 보기";
+        return cell;
+    }
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.sloganArray count];
+    if ([self.sloganArray count] > 0 )
+        return ([self.sloganArray count] + 1);
+    else
+        return 0;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -177,7 +198,8 @@
      2011-04-07 20:14:44.614 AdbyMe[29354:40b] Sna
      2011-04-07 20:14:44.614 AdbyMe[29354:40b] best
      */
-    
+    sinceUrl = [self.adDictionary objectForKey:@"since_url"];
+    NSLog(@"%@",sinceUrl);
 }
 
 @end
