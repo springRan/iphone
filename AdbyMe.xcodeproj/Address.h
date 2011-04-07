@@ -14,7 +14,6 @@
 
 }
 
-
 +(NSString *) loginURL;
 +(NSString *) logoutURL;
 +(NSString *) checkEmailURL;
@@ -23,4 +22,6 @@
 +(NSString *) adListURL;
 +(NSString *) adUrl:(NSString *)adId;
 +(NSString *) makeUrl:(NSString *)rest;
++(NSString *) likeUrl:(NSString *)linkId;
++(NSString *) dislikeUrl:(NSString *)linkId;
 @end

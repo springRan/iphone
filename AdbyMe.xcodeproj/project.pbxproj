@@ -150,6 +150,8 @@
 		73A559FC1347A6AE00C79C5F /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A559FA1347A6AE00C79C5F /* SignUpViewController.xib */; };
 		73A559FF1347AA2300C79C5F /* CustomCellBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A559FE1347AA2300C79C5F /* CustomCellBackgroundView.m */; };
 		73D2F6B2134854E00065F9D2 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D2F6B1134854E00065F9D2 /* Address.m */; };
+		73F085B5134DF4940086499C /* HtmlString.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F085B4134DF4940086499C /* HtmlString.m */; };
+		73F085B7134E02E50086499C /* dora_normal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73F085B6134E02E50086499C /* dora_normal.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -352,6 +354,9 @@
 		73A559FE1347AA2300C79C5F /* CustomCellBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCellBackgroundView.m; sourceTree = "<group>"; };
 		73D2F6B0134854E00065F9D2 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Address.h; path = AdbyMe.xcodeproj/Address.h; sourceTree = SOURCE_ROOT; };
 		73D2F6B1134854E00065F9D2 /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Address.m; path = AdbyMe.xcodeproj/Address.m; sourceTree = SOURCE_ROOT; };
+		73F085B3134DF4940086499C /* HtmlString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HtmlString.h; sourceTree = "<group>"; };
+		73F085B4134DF4940086499C /* HtmlString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HtmlString.m; sourceTree = "<group>"; };
+		73F085B6134E02E50086499C /* dora_normal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dora_normal.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -446,6 +451,7 @@
 				7312C9C21348D05B00A33091 /* AdCell4.xib */,
 				7376850D134CA95900410773 /* AdViewController.h */,
 				7376850E134CA95B00410773 /* AdViewController.m */,
+				73F085B6134E02E50086499C /* dora_normal.jpg */,
 				7376850F134CA95D00410773 /* AdViewController.xib */,
 				7361F87E134CC86B00F84E0D /* AdHeaderView.xib */,
 				73988F67134DD69600D0A2EB /* AdCell3.xib */,
@@ -678,6 +684,8 @@
 		733C8E0A13486E4800A51FEC /* Unused */ = {
 			isa = PBXGroup;
 			children = (
+				73F085B3134DF4940086499C /* HtmlString.h */,
+				73F085B4134DF4940086499C /* HtmlString.m */,
 				73A559FD1347AA2300C79C5F /* CustomCellBackgroundView.h */,
 				73A559FE1347AA2300C79C5F /* CustomCellBackgroundView.m */,
 			);
@@ -865,6 +873,7 @@
 				73768511134CA95F00410773 /* AdViewController.xib in Resources */,
 				7361F87F134CC86B00F84E0D /* AdHeaderView.xib in Resources */,
 				73988F68134DD69800D0A2EB /* AdCell3.xib in Resources */,
+				73F085B7134E02E50086499C /* dora_normal.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -940,6 +949,7 @@
 				7312C9C01348C9E100A33091 /* EarningViewController.m in Sources */,
 				738416B3134B7CF300F118E4 /* ImageDownloader.m in Sources */,
 				73768510134CA95F00410773 /* AdViewController.m in Sources */,
+				73F085B5134DF4940086499C /* HtmlString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

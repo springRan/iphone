@@ -43,6 +43,14 @@
     return [NSString stringWithFormat:@"%@%@", HOST_ADDR, rest];
 }
 
++(NSString *) likeUrl:(NSString *)linkId{
+    return [NSString stringWithFormat:@"%@/links/likeOrDislike/%@/like.json",HOST_ADDR,linkId];
+}
+
++(NSString *) dislikeUrl:(NSString *)linkId{
+    return [NSString stringWithFormat:@"%@/links/likeOrDislike/%@/dislike.json",HOST_ADDR,linkId];
+}
+
 -(void)dealloc{
     [super dealloc];
 }

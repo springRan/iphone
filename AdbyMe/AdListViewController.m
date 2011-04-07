@@ -266,7 +266,7 @@
 
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath{
     int row = [indexPath row];
-    NSString *rowString = [NSString stringWithFormat:@"row%d",row];
+    //NSString *rowString = [NSString stringWithFormat:@"row%d",row];
     
     NSDictionary *dict = [self.adArray objectAtIndex:row];
     NSDictionary *adDict = [dict objectForKey:@"Ad"];
@@ -276,10 +276,10 @@
     //adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
     titleLabel.text =  adTitle;
     
-    NSNumber *number = [self.numberOfLinesDictionary valueForKey:rowString];
-    int numberOfLines = [number intValue];
+    //NSNumber *number = [self.numberOfLinesDictionary valueForKey:rowString];
+    //int numberOfLines = [number intValue];
     
-    if (numberOfLines > 3) {
+    /*if (numberOfLines > 3) {
         double addHeight = (numberOfLines - 3) * 20.0;
         [self addHeight:addHeight forView:cell.contentView];
         [self addHeight:addHeight forView:[cell viewWithTag:ADTEXT]];
@@ -293,16 +293,20 @@
         [self addY:addHeight forView:[cell viewWithTag:COPY_ICON]];
         [self addY:addHeight forView:[cell viewWithTag:COPY_TEXT]];
         [self addY:addHeight/2 forView:[cell viewWithTag:GO_ICON]];
-    }
+    }*/
+    
+    NSNumberFormatter *formatter = [[[NSNumberFormatter alloc]init]autorelease];
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     
     UILabel *uvLabel = (UILabel *)[cell viewWithTag:UV_TEXT];
-    uvLabel.text = [adDict objectForKey:@"uv"];
+    
+    uvLabel.text = [formatter stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"uv"] intValue]]];
     
     UILabel *copyLabel = (UILabel *)[cell viewWithTag:COPY_TEXT];
-    copyLabel.text = [adDict objectForKey:@"copy"];
+    copyLabel.text = [formatter stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"copy"] intValue]]];
     
     UILabel *cpcLabel = (UILabel *)[cell viewWithTag:CPC_TEXT];
-    cpcLabel.text = [NSString stringWithFormat:@"$ %@",[adDict objectForKey:@"cpc"]];
+    cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
     
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:AD_IMAGE];
     UIImage *image = (UIImage *)[self.imageArray objectAtIndex:row];
@@ -319,8 +323,10 @@
         [cpcLabel setHidden:NO];
         UIImageView *statusBgImageView = (UIImageView *)[cell viewWithTag:STATUS_BGIMAGE];
         UIImageView *statusImageView = (UIImageView *)[cell viewWithTag:STATUS_IMAGE];
-        
-        [statusImageView setHidden:NO];
+        CGRect frame = statusImageView.frame;
+        frame.size.width = 15;
+        frame.origin.x = 11;
+        [statusImageView setFrame:frame];
         [statusImageView setImage:[UIImage imageNamed:@"activeicon.png"]];
         [statusBgImageView setImage:[UIImage imageNamed:@"activeCPUV.png"]];
     } else{
@@ -328,7 +334,10 @@
         [cpcLabel setHidden:YES];
         UIImageView *statusBgImageView = (UIImageView *)[cell viewWithTag:STATUS_BGIMAGE];
         UIImageView *statusImageView = (UIImageView *)[cell viewWithTag:STATUS_IMAGE];
-        
+        CGRect frame = statusImageView.frame;
+        frame.size.width = 7;
+        frame.origin.x = 15;
+        [statusImageView setFrame:frame];
         [statusImageView setImage:[UIImage imageNamed:@"pausedicon.png"]];
         [statusBgImageView setImage:[UIImage imageNamed:@"pausedCPUV.png"]];
     }

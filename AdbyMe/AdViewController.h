@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 
-@interface AdViewController : UIViewController <ASIHTTPRequestDelegate> {
+@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource> {
     NSString *adId;
     
     UIView *adHeaderView;
@@ -31,6 +32,15 @@
     
     NSString *sinceUrl;
     
+    UITableViewCell *adCell;
+    NSMutableDictionary *numberOfLinesDictionary;
+    NSMutableDictionary *userDictionary;
+    NSMutableDictionary *sloganDictionary;
+    NSMutableDictionary *linkDictionary;
+    NSMutableDictionary *createdDictionary;
+    NSMutableDictionary *uvDictionary;
+    NSMutableDictionary *linkIdDictionary;
+    NSMutableDictionary *linkScoreDictionary;
 }
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
@@ -47,10 +57,23 @@
 @property (nonatomic, retain) NSString *bestSloganId;
 @property (nonatomic, retain) NSArray *sloganArray;
 @property (nonatomic, retain) NSString *sinceUrl;
+@property (nonatomic, retain) IBOutlet UITableViewCell *adCell;
+@property (nonatomic, retain) NSMutableDictionary *numberOfLinesDictionary;
+@property (nonatomic, retain) NSMutableDictionary *userDictionary;
+@property (nonatomic, retain) NSMutableDictionary *sloganDictionary;
+@property (nonatomic, retain) NSMutableDictionary *linkDictionary;
+@property (nonatomic, retain) NSMutableDictionary *createdDictionary;
+@property (nonatomic, retain) NSMutableDictionary *uvDictionary;
+@property (nonatomic, retain) NSMutableDictionary *linkIdDictionary;
+@property (nonatomic, retain) NSMutableDictionary *linkScoreDictionary;
 
 
 -(void)loadAd;
 -(void)loadSlogan;
 -(void)configHeaderView;
-
+-(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath;
+-(void) addHeight:(double)addHeight forView:(UIView *)cellView;
+-(void) addY:(double)addHeight forView:(UIView *)cellView;
+-(IBAction) likeButtonClicked:(id)sender;
+-(IBAction) dislikeButtonClicked:(id)sender;
 @end

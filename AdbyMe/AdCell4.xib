@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1056</int>
-		<string key="IBDocument.SystemVersion">10J567</string>
+		<string key="IBDocument.SystemVersion">10J869</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
 		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">462.00</string>
+		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">301</string>
@@ -225,7 +225,7 @@
 											<object class="IBUILabel" id="872989706">
 												<reference key="NSNextResponder" ref="589249286"/>
 												<int key="NSvFlags">292</int>
-												<string key="NSFrame">{{111, 5}, {180, 60}}</string>
+												<string key="NSFrame">{{111, 5}, {180, 38}}</string>
 												<reference key="NSSuperview" ref="589249286"/>
 												<reference key="NSNextKeyView" ref="998360692"/>
 												<bool key="IBUIOpaque">NO</bool>
@@ -234,7 +234,7 @@
 												<int key="IBUITag">1024</int>
 												<bool key="IBUIUserInteractionEnabled">NO</bool>
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<string key="IBUIText">I know what you did last summer. So Listen to me baby right now.</string>
+												<string key="IBUIText">I know what you did last summer. So Listen</string>
 												<reference key="IBUIFont" ref="339652122"/>
 												<object class="NSColor" key="IBUITextColor">
 													<int key="NSColorSpace">1</int>
@@ -242,8 +242,8 @@
 												</object>
 												<nil key="IBUIHighlightedColor"/>
 												<int key="IBUIBaselineAdjustment">1</int>
-												<float key="IBUIMinimumFontSize">10</float>
-												<int key="IBUINumberOfLines">0</int>
+												<float key="IBUIMinimumFontSize">16</float>
+												<int key="IBUINumberOfLines">2</int>
 											</object>
 											<object class="IBUIImageView" id="187306966">
 												<reference key="NSNextResponder" ref="589249286"/>
