@@ -24,6 +24,10 @@
     UILabel *sloganLabel;
     UITextView *adTextView;
     UIImageView *adImageView;
+    UILabel *cpcLabel;
+    NSString *bestSloganId;
+    
+    NSArray *sloganArray;
     
 }
 @property (nonatomic, retain) NSString *adId;
@@ -37,8 +41,13 @@
 @property (nonatomic, retain) IBOutlet UILabel *sloganLabel;
 @property (nonatomic, retain) IBOutlet UITextView *adTextView;
 @property (nonatomic, retain) IBOutlet UIImageView *adImageView;
+@property (nonatomic, retain) IBOutlet UILabel *cpcLabel;
+@property (nonatomic, retain) NSString *bestSloganId;
+@property (nonatomic, retain) NSArray *sloganArray;
+
 
 -(void)loadAd;
+-(void)loadSlogan;
 -(void)configHeaderView;
 
 @end

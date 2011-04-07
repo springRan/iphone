@@ -85,7 +85,7 @@
 }
 
 -(void) loginCheck{
-    NSLog(@"%@",[Address loginURL]);
+    //NSLog(@"%@",[Address loginURL]);
     NSURL *url = [NSURL URLWithString:[Address loginURL]];
     if(request){
         [request clearDelegatesAndCancel];

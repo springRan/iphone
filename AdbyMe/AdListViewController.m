@@ -67,6 +67,8 @@
 - (void)dealloc
 {
     
+    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
+    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
     [request clearDelegatesAndCancel];  // Cancel request.
 
     [theTableView release];
@@ -103,6 +105,7 @@
     self.updateButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(updateButtonClicked)];
     self.navigationItem.leftBarButtonItem = self.updateButton;
     self.navigationItem.rightBarButtonItem = self.settingButton;
+    self.navigationItem.hidesBackButton = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -114,7 +117,7 @@
 
 -(void)updateDashboard{
     AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
-    NSLog(@"%@",delegate.userDictionary);
+    //NSLog(@"%@",delegate.userDictionary);
     
     self.reservedLabel.text = [NSString stringWithFormat:@"$%@",[delegate.userDictionary objectForKey:@"reserved"]];
     self.availableLabel.text =[NSString stringWithFormat:@"$%@",[delegate.userDictionary objectForKey:@"deposit"]]; 
@@ -128,7 +131,6 @@
 
 -(void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    self.navigationItem.hidesBackButton = YES;
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -143,8 +145,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
-    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
 }
 
 -(void) logout{
@@ -214,7 +214,7 @@
         NSDictionary *dict = [self.adArray objectAtIndex:i];
         NSDictionary *adDict = [dict objectForKey:@"Ad"];
         NSString *adTitle = [adDict objectForKey:@"title"];
-        NSLog(@"%@",adTitle);
+        //NSLog(@"%@",adTitle);
         //adTitle = @"I know what you did last summer. So Listen to me baby right now. I love you";
         CGSize labelSize = [adTitle sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
         NSString *rowString = [NSString stringWithFormat:@"row%d",i];
@@ -350,7 +350,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"count: %d",[self.adArray count]);
+    //NSLog(@"count: %d",[self.adArray count]);
     return [self.adArray count];
 }
 
