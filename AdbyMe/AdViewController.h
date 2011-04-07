@@ -18,6 +18,13 @@
     NSDictionary *adDictionary;
     
     ASIHTTPRequest *request;
+    
+    UILabel *adTitleLabel;
+    UILabel *uvLabel;
+    UILabel *sloganLabel;
+    UITextView *adTextView;
+    UIImageView *adImageView;
+    
 }
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
@@ -25,6 +32,13 @@
 @property (nonatomic, retain) NSDictionary *adDictionary;
 @property (nonatomic, retain) ASIHTTPRequest *request;
 
+@property (nonatomic, retain) IBOutlet UILabel *adTitleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *uvLabel;
+@property (nonatomic, retain) IBOutlet UILabel *sloganLabel;
+@property (nonatomic, retain) IBOutlet UITextView *adTextView;
+@property (nonatomic, retain) IBOutlet UIImageView *adImageView;
+
 -(void)loadAd;
+-(void)configHeaderView;
 
 @end

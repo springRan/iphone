@@ -87,7 +87,12 @@
 -(void) loginCheck{
     NSLog(@"%@",[Address loginURL]);
     NSURL *url = [NSURL URLWithString:[Address loginURL]];
-    request = [ASIFormDataRequest requestWithURL:url];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
+    request = [[ASIFormDataRequest alloc] initWithURL:url];
     [request setPostValue:emailField.text forKey:@"data[User][username_or_email]"];
     [request setPostValue:passwordField.text forKey:@"data[User][password]"];
     [request startAsynchronous];

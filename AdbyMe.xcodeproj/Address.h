@@ -16,6 +16,7 @@
 
 
 +(NSString *) loginURL;
++(NSString *) logoutURL;
 +(NSString *) checkEmailURL;
 +(NSString *) checkUsernameURL;
 +(NSString *) registerURL;

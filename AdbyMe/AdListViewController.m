@@ -148,7 +148,16 @@
 }
 
 -(void) logout{
-    [[self navigationController]popViewControllerAnimated:YES];
+    NSURL *url = [NSURL URLWithString:[Address logoutURL]];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
+    request = [[ASIHTTPRequest alloc] initWithURL:url];
+    [request setDelegate:self];
+    [request setDidFinishSelector:@selector(logoutRequestDone:)];
+    [request startAsynchronous];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -171,8 +180,12 @@
     NSURL *url = [NSURL URLWithString:[Address adListURL]];
     NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
     [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
-    
-    request = [ASIHTTPRequest requestWithURL:url];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
+    request = [[ASIHTTPRequest alloc] initWithURL:url];
     [request startAsynchronous];
     [request setDelegate:self];
 }
@@ -421,4 +434,7 @@
 }
 
 
+- (void)logoutRequestDone:(ASIHTTPRequest *)aRequest {
+    [[self navigationController] popViewControllerAnimated:YES];
+}
 @end

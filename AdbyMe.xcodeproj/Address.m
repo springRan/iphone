@@ -15,6 +15,10 @@
     return [NSString stringWithFormat:@"%@/users/login.json",HOST_ADDR];
 }
 
++(NSString *) logoutURL {
+    return [NSString stringWithFormat:@"%@/users/logout.json",HOST_ADDR];
+}
+
 +(NSString *) checkEmailURL {
     return [NSString stringWithFormat:@"%@/users/checkRegister/email.json",HOST_ADDR];
 }

@@ -16,6 +16,11 @@
 @synthesize theTableView;
 @synthesize adDictionary;
 @synthesize request;
+@synthesize adTitleLabel;
+@synthesize uvLabel;
+@synthesize sloganLabel;
+@synthesize adTextView;
+@synthesize adImageView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,11 +34,18 @@
 
 - (void)dealloc
 {
+    [request clearDelegatesAndCancel];  // Cancel request.
+    
     [adId release];
     [adHeaderView release];
     [theTableView release];
     [adDictionary release];
     [request release];
+    [adTitleLabel release];
+    [uvLabel release];
+    [adImageView release];
+    [sloganLabel release];
+    [adTextView release];
     [super dealloc];
 }
 
@@ -105,15 +117,12 @@
 {
     // Use when fetching text data
     NSString *responseString = [aRequest responseString];
-    NSLog(@"%@",responseString);
     SBJsonParser *parser = [SBJsonParser new];
     NSError *error = nil;
     adDictionary = [parser objectWithString:responseString error:&error];
-    NSLog(@"%@",adDictionary);
-    NSLog(@"%@",[error description]);
-    NSArray *arr = [parser objectWithString:responseString error:&error];
-    NSLog(@"%@",arr);
-    NSLog(@"%@",[error description]);
+    
+    [self configHeaderView];
+    
     [self.theTableView reloadData];
 }
 
@@ -123,6 +132,13 @@
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
+}
+
+-(void)configHeaderView{
+    NSDictionary *adDict = [self.adDictionary objectForKey:@"ad"];
+    adDict = [adDict objectForKey:@"Ad"];
+    
+    NSLog(@"%@",adDict);
 }
 
 @end
