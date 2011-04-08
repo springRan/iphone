@@ -95,8 +95,9 @@
     request = [[ASIFormDataRequest alloc] initWithURL:url];
     [request setPostValue:emailField.text forKey:@"data[User][username_or_email]"];
     [request setPostValue:passwordField.text forKey:@"data[User][password]"];
-    [request startAsynchronous];
     [request setDelegate:self];
+    [request startAsynchronous];
+
     [self.activityIndicatorView startAnimating];
 
 }

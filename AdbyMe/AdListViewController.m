@@ -180,14 +180,11 @@
     NSURL *url = [NSURL URLWithString:[Address adListURL]];
     NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
     [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
-    if(request){
-        [request clearDelegatesAndCancel];
-        [request release];
-        request = nil;
-    }
-    request = [[ASIHTTPRequest alloc] initWithURL:url];
-    [request startAsynchronous];
-    [request setDelegate:self];
+    
+    [self.request clearDelegatesAndCancel];
+    self.request = [[ASIHTTPRequest alloc] initWithURL:url];
+    [self.request setDelegate:self];
+    [self.request startAsynchronous];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)aRequest
