@@ -24,6 +24,9 @@
 
 #define FONT_HEIGHT 18
 
+#define DISLIKE_ACTIONSHEET 2048
+#define WRITE_ACTIONSHEET 2049
+
 @implementation AdViewController
 @synthesize adId;
 @synthesize adHeaderView;
@@ -259,14 +262,12 @@
 
 -(void)loadAd{
     NSURL *url = [NSURL URLWithString:[Address adUrl:self.adId]];
-    if(request){
-        [request clearDelegatesAndCancel];
-        [request release];
-        request =nil;
-    }
-    request = [[ASIHTTPRequest alloc] initWithURL:url];
-    [request startAsynchronous];
-    [request setDelegate:self];
+    
+    [self.request clearDelegatesAndCancel];
+    self.request = [[ASIHTTPRequest alloc] initWithURL:url];
+    [self.request setDelegate:self];
+    [self.request startAsynchronous];
+
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)aRequest
@@ -275,7 +276,7 @@
     NSString *responseString = [aRequest responseString];
     SBJsonParser *parser = [SBJsonParser new];
     NSError *error = nil;
-    adDictionary = [parser objectWithString:responseString error:&error];
+    self.adDictionary = [parser objectWithString:responseString error:&error];
     
     [self configHeaderView];
     
@@ -295,24 +296,22 @@
 -(void)configHeaderView{
     NSDictionary *adDict = [self.adDictionary objectForKey:@"ad"];
     adDict = [adDict objectForKey:@"Ad"];
-    
-//    NSLog(@"%@",adDict);
-    
-    adTextView.text = [adDict objectForKey:@"text"];
-    adTitleLabel.text = [adDict objectForKey:@"title"];
+        
+    self.adTextView.text = [adDict objectForKey:@"text"];
+    self.adTitleLabel.text = [adDict objectForKey:@"title"];
     NSNumberFormatter *formatter2 = [[[NSNumberFormatter alloc]init]autorelease];
     [formatter2 setNumberStyle:NSNumberFormatterDecimalStyle];
 
-    uvLabel.text = [formatter2 stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"uv"] intValue]]];
-    sloganLabel.text = [NSString stringWithFormat:@"%@ slogans",[adDict objectForKey:@"copy"]];
+    self.uvLabel.text = [formatter2 stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"uv"] intValue]]];
+    self.sloganLabel.text = [NSString stringWithFormat:@"%@ slogans",[adDict objectForKey:@"copy"]];
     
     NSURL *url = [NSURL URLWithString:[adDict objectForKey:@"image"]];
     NSData *data = [NSData dataWithContentsOfURL:url];
     adImageView.image = [UIImage imageWithData:data];
     
-    cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
+    self.cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
     
-    bestSloganId = [adDict objectForKey:@"best_slogan_id"];
+    self.bestSloganId = [adDict objectForKey:@"best_slogan_id"];
 }
 
 -(void)loadSlogan{
@@ -364,7 +363,7 @@
         //NSLog(@"%lf %lf",labelSize.width, labelSize.height);
     }
     
-    sinceUrl = [self.adDictionary objectForKey:@"since_url"];
+    self.sinceUrl = [self.adDictionary objectForKey:@"since_url"];
     //NSLog(@"%@",sinceUrl);
 }
 
@@ -382,17 +381,14 @@
     NSIndexPath *indexPath = [theTableView indexPathForCell:cell];
     NSLog(@"Like");
     NSLog(@"%d",[indexPath row]);
-    if(request){
-        [request clearDelegatesAndCancel];
-        [request release];
-        request =nil;
-    }
+    
     NSURL *url = [NSURL URLWithString:[Address likeUrl:(NSString *)[self.linkIdDictionary objectForKey:indexPath]]];
     
-    request = [[ASIHTTPRequest alloc] initWithURL:url];
-    [request startAsynchronous];
-    [request setDelegate:self];
-    [request setDidFinishSelector:@selector(likeRequestDone:)];
+    [self.request clearDelegatesAndCancel];
+    self.request = [[ASIHTTPRequest alloc] initWithURL:url];
+    [self.request setDelegate:self];
+    [self.request setDidFinishSelector:@selector(likeRequestDone:)];
+    [self.request startAsynchronous];
 }
 -(IBAction) dislikeButtonClicked:(id)sender{
     UIButton *button = (UIButton *)sender;
@@ -425,4 +421,18 @@
         [alertView release];
     }
 }
+
+-(IBAction) writeButtonClicked{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self  cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"twitter",@"facebook",@"me2day", nil];
+    actionSheet.tag = WRITE_ACTIONSHEET;
+    [actionSheet showInView:self.view];
+    [actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (actionSheet.tag = WRITE_ACTIONSHEET) {
+        
+    }
+}
+
 @end

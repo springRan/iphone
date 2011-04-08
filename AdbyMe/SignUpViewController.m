@@ -271,30 +271,24 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField == self.emailTextField) {
         NSURL *url = [NSURL URLWithString:[Address checkEmailURL]];
-        if(request){
-            [request clearDelegatesAndCancel];
-            [request release];
-            request = nil;
-        }
+        
+        [self.request clearDelegatesAndCancel];
         self.request = [[ASIFormDataRequest alloc] initWithURL:url];
-        [request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
-        [request setDelegate:self];
-        [request setDidFinishSelector:@selector(emailRequestDone:)];
-        [request setDidFailSelector:@selector(requestWentWrong:)];
-        [request startAsynchronous];
+        [self.request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
+        [self.request setDelegate:self];
+        [self.request setDidFinishSelector:@selector(emailRequestDone:)];
+        [self.request setDidFailSelector:@selector(requestWentWrong:)];
+        [self.request startAsynchronous];
     } else if (textField == self.usernameTextField) {
         NSURL *url = [NSURL URLWithString:[Address checkUsernameURL]];
-        if(request){
-            [request clearDelegatesAndCancel];
-            [request release];
-            request = nil;
-        }
+
+        [self.request clearDelegatesAndCancel];
         self.request = [[ASIFormDataRequest alloc] initWithURL:url];
-        [request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
-        [request setDelegate:self];
-        [request setDidFinishSelector:@selector(usernameRequestDone:)];
-        [request setDidFailSelector:@selector(requestWentWrong:)];
-        [request startAsynchronous];
+        [self.request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
+        [self.request setDelegate:self];
+        [self.request setDidFinishSelector:@selector(usernameRequestDone:)];
+        [self.request setDidFailSelector:@selector(requestWentWrong:)];
+        [self.request startAsynchronous];
         
     } else if (textField == self.passwordTextField) {
         if ([self.passwordTextField.text length] <= 4) {
@@ -359,21 +353,17 @@
 
 -(IBAction) submitClicked{
     NSURL *url = [NSURL URLWithString:[Address registerURL]];
-    if(request){
-        [request clearDelegatesAndCancel];
-        [request release];
-        request = nil;
-    }
-    
+
+    [self.request clearDelegatesAndCancel];    
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
-    [request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
-    [request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
-    [request setPostValue:self.passwordTextField.text forKey:@"data[User][password]"];
-    [request setPostValue:self.nameTextField.text forKey:@"data[User][name]"];
-    [request setDelegate:self];
-    [request setDidFinishSelector:@selector(registerRequestDone:)];
-    [request setDidFailSelector:@selector(requestWentWrong:)];
-    [request startAsynchronous];
+    [self.request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
+    [self.request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
+    [self.request setPostValue:self.passwordTextField.text forKey:@"data[User][password]"];
+    [self.request setPostValue:self.nameTextField.text forKey:@"data[User][name]"];
+    [self.request setDelegate:self];
+    [self.request setDidFinishSelector:@selector(registerRequestDone:)];
+    [self.request setDidFailSelector:@selector(requestWentWrong:)];
+    [self.request startAsynchronous];
     [self.activityIndicatorView startAnimating];
 }
 
