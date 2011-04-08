@@ -421,4 +421,18 @@
         [alertView release];
     }
 }
+
+-(IBAction) writeButtonClicked{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self  cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"twitter",@"facebook",@"me2day", nil];
+    actionSheet.tag = WRITE_ACTIONSHEET;
+    [actionSheet showInView:self.view];
+    [actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (actionSheet.tag = WRITE_ACTIONSHEET) {
+        
+    }
+}
+
 @end

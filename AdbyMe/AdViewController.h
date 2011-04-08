@@ -10,7 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 
-@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource> {
+@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate> {
     NSString *adId;
     
     UIView *adHeaderView;
@@ -76,4 +76,5 @@
 -(void) addY:(double)addHeight forView:(UIView *)cellView;
 -(IBAction) likeButtonClicked:(id)sender;
 -(IBAction) dislikeButtonClicked:(id)sender;
+-(IBAction) writeButtonClicked;
 @end
