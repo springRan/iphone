@@ -19,6 +19,7 @@
 @synthesize activityBarButton;
 @synthesize activityIndicatorView;
 @synthesize request;
+@synthesize loginButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +38,7 @@
     [request clearDelegatesAndCancel];  // Cancel request.
 
     [emailField release];
+    [loginButton release];
     [passwordField release];
     [activityBarButton release];
     [activityIndicatorView release];
@@ -62,7 +64,8 @@
     self.activityIndicatorView.hidesWhenStopped = YES;
 
     self.activityBarButton = [[UIBarButtonItem alloc]initWithCustomView:self.activityIndicatorView];
-    self.navigationItem.rightBarButtonItem = self.activityBarButton;
+    self.loginButton = [[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStyleDone target:self action:@selector(loginCheck)];
+    self.navigationItem.rightBarButtonItem = self.loginButton;
 }
 
 - (void)viewDidUnload
@@ -86,6 +89,9 @@
 
 -(void) loginCheck{
     //NSLog(@"%@",[Address loginURL]);
+    
+    self.navigationItem.rightBarButtonItem = self.activityBarButton;
+    
     NSURL *url = [NSURL URLWithString:[Address loginURL]];
     if(request){
         [request clearDelegatesAndCancel];
@@ -120,7 +126,9 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         [alertView release];
+        
     }
+    self.navigationItem.rightBarButtonItem = self.loginButton;
 //    NSLog(@"%@",dict);
 }
 

@@ -24,6 +24,9 @@
 
 #define FONT_HEIGHT 18
 
+#define DISLIKE_ACTIONSHEET 2048
+#define WRITE_ACTIONSHEET 2049
+
 @implementation AdViewController
 @synthesize adId;
 @synthesize adHeaderView;
