@@ -13,6 +13,8 @@
 #define FACEBOOK 1025
 #define ME2DAY 1026
 
+#define MAX_COPY_LENGTH 140
+
 @implementation WriteSloganViewController
 @synthesize snsType;
 @synthesize publishButton;
@@ -20,6 +22,9 @@
 @synthesize usernameLabel;
 @synthesize leftCharLabel;
 @synthesize copyInputView;
+@synthesize linkButton;
+@synthesize keywordView;
+@synthesize keywordLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +42,9 @@
     [snsImageView release];
     [usernameLabel release];
     [leftCharLabel release];
+    [linkButton release];
+    [keywordView release];
+    [keywordLabel release];
     [copyInputView release];
     [super dealloc];
 }
@@ -72,6 +80,8 @@
     AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
     self.usernameLabel.text = [delegate.userDictionary objectForKey:@"username"];
     [self.usernameLabel sizeToFit];
+    [self setLinkButtonUrl:@"http://adby.me/wg324t"];
+    
 }
 
 - (void)viewDidUnload
@@ -89,6 +99,19 @@
 
 -(void)publishButtonClicked{
     
+}
+
+-(void)updateLeftLabel:(int)length{
+    int remain =  MAX_COPY_LENGTH - length;
+    leftCharLabel.text = [NSString stringWithFormat:@"%d",remain];
+}
+- (void)textViewDidChange:(UITextView *)textView{
+    [self updateLeftLabel:[textView.text length]];
+}
+-(void)setLinkButtonUrl:(NSString *)url{
+    NSString *urlText = [NSString stringWithFormat:@"     %@",url];
+    [self.linkButton setTitle:urlText forState:UIControlStateNormal];
+    [self.linkButton setTitle:urlText forState:UIControlStateHighlighted];
 }
 
 @end

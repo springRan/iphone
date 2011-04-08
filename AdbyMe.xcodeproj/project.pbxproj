@@ -143,6 +143,12 @@
 		73768510134CA95F00410773 /* AdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7376850E134CA95B00410773 /* AdViewController.m */; };
 		73768511134CA95F00410773 /* AdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7376850F134CA95D00410773 /* AdViewController.xib */; };
 		738416B3134B7CF300F118E4 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 738416B2134B7CF200F118E4 /* ImageDownloader.m */; };
+		73933A18134F7F1E00DB176D /* fblogo_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 73933A15134F7F1E00DB176D /* fblogo_big.png */; };
+		73933A19134F7F1E00DB176D /* m2logo_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 73933A16134F7F1E00DB176D /* m2logo_big.png */; };
+		73933A1A134F7F1E00DB176D /* twlogo_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 73933A17134F7F1E00DB176D /* twlogo_big.png */; };
+		73933A1F134F7F2600DB176D /* fblogo_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73933A1C134F7F2600DB176D /* fblogo_big@2x.png */; };
+		73933A20134F7F2600DB176D /* m2logo_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73933A1D134F7F2600DB176D /* m2logo_big@2x.png */; };
+		73933A21134F7F2600DB176D /* twlogo_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73933A1E134F7F2600DB176D /* twlogo_big@2x.png */; };
 		73988F68134DD69800D0A2EB /* AdCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73988F67134DD69600D0A2EB /* AdCell3.xib */; };
 		73A559F613478F2500C79C5F /* AdListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A559F413478F2500C79C5F /* AdListViewController.m */; };
 		73A559F713478F2500C79C5F /* AdListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A559F513478F2500C79C5F /* AdListViewController.xib */; };
@@ -351,6 +357,12 @@
 		7376850F134CA95D00410773 /* AdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdViewController.xib; sourceTree = "<group>"; };
 		738416B1134B7CF200F118E4 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		738416B2134B7CF200F118E4 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		73933A15134F7F1E00DB176D /* fblogo_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fblogo_big.png; sourceTree = "<group>"; };
+		73933A16134F7F1E00DB176D /* m2logo_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m2logo_big.png; sourceTree = "<group>"; };
+		73933A17134F7F1E00DB176D /* twlogo_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twlogo_big.png; sourceTree = "<group>"; };
+		73933A1C134F7F2600DB176D /* fblogo_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fblogo_big@2x.png"; sourceTree = "<group>"; };
+		73933A1D134F7F2600DB176D /* m2logo_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "m2logo_big@2x.png"; sourceTree = "<group>"; };
+		73933A1E134F7F2600DB176D /* twlogo_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twlogo_big@2x.png"; sourceTree = "<group>"; };
 		73988F67134DD69600D0A2EB /* AdCell3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdCell3.xib; sourceTree = "<group>"; };
 		73A559F313478F2500C79C5F /* AdListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdListViewController.h; sourceTree = "<group>"; };
 		73A559F413478F2500C79C5F /* AdListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdListViewController.m; sourceTree = "<group>"; };
@@ -747,6 +759,12 @@
 				73F19986134F7762009F174D /* copyinput@2x.png */,
 				73F19987134F7762009F174D /* shrotlink-def@2x.png */,
 				73F19988134F7762009F174D /* shrotlink-sel@2x.png */,
+				73933A15134F7F1E00DB176D /* fblogo_big.png */,
+				73933A16134F7F1E00DB176D /* m2logo_big.png */,
+				73933A17134F7F1E00DB176D /* twlogo_big.png */,
+				73933A1C134F7F2600DB176D /* fblogo_big@2x.png */,
+				73933A1D134F7F2600DB176D /* m2logo_big@2x.png */,
+				73933A1E134F7F2600DB176D /* twlogo_big@2x.png */,
 			);
 			name = 4;
 			sourceTree = "<group>";
@@ -915,6 +933,12 @@
 				73F19989134F7762009F174D /* copyinput@2x.png in Resources */,
 				73F1998A134F7762009F174D /* shrotlink-def@2x.png in Resources */,
 				73F1998B134F7762009F174D /* shrotlink-sel@2x.png in Resources */,
+				73933A18134F7F1E00DB176D /* fblogo_big.png in Resources */,
+				73933A19134F7F1E00DB176D /* m2logo_big.png in Resources */,
+				73933A1A134F7F1E00DB176D /* twlogo_big.png in Resources */,
+				73933A1F134F7F2600DB176D /* fblogo_big@2x.png in Resources */,
+				73933A20134F7F2600DB176D /* m2logo_big@2x.png in Resources */,
+				73933A21134F7F2600DB176D /* twlogo_big@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
