@@ -10,6 +10,7 @@
 #import "Address.h"
 #import "SBJsonParser.h"
 #import "HtmlString.h"
+#import "WriteSloganViewController.h"
 
 #define AVATAR_VIEW 1024
 #define UPDOWN_VIEW 1026
@@ -26,6 +27,11 @@
 
 #define DISLIKE_ACTIONSHEET 2048
 #define WRITE_ACTIONSHEET 2049
+
+#define TWITTER 0
+#define FACEBOOK 1
+#define ME2DAY 2
+#define CANCEL 3
 
 @implementation AdViewController
 @synthesize adId;
@@ -430,8 +436,13 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (actionSheet.tag = WRITE_ACTIONSHEET) {
-        
+    if (actionSheet.tag == WRITE_ACTIONSHEET) {
+        if (buttonIndex != CANCEL){
+            WriteSloganViewController *wViewController = [[WriteSloganViewController alloc]initWithNibName:@"WriteSloganViewController" bundle:nil];
+            wViewController.snsType = 1024+buttonIndex;
+            [[self navigationController] pushViewController:wViewController animated:YES];
+            [wViewController release];
+        }
     }
 }
 

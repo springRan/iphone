@@ -316,11 +316,12 @@
     NSString *temp = @"";
     int len = [fullDescriptionString length];
     for (int i = 0; i < len; ++i) {
-        temp = [NSString stringWithFormat:@"%@%c",temp,[fullDescriptionString characterAtIndex:i]];
+        temp = [fullDescriptionString substringToIndex:i];
+        //NSLog(@"%@",temp);
         CGSize labelSize = [temp sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
         int lines = labelSize.height / DESCRIPTION_FONT_HEIGHT;
         if (lines <= 2)
-            descriptionLabel = [NSString stringWithString:temp];
+            descriptionString = [NSString stringWithString:temp];
     }
     
     descriptionLabel.text = descriptionString;
@@ -337,7 +338,6 @@
     
     NSString *status = [adDict objectForKey:@"status"];
     if ([status isEqualToString:@"active"]){
-        [cpcLabel setHidden:NO];
         UIImageView *statusBgImageView = (UIImageView *)[cell viewWithTag:STATUS_BGIMAGE];
         UIImageView *statusImageView = (UIImageView *)[cell viewWithTag:STATUS_IMAGE];
         CGRect frame = statusImageView.frame;
@@ -347,8 +347,7 @@
         [statusImageView setImage:[UIImage imageNamed:@"activeicon.png"]];
         [statusBgImageView setImage:[UIImage imageNamed:@"activeCPUV.png"]];
     } else{
-        
-        [cpcLabel setHidden:YES];
+        cpcLabel.text = @"sold out";
         UIImageView *statusBgImageView = (UIImageView *)[cell viewWithTag:STATUS_BGIMAGE];
         UIImageView *statusImageView = (UIImageView *)[cell viewWithTag:STATUS_IMAGE];
         CGRect frame = statusImageView.frame;

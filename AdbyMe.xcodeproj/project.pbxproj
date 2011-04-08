@@ -152,6 +152,14 @@
 		73D2F6B2134854E00065F9D2 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D2F6B1134854E00065F9D2 /* Address.m */; };
 		73F085B5134DF4940086499C /* HtmlString.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F085B4134DF4940086499C /* HtmlString.m */; };
 		73F085B7134E02E50086499C /* dora_normal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73F085B6134E02E50086499C /* dora_normal.jpg */; };
+		73F1997C134F6FD8009F174D /* WriteSloganViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F1997A134F6FD8009F174D /* WriteSloganViewController.m */; };
+		73F1997D134F6FD8009F174D /* WriteSloganViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F1997B134F6FD8009F174D /* WriteSloganViewController.xib */; };
+		73F19983134F775A009F174D /* copyinput.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F19980134F775A009F174D /* copyinput.png */; };
+		73F19984134F775A009F174D /* shrotlink-def.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F19981134F775A009F174D /* shrotlink-def.png */; };
+		73F19985134F775A009F174D /* shrotlink-sel.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F19982134F775A009F174D /* shrotlink-sel.png */; };
+		73F19989134F7762009F174D /* copyinput@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F19986134F7762009F174D /* copyinput@2x.png */; };
+		73F1998A134F7762009F174D /* shrotlink-def@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F19987134F7762009F174D /* shrotlink-def@2x.png */; };
+		73F1998B134F7762009F174D /* shrotlink-sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F19988134F7762009F174D /* shrotlink-sel@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -357,6 +365,15 @@
 		73F085B3134DF4940086499C /* HtmlString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HtmlString.h; sourceTree = "<group>"; };
 		73F085B4134DF4940086499C /* HtmlString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HtmlString.m; sourceTree = "<group>"; };
 		73F085B6134E02E50086499C /* dora_normal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dora_normal.jpg; sourceTree = "<group>"; };
+		73F19979134F6FD8009F174D /* WriteSloganViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteSloganViewController.h; sourceTree = "<group>"; };
+		73F1997A134F6FD8009F174D /* WriteSloganViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteSloganViewController.m; sourceTree = "<group>"; };
+		73F1997B134F6FD8009F174D /* WriteSloganViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WriteSloganViewController.xib; sourceTree = "<group>"; };
+		73F19980134F775A009F174D /* copyinput.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copyinput.png; sourceTree = "<group>"; };
+		73F19981134F775A009F174D /* shrotlink-def.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shrotlink-def.png"; sourceTree = "<group>"; };
+		73F19982134F775A009F174D /* shrotlink-sel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shrotlink-sel.png"; sourceTree = "<group>"; };
+		73F19986134F7762009F174D /* copyinput@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "copyinput@2x.png"; sourceTree = "<group>"; };
+		73F19987134F7762009F174D /* shrotlink-def@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shrotlink-def@2x.png"; sourceTree = "<group>"; };
+		73F19988134F7762009F174D /* shrotlink-sel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shrotlink-sel@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -455,6 +472,9 @@
 				7376850F134CA95D00410773 /* AdViewController.xib */,
 				7361F87E134CC86B00F84E0D /* AdHeaderView.xib */,
 				73988F67134DD69600D0A2EB /* AdCell3.xib */,
+				73F19979134F6FD8009F174D /* WriteSloganViewController.h */,
+				73F1997A134F6FD8009F174D /* WriteSloganViewController.m */,
+				73F1997B134F6FD8009F174D /* WriteSloganViewController.xib */,
 				7312C9B71348C80200A33091 /* SNSSettingViewController.h */,
 				7312C9B81348C80200A33091 /* SNSSettingViewController.m */,
 				7312C9B91348C80200A33091 /* SNSSettingViewController.xib */,
@@ -607,6 +627,7 @@
 				733C8DCC13486D9900A51FEC /* 1 */,
 				733C8DCD13486DA400A51FEC /* 2 */,
 				73C07C51134C9DB80035AFE4 /* 3 */,
+				73F1997F134F774B009F174D /* 4 */,
 			);
 			name = Image;
 			sourceTree = "<group>";
@@ -715,6 +736,19 @@
 				737684F1134C9E5B00410773 /* writebtn@2x.png */,
 			);
 			name = 3;
+			sourceTree = "<group>";
+		};
+		73F1997F134F774B009F174D /* 4 */ = {
+			isa = PBXGroup;
+			children = (
+				73F19980134F775A009F174D /* copyinput.png */,
+				73F19981134F775A009F174D /* shrotlink-def.png */,
+				73F19982134F775A009F174D /* shrotlink-sel.png */,
+				73F19986134F7762009F174D /* copyinput@2x.png */,
+				73F19987134F7762009F174D /* shrotlink-def@2x.png */,
+				73F19988134F7762009F174D /* shrotlink-sel@2x.png */,
+			);
+			name = 4;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -874,6 +908,13 @@
 				7361F87F134CC86B00F84E0D /* AdHeaderView.xib in Resources */,
 				73988F68134DD69800D0A2EB /* AdCell3.xib in Resources */,
 				73F085B7134E02E50086499C /* dora_normal.jpg in Resources */,
+				73F1997D134F6FD8009F174D /* WriteSloganViewController.xib in Resources */,
+				73F19983134F775A009F174D /* copyinput.png in Resources */,
+				73F19984134F775A009F174D /* shrotlink-def.png in Resources */,
+				73F19985134F775A009F174D /* shrotlink-sel.png in Resources */,
+				73F19989134F7762009F174D /* copyinput@2x.png in Resources */,
+				73F1998A134F7762009F174D /* shrotlink-def@2x.png in Resources */,
+				73F1998B134F7762009F174D /* shrotlink-sel@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -950,6 +991,7 @@
 				738416B3134B7CF300F118E4 /* ImageDownloader.m in Sources */,
 				73768510134CA95F00410773 /* AdViewController.m in Sources */,
 				73F085B5134DF4940086499C /* HtmlString.m in Sources */,
+				73F1997C134F6FD8009F174D /* WriteSloganViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
