@@ -19,9 +19,10 @@
 #define LOGOUT 2
 #define CANCEL 3
 
-#define DEFAULT_CELL_HEIGHT 104
+#define DEFAULT_CELL_HEIGHT 100.0
 
 #define FONT_HEIGHT 20
+#define DESCRIPTION_FONT_HEIGHT 14
 
 #define ADTEXT 1024
 #define LIST_BORDER 1025
@@ -38,6 +39,7 @@
 #define AD_IMAGE 1036
 #define STATUS_BGIMAGE 1037
 #define STATUS_IMAGE 1038
+#define AD_DESCRIPTION 1039
 
 @implementation AdListViewController
 
@@ -308,6 +310,24 @@
     UILabel *cpcLabel = (UILabel *)[cell viewWithTag:CPC_TEXT];
     cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
     
+    UILabel *descriptionLabel = (UILabel *)[cell viewWithTag:AD_DESCRIPTION];
+    UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:11.0];
+    CGSize constraintSize = CGSizeMake(180.0f, MAXFLOAT);
+
+    NSString *fullDescriptionString = [adDict objectForKey:@"text"];
+    NSString *descriptionString = @"";
+    NSString *temp = @"";
+    int len = [fullDescriptionString length];
+    for (int i = 0; i < len; ++i) {
+        temp = [NSString stringWithFormat:@"%@%c",temp,[fullDescriptionString characterAtIndex:i]];
+        CGSize labelSize = [temp sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+        int lines = labelSize.height / DESCRIPTION_FONT_HEIGHT;
+        if (lines <= 2)
+            descriptionLabel = [NSString stringWithString:temp];
+    }
+    
+    descriptionLabel.text = descriptionString;
+    
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:AD_IMAGE];
     UIImage *image = (UIImage *)[self.imageArray objectAtIndex:row];
     if ((NSNull *)image == [NSNull null]) {
@@ -344,14 +364,15 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    int row = [indexPath row];
+/*    int row = [indexPath row];
     NSString *rowString = [NSString stringWithFormat:@"row%d",row];
     NSNumber *number = [self.numberOfLinesDictionary valueForKey:rowString];
     int numberOfLines = [number intValue];
-    if (numberOfLines <= 3)
+    if (numberOfLines <= 2)
         return DEFAULT_CELL_HEIGHT;
     else
-        return DEFAULT_CELL_HEIGHT + (numberOfLines-3)*20.0;
+        return DEFAULT_CELL_HEIGHT + (numberOfLines-3)*20.0;*/
+    return DEFAULT_CELL_HEIGHT;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
