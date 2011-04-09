@@ -25,8 +25,8 @@
 
 #define FONT_HEIGHT 18
 
-#define DISLIKE_ACTIONSHEET 2048
-#define WRITE_ACTIONSHEET 2049
+#define DISLIKE_ACTIONSHEET 2049
+#define WRITE_ACTIONSHEET 2048
 
 #define TWITTER 0
 #define FACEBOOK 1
@@ -270,13 +270,13 @@
     NSURL *url = [NSURL URLWithString:[Address adUrl:self.adId]];
     
     [self.request clearDelegatesAndCancel];
-    self.request = [[ASIHTTPRequest alloc] initWithURL:url];
+    self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
     [self.request startAsynchronous];
 
 }
 
-- (void)requestFinished:(ASIHTTPRequest *)aRequest
+- (void)requestFinished:(ASIFormDataRequest *)aRequest
 {
     // Use when fetching text data
     NSString *responseString = [aRequest responseString];
@@ -291,7 +291,7 @@
     [self.theTableView reloadData];
 }
 
-- (void)requestFailed:(ASIHTTPRequest *)aRequest
+- (void)requestFailed:(ASIFormDataRequest *)aRequest
 {
     NSError *error = [aRequest error];
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -391,7 +391,7 @@
     NSURL *url = [NSURL URLWithString:[Address likeUrl:(NSString *)[self.linkIdDictionary objectForKey:indexPath]]];
     
     [self.request clearDelegatesAndCancel];
-    self.request = [[ASIHTTPRequest alloc] initWithURL:url];
+    self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
     [self.request setDidFinishSelector:@selector(likeRequestDone:)];
     [self.request startAsynchronous];
@@ -410,9 +410,13 @@
     NSIndexPath *indexPath = [theTableView indexPathForCell:cell];
     NSLog(@"Dislike");
     NSLog(@"%d",[indexPath row]);
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self  cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"irrelevant subject",@"malicious contents",@"plagiarism", @"false message", nil];
+    actionSheet.tag = DISLIKE_ACTIONSHEET+[indexPath row];
+    [actionSheet showInView:self.view];
+    [actionSheet release];
 }
 
-- (void)likeRequestDone:(ASIHTTPRequest *)aRequest{
+- (void)likeRequestDone:(ASIFormDataRequest *)aRequest{
     NSString *responseString = [aRequest responseString];
     NSLog(@"%@",responseString);
     SBJsonParser *parser = [SBJsonParser new];
@@ -422,6 +426,22 @@
         NSLog(@"Like Success");
     } else {
         NSLog(@"Like Failed");
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Vote Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
+}
+
+- (void)dislikeRequestDone:(ASIFormDataRequest *)aRequest{
+    NSString *responseString = [aRequest responseString];
+    NSLog(@"%@",responseString);
+    SBJsonParser *parser = [SBJsonParser new];
+    NSDictionary *dict = [parser objectWithString:responseString];
+    NSString *error = [dict objectForKey:@"error"];
+    if ([NSNull null] == (NSNull *)error) {
+        NSLog(@"Disike Success");
+    } else {
+        NSLog(@"Disike Failed");
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Vote Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         [alertView release];
@@ -443,6 +463,27 @@
             [[self navigationController] pushViewController:wViewController animated:YES];
             [wViewController release];
         }
+    } else if (actionSheet.tag >= DISLIKE_ACTIONSHEET) {
+        if(buttonIndex == 4)
+            return;
+        NSString *reason = @"unfaithful";
+        if (buttonIndex == 0) {
+            reason = @"unfaithful";
+        } else if (buttonIndex == 1) {
+            reason = @"malicious";
+        } else if(buttonIndex == 2) {
+            reason = @"steal";
+        } else if(buttonIndex == 3) {
+            reason = @"unclear";
+        } 
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:actionSheet.tag-DISLIKE_ACTIONSHEET inSection:0];
+        NSURL *url = [NSURL URLWithString:[Address dislikeUrl:(NSString *)[self.linkIdDictionary objectForKey:indexPath]]];
+        [self.request clearDelegatesAndCancel];
+        self.request = [[ASIFormDataRequest alloc] initWithURL:url];
+        [self.request setPostValue:reason forKey:@"data[LinkLikeUv][reason]"];
+        [self.request setDelegate:self];
+        [self.request setDidFinishSelector:@selector(dislikeRequestDone:)];
+        [self.request startAsynchronous];
     }
 }
 

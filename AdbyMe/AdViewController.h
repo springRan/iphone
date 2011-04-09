@@ -18,7 +18,7 @@
     
     NSDictionary *adDictionary;
     
-    ASIHTTPRequest *request;
+    ASIFormDataRequest *request;
     
     UILabel *adTitleLabel;
     UILabel *uvLabel;
@@ -46,7 +46,7 @@
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
 @property (nonatomic, retain) NSDictionary *adDictionary;
-@property (nonatomic, retain) ASIHTTPRequest *request;
+@property (nonatomic, retain) ASIFormDataRequest *request;
 
 @property (nonatomic, retain) IBOutlet UILabel *adTitleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *uvLabel;
