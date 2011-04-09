@@ -11,6 +11,7 @@
 #import "SBJsonParser.h"
 #import "HtmlString.h"
 #import "WriteSloganViewController.h"
+#import "WebViewController.h"
 
 #define AVATAR_VIEW 1024
 #define UPDOWN_VIEW 1026
@@ -32,6 +33,9 @@
 #define FACEBOOK 1
 #define ME2DAY 2
 #define CANCEL 3
+
+#define SLOGAN_LABEL_DEFAULT_X 65
+#define SLOGAN_LABEL_DEFAULT_Y 7
 
 @implementation AdViewController
 @synthesize adId;
@@ -57,6 +61,7 @@
 @synthesize uvDictionary;
 @synthesize linkIdDictionary;
 @synthesize linkScoreDictionary;
+@synthesize loadingView;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -96,6 +101,7 @@
     [sloganDictionary release];
     [linkIdDictionary release];
     [linkScoreDictionary release];
+    [loadingView release];
     [super dealloc];
 }
 
@@ -192,6 +198,12 @@
 
     UILabel *label = (UILabel *)[cell viewWithTag:SLOGAN_LABEL];
     label.text = user_copy;
+    CGRect frame = label.frame;
+    [label sizeToFit];
+    frame.origin.x = SLOGAN_LABEL_DEFAULT_X;
+    frame.origin.y = SLOGAN_LABEL_DEFAULT_Y;
+    [label setFrame:frame];
+    
     UIButton *linkButton = (UIButton *)[cell viewWithTag:LINK_BUTTON];
     [linkButton setTitle:link forState:UIControlStateNormal];
     [linkButton setTitle:link forState:UIControlStateHighlighted];
@@ -207,17 +219,21 @@
         [self addHeight:addHeight forView:[cell viewWithTag:CONTAINER_VIEW]];
     }
     
-    CGRect frame = label.frame;
     UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:14.0];
     CGSize constraintSize = CGSizeMake(215.0f, MAXFLOAT);
     CGSize labelSize = [user sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
-    
-    frame.size = labelSize;
     label = [[UILabel alloc]initWithFrame:frame];
     label.text = user;
     label.font = cellFont;
     label.textColor = [UIColor colorWithRed:14.0/256.0 green:157.0/256.0 blue:209.0/256.0 alpha:1.0];
     UIView *containerView = [cell viewWithTag:CONTAINER_VIEW];
+    [label sizeToFit];
+    frame = label.frame;
+    frame.size = labelSize;
+    frame.origin.x = SLOGAN_LABEL_DEFAULT_X;
+    frame.origin.y = SLOGAN_LABEL_DEFAULT_Y;
+    frame.origin.y -= 1;
+    [label setFrame:frame];
     [containerView addSubview:label];
     [label release];
     
@@ -268,7 +284,7 @@
 
 -(void)loadAd{
     NSURL *url = [NSURL URLWithString:[Address adUrl:self.adId]];
-    
+    NSLog(@"%@",url);
     [self.request clearDelegatesAndCancel];
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
@@ -283,6 +299,8 @@
     SBJsonParser *parser = [SBJsonParser new];
     NSError *error = nil;
     self.adDictionary = [parser objectWithString:responseString error:&error];
+    
+    [self.loadingView removeFromSuperview];
     
     [self configHeaderView];
     
@@ -364,7 +382,10 @@
         
         [self.uvDictionary setObject:(NSString *)[dict2 objectForKey:@"uv"] forKey:indexPath];
         [self.linkIdDictionary setObject:(NSString *)[dict2 objectForKey:@"id"] forKey:indexPath];
-        [self.linkScoreDictionary setObject:(NSString *)[dict2 objectForKey:@"score"] forKey:indexPath];
+        int like,dislike;
+        like = [(NSString *)[dict2 objectForKey:@"like"] intValue];
+        dislike = [(NSString *)[dict2 objectForKey:@"dislike"] intValue];
+        [self.linkScoreDictionary setObject:[NSString stringWithFormat:@"%d",like-dislike] forKey:indexPath];
         //NSLog(@"%@",user_copy);
         //NSLog(@"%lf %lf",labelSize.width, labelSize.height);
     }
@@ -485,6 +506,31 @@
         [self.request setDidFinishSelector:@selector(dislikeRequestDone:)];
         [self.request startAsynchronous];
     }
+}
+-(IBAction) linkButtonClicked:(id)sender{
+    UIButton *button = (UIButton *)sender;
+    WebViewController *wViewController = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
+    wViewController.requestURL = button.titleLabel.text;
+    [[self navigationController] pushViewController:wViewController animated:YES];
+    [wViewController release];
+}
+
+-(IBAction) goPageButtonClicked{
+    NSString *urlString=@"";
+    NSDictionary *dict = [self.adDictionary objectForKey:@"best_slogan"];
+    if (dict!= nil) {
+        NSDictionary *dict2 = [dict objectForKey:@"Slogan"];
+        urlString = [dict2 objectForKey:@"link"];
+    }
+    else {
+        NSDictionary *dict2 = [dict objectForKey:@"ad"];
+        dict2 = [dict2 objectForKey:@"Ad"];
+        urlString = [dict2 objectForKey:@"link"];
+    }
+    WebViewController *wViewController = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
+    wViewController.requestURL = urlString;
+    [[self navigationController] pushViewController:wViewController animated:YES];
+    [wViewController release];
 }
 
 @end

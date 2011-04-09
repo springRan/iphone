@@ -41,6 +41,8 @@
     NSMutableDictionary *uvDictionary;
     NSMutableDictionary *linkIdDictionary;
     NSMutableDictionary *linkScoreDictionary;
+    
+    UIView *loadingView;
 }
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
@@ -67,6 +69,8 @@
 @property (nonatomic, retain) NSMutableDictionary *linkIdDictionary;
 @property (nonatomic, retain) NSMutableDictionary *linkScoreDictionary;
 
+@property (nonatomic, retain) IBOutlet UIView *loadingView;
+
 
 -(void)loadAd;
 -(void)loadSlogan;
@@ -77,4 +81,6 @@
 -(IBAction) likeButtonClicked:(id)sender;
 -(IBAction) dislikeButtonClicked:(id)sender;
 -(IBAction) writeButtonClicked;
+-(IBAction) linkButtonClicked:(id)sender;
+-(IBAction) goPageButtonClicked;
 @end

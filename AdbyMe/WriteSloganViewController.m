@@ -82,6 +82,8 @@
     [self.usernameLabel sizeToFit];
     [self setLinkButtonUrl:@"http://adby.me/wg324t"];
     
+    [self.copyInputView becomeFirstResponder];
+    
 }
 
 - (void)viewDidUnload
@@ -103,6 +105,10 @@
 
 -(void)updateLeftLabel:(int)length{
     int remain =  MAX_COPY_LENGTH - length;
+    if (remain < 0)
+        leftCharLabel.textColor = [UIColor redColor];
+    else 
+        leftCharLabel.textColor = [UIColor blackColor];
     leftCharLabel.text = [NSString stringWithFormat:@"%d",remain];
 }
 - (void)textViewDidChange:(UITextView *)textView{

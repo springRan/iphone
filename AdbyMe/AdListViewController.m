@@ -305,7 +305,12 @@
     copyLabel.text = [formatter stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"copy"] intValue]]];
     
     UILabel *cpcLabel = (UILabel *)[cell viewWithTag:CPC_TEXT];
-    cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
+    double cpc = [(NSString *)[adDict objectForKey:@"cpc"] doubleValue];
+    if (cpc < 1e-9) {
+        cpcLabel.text = @"Free";
+    } else {
+        cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
+    }
     
     UILabel *descriptionLabel = (UILabel *)[cell viewWithTag:AD_DESCRIPTION];
     UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:11.0];
@@ -347,7 +352,7 @@
         [statusImageView setImage:[UIImage imageNamed:@"activeicon.png"]];
         [statusBgImageView setImage:[UIImage imageNamed:@"activeCPUV.png"]];
     } else{
-        cpcLabel.text = @"sold out";
+        cpcLabel.text = @"Paused";
         UIImageView *statusBgImageView = (UIImageView *)[cell viewWithTag:STATUS_BGIMAGE];
         UIImageView *statusImageView = (UIImageView *)[cell viewWithTag:STATUS_IMAGE];
         CGRect frame = statusImageView.frame;

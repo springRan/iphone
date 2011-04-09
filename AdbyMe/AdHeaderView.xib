@@ -48,7 +48,7 @@
 					<object class="IBUIImageView" id="434008127">
 						<reference key="NSNextResponder" ref="206337151"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{5, 5}, {97, 5}}</string>
+						<string key="NSFrame">{{5, 5}, {97, 64}}</string>
 						<reference key="NSSuperview" ref="206337151"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="377631649"/>
@@ -129,7 +129,7 @@
 					<object class="IBUITextView" id="427708103">
 						<reference key="NSNextResponder" ref="206337151"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{102, 43}, {198, 68}}</string>
+						<string key="NSFrame">{{102, 43}, {198, 62}}</string>
 						<reference key="NSSuperview" ref="206337151"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="592193776"/>
@@ -247,7 +247,7 @@
 					<object class="IBUIImageView" id="592193776">
 						<reference key="NSNextResponder" ref="206337151"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{110, 117}, {22, 13}}</string>
+						<string key="NSFrame">{{110, 113}, {22, 13}}</string>
 						<reference key="NSSuperview" ref="206337151"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="705420546"/>
@@ -262,7 +262,7 @@
 					<object class="IBUIImageView" id="68159387">
 						<reference key="NSNextResponder" ref="206337151"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{199, 119}, {13, 10}}</string>
+						<string key="NSFrame">{{199, 115}, {13, 10}}</string>
 						<reference key="NSSuperview" ref="206337151"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="180180526"/>
@@ -277,7 +277,7 @@
 					<object class="IBUILabel" id="180180526">
 						<reference key="NSNextResponder" ref="206337151"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{214, 113}, {87, 20}}</string>
+						<string key="NSFrame">{{214, 109}, {87, 20}}</string>
 						<reference key="NSSuperview" ref="206337151"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="624312313"/>
@@ -288,7 +288,7 @@
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
-						<int key="IBUITag">1032</int>
+						<int key="IBUITag">1034</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText"/>
@@ -308,7 +308,7 @@
 					<object class="IBUILabel" id="705420546">
 						<reference key="NSNextResponder" ref="206337151"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{135, 113}, {62, 20}}</string>
+						<string key="NSFrame">{{135, 109}, {62, 20}}</string>
 						<reference key="NSSuperview" ref="206337151"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="68159387"/>
@@ -316,7 +316,7 @@
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
-						<int key="IBUITag">1030</int>
+						<int key="IBUITag">1033</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText"/>
@@ -392,6 +392,31 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">26</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">uvLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="705420546"/>
+					</object>
+					<int key="connectionID">31</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">sloganLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="180180526"/>
+					</object>
+					<int key="connectionID">32</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">goPageButtonClicked</string>
+						<reference key="source" ref="624312313"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">33</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -567,7 +592,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">30</int>
+			<int key="maxID">33</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -580,11 +605,15 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>dislikeButtonClicked:</string>
+							<string>goPageButtonClicked</string>
 							<string>likeButtonClicked:</string>
+							<string>linkButtonClicked:</string>
 							<string>writeButtonClicked</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -595,7 +624,9 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>dislikeButtonClicked:</string>
+							<string>goPageButtonClicked</string>
 							<string>likeButtonClicked:</string>
+							<string>linkButtonClicked:</string>
 							<string>writeButtonClicked</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -605,7 +636,15 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">goPageButtonClicked</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">likeButtonClicked:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">linkButtonClicked:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -624,6 +663,7 @@
 							<string>adTextView</string>
 							<string>adTitleLabel</string>
 							<string>cpcLabel</string>
+							<string>loadingView</string>
 							<string>sloganLabel</string>
 							<string>theTableView</string>
 							<string>uvLabel</string>
@@ -636,6 +676,7 @@
 							<string>UITextView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
+							<string>UIView</string>
 							<string>UILabel</string>
 							<string>UITableView</string>
 							<string>UILabel</string>
@@ -651,6 +692,7 @@
 							<string>adTextView</string>
 							<string>adTitleLabel</string>
 							<string>cpcLabel</string>
+							<string>loadingView</string>
 							<string>sloganLabel</string>
 							<string>theTableView</string>
 							<string>uvLabel</string>
@@ -680,6 +722,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">cpcLabel</string>
 								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">loadingView</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">sloganLabel</string>

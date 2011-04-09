@@ -166,6 +166,10 @@
 		73F19989134F7762009F174D /* copyinput@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F19986134F7762009F174D /* copyinput@2x.png */; };
 		73F1998A134F7762009F174D /* shrotlink-def@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F19987134F7762009F174D /* shrotlink-def@2x.png */; };
 		73F1998B134F7762009F174D /* shrotlink-sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F19988134F7762009F174D /* shrotlink-sel@2x.png */; };
+		73F21A121350420600554A3C /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F21A101350420600554A3C /* WebViewController.m */; };
+		73F21A131350420600554A3C /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F21A111350420600554A3C /* WebViewController.xib */; };
+		73F21A171350559800554A3C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F21A151350559800554A3C /* Icon.png */; };
+		73F21A181350559800554A3C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F21A161350559800554A3C /* Icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -386,6 +390,11 @@
 		73F19986134F7762009F174D /* copyinput@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "copyinput@2x.png"; sourceTree = "<group>"; };
 		73F19987134F7762009F174D /* shrotlink-def@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shrotlink-def@2x.png"; sourceTree = "<group>"; };
 		73F19988134F7762009F174D /* shrotlink-sel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shrotlink-sel@2x.png"; sourceTree = "<group>"; };
+		73F21A0F1350420600554A3C /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		73F21A101350420600554A3C /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		73F21A111350420600554A3C /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
+		73F21A151350559800554A3C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		73F21A161350559800554A3C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -490,6 +499,9 @@
 				7312C9B71348C80200A33091 /* SNSSettingViewController.h */,
 				7312C9B81348C80200A33091 /* SNSSettingViewController.m */,
 				7312C9B91348C80200A33091 /* SNSSettingViewController.xib */,
+				73F21A0F1350420600554A3C /* WebViewController.h */,
+				73F21A101350420600554A3C /* WebViewController.m */,
+				73F21A111350420600554A3C /* WebViewController.xib */,
 				7312C9BD1348C9E000A33091 /* EarningViewController.h */,
 				7312C9BE1348C9E000A33091 /* EarningViewController.m */,
 				7312C9BF1348C9E000A33091 /* EarningViewController.xib */,
@@ -636,6 +648,8 @@
 		731AB12E13477D4F001C1956 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				73F21A151350559800554A3C /* Icon.png */,
+				73F21A161350559800554A3C /* Icon@2x.png */,
 				733C8DCC13486D9900A51FEC /* 1 */,
 				733C8DCD13486DA400A51FEC /* 2 */,
 				73C07C51134C9DB80035AFE4 /* 3 */,
@@ -939,6 +953,9 @@
 				73933A1F134F7F2600DB176D /* fblogo_big@2x.png in Resources */,
 				73933A20134F7F2600DB176D /* m2logo_big@2x.png in Resources */,
 				73933A21134F7F2600DB176D /* twlogo_big@2x.png in Resources */,
+				73F21A131350420600554A3C /* WebViewController.xib in Resources */,
+				73F21A171350559800554A3C /* Icon.png in Resources */,
+				73F21A181350559800554A3C /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1016,6 +1033,7 @@
 				73768510134CA95F00410773 /* AdViewController.m in Sources */,
 				73F085B5134DF4940086499C /* HtmlString.m in Sources */,
 				73F1997C134F6FD8009F174D /* WriteSloganViewController.m in Sources */,
+				73F21A121350420600554A3C /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
