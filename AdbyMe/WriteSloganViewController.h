@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface WriteSloganViewController : UIViewController <UITextViewDelegate> {
+#import "ASIFormDataRequest.h"
+#import "ASIHTTPRequest.h"
+@interface WriteSloganViewController : UIViewController <UITextViewDelegate, ASIHTTPRequestDelegate, UIAlertViewDelegate> {
     int snsType;
     UIBarButtonItem *publishButton;
     UIImageView *snsImageView;
@@ -18,6 +19,10 @@
     UIButton *linkButton;
     UIView *keywordView;
     UILabel *keywordLabel;
+    NSString *adId;
+    ASIFormDataRequest *request;
+    
+    UIView *loadingView;
 }
 @property (nonatomic, assign) int snsType;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *publishButton;
@@ -28,6 +33,9 @@
 @property (nonatomic, retain) IBOutlet UIButton *linkButton;
 @property (nonatomic, retain) IBOutlet UIView *keywordView;
 @property (nonatomic, retain) IBOutlet UILabel *keywordLabel;
+@property (nonatomic, retain) NSString *adId;
+@property (nonatomic, retain) ASIFormDataRequest *request;
+@property (nonatomic, retain) IBOutlet UIView *loadingView;
 
 -(void)publishButtonClicked;
 -(void)updateLeftLabel:(int)length;

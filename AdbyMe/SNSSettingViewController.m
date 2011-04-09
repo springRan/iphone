@@ -83,7 +83,9 @@
     else if(snstype == ME2DAY) snsView = self.me2dayLabelBackgroundView;
     
     for (int i = 0 ; i < [[snsView subviews] count]; ++i) {
-        [[[snsView subviews] objectAtIndex:i] removeFromSuperview];
+        UIView *subView = [[snsView subviews] objectAtIndex:i];
+        if ([subView isMemberOfClass:[UILabel class]])
+            [[[snsView subviews] objectAtIndex:i] removeFromSuperview];
     }
     UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:17.0];
     CGSize constraintSize = CGSizeMake(LABEL_Y_WIDTH, MAXFLOAT);
@@ -136,6 +138,26 @@
 
 -(void)updateSnsLabel:(int)snstype status:(int)status{
     [self updateSnsLabel:snstype status:status andSnsId:@"" setDefault:NO];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+}
+
+-(IBAction) snsButtonClicked:(id)sender{
+    UIButton *button = (UIButton *)sender;
+    int buttonTag = button.tag;
+    
+    if (buttonTag == TWITTER) {
+        NSLog(@"Twitter");
+    } else if(buttonTag == FACEBOOK) {
+        NSLog(@"Facebook");
+    } else if(buttonTag == ME2DAY) {
+        NSLog(@"Me2day");
+    }
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Remove account" otherButtonTitles:@"Make default", nil];
+    [actionSheet showInView:self.view];
+    [actionSheet release];
 }
 
 @end

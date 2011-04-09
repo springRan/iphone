@@ -43,6 +43,8 @@
     NSMutableDictionary *linkScoreDictionary;
     
     UIView *loadingView;
+    
+    UIBarButtonItem *refreshButton;
 }
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
@@ -70,6 +72,7 @@
 @property (nonatomic, retain) NSMutableDictionary *linkScoreDictionary;
 
 @property (nonatomic, retain) IBOutlet UIView *loadingView;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
 
 
 -(void)loadAd;
@@ -78,9 +81,12 @@
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath;
 -(void) addHeight:(double)addHeight forView:(UIView *)cellView;
 -(void) addY:(double)addHeight forView:(UIView *)cellView;
--(IBAction) likeButtonClicked:(id)sender;
--(IBAction) dislikeButtonClicked:(id)sender;
+-(IBAction) likeButtonClicked:(int)row;
+-(IBAction) dislikeButtonClicked:(int)row;
 -(IBAction) writeButtonClicked;
 -(IBAction) linkButtonClicked:(id)sender;
 -(IBAction) goPageButtonClicked;
+
+-(IBAction) likeDislikeButtonClicked:(id)sender;
+-(IBAction) refreshButtonClicked;
 @end

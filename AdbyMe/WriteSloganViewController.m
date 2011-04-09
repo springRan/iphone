@@ -8,12 +8,17 @@
 
 #import "WriteSloganViewController.h"
 #import "AdbyMeAppDelegate.h"
+#import "Address.h"
+#import "SBJsonParser.h"
 
 #define TWITTER 1024
 #define FACEBOOK 1025
 #define ME2DAY 1026
 
 #define MAX_COPY_LENGTH 140
+
+#define INITIAL_CHECK_ALERT_VIEW 2048
+#define PUBLISH_ALERT_VIEW 2049
 
 @implementation WriteSloganViewController
 @synthesize snsType;
@@ -25,6 +30,9 @@
 @synthesize linkButton;
 @synthesize keywordView;
 @synthesize keywordLabel;
+@synthesize adId;
+@synthesize request;
+@synthesize loadingView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,8 +52,11 @@
     [leftCharLabel release];
     [linkButton release];
     [keywordView release];
+    [loadingView release];
     [keywordLabel release];
     [copyInputView release];
+    [adId release];
+    [request release];
     [super dealloc];
 }
 
@@ -84,6 +95,13 @@
     
     [self.copyInputView becomeFirstResponder];
     
+    NSURL *url = [NSURL URLWithString:[Address writeCopy:adId andSnsType:self.snsType]];
+    self.request = [[ASIFormDataRequest alloc]initWithURL:url];
+    [self.request setDelegate:self];
+    [self.request setDidFinishSelector:@selector(initialCheckRequestDone:)];
+    [self.request setDidFailSelector:@selector(initialCheckRequestFailed:)];
+    [self.request startAsynchronous];
+    
 }
 
 - (void)viewDidUnload
@@ -100,7 +118,14 @@
 }
 
 -(void)publishButtonClicked{
-    
+    [self.request clearDelegatesAndCancel];
+    NSURL *url = [NSURL URLWithString:[Address writeCopy:adId andSnsType:self.snsType]];
+    self.request = [[ASIFormDataRequest alloc] initWithURL:url];
+    [self.request setDelegate:self];
+    [self.request setDidFinishSelector:@selector(publishRequestDone:)];
+    [self.request setDidFailSelector:@selector(publichRequestFailed:)];
+    [self.request setPostValue:self.copyInputView.text forKey:@"data[Slogan][copy]"];
+    [self.request startAsynchronous];
 }
 
 -(void)updateLeftLabel:(int)length{
@@ -120,4 +145,58 @@
     [self.linkButton setTitle:urlText forState:UIControlStateHighlighted];
 }
 
+- (void)initialCheckRequestDone:(ASIHTTPRequest *)aRequest {
+    [self.loadingView removeFromSuperview];
+    NSString *responseString = [aRequest responseString];
+    NSLog(@"Email Request Done");
+    NSLog(@"%@",responseString);
+    SBJsonParser *parser = [SBJsonParser new];
+    NSDictionary *dict = [parser objectWithString:responseString];
+    NSString *error = [dict objectForKey:@"error"];
+    if ([NSNull null] == (NSNull *)error) {
+        //[self setCheckView:EMAIL_FIELD status:OK_STATUS message:@"OK"];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        alertView.tag = INITIAL_CHECK_ALERT_VIEW;
+        [alertView show];
+        [alertView release];
+    }
+}
+
+- (void)initialCheckRequestFailed:(ASIHTTPRequest *)aRequest {
+    [self.loadingView removeFromSuperview];
+    NSError *error = [aRequest error];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:[error description] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    alertView.tag = INITIAL_CHECK_ALERT_VIEW;
+    [alertView show];
+    [alertView release];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
+- (void)publishRequestFailed:(ASIHTTPRequest *)aRequest {
+    NSError *error = [aRequest error];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
+}
+- (void)publishRequestDone:(ASIHTTPRequest *)aRequest {
+    NSString *responseString = [aRequest responseString];
+    NSLog(@"Email Request Done");
+    NSLog(@"%@",responseString);
+    SBJsonParser *parser = [SBJsonParser new];
+    NSDictionary *dict = [parser objectWithString:responseString];
+    NSString *error = [dict objectForKey:@"error"];
+    if ([NSNull null] == (NSNull *)error) {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Success" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
+}
 @end

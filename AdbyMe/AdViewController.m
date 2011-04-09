@@ -37,6 +37,8 @@
 #define SLOGAN_LABEL_DEFAULT_X 65
 #define SLOGAN_LABEL_DEFAULT_Y 7
 
+#define LIKEDISLIKE_ACTIONSHEET 10000
+
 @implementation AdViewController
 @synthesize adId;
 @synthesize adHeaderView;
@@ -62,6 +64,7 @@
 @synthesize linkIdDictionary;
 @synthesize linkScoreDictionary;
 @synthesize loadingView;
+@synthesize refreshButton;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -102,6 +105,7 @@
     [linkIdDictionary release];
     [linkScoreDictionary release];
     [loadingView release];
+    [refreshButton release];
     [super dealloc];
 }
 
@@ -129,7 +133,8 @@
     self.uvDictionary = [[NSMutableDictionary alloc]init];
     self.linkIdDictionary = [[NSMutableDictionary alloc]init];
     self.linkScoreDictionary = [[NSMutableDictionary alloc]init];
-    
+    self.refreshButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(refreshButtonClicked)];
+    self.navigationItem.rightBarButtonItem = self.refreshButton;
     [self loadAd];
 }
 
@@ -202,6 +207,8 @@
     [label sizeToFit];
     frame.origin.x = SLOGAN_LABEL_DEFAULT_X;
     frame.origin.y = SLOGAN_LABEL_DEFAULT_Y;
+    if(lines == 1)
+        frame.origin.y = frame.origin.y -10;
     [label setFrame:frame];
     
     UIButton *linkButton = (UIButton *)[cell viewWithTag:LINK_BUTTON];
@@ -283,6 +290,8 @@
 }
 
 -(void)loadAd{
+    if([self.loadingView superview] == nil)
+        [self.view addSubview:self.loadingView];
     NSURL *url = [NSURL URLWithString:[Address adUrl:self.adId]];
     NSLog(@"%@",url);
     [self.request clearDelegatesAndCancel];
@@ -394,18 +403,8 @@
     //NSLog(@"%@",sinceUrl);
 }
 
--(IBAction) likeButtonClicked:(id)sender{
-    UIButton *button = (UIButton *)sender;
-    UIView *parent = [button superview];
-    UITableViewCell *cell;
-    while (parent != nil) {
-        if( [parent isMemberOfClass:[UITableViewCell class]] ){
-            cell = (UITableViewCell *)parent;
-            break;
-        }
-        parent = [parent superview];
-    }
-    NSIndexPath *indexPath = [theTableView indexPathForCell:cell];
+-(IBAction) likeButtonClicked:(int)row{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
     NSLog(@"Like");
     NSLog(@"%d",[indexPath row]);
     
@@ -417,18 +416,8 @@
     [self.request setDidFinishSelector:@selector(likeRequestDone:)];
     [self.request startAsynchronous];
 }
--(IBAction) dislikeButtonClicked:(id)sender{
-    UIButton *button = (UIButton *)sender;
-    UIView *parent = [button superview];
-    UITableViewCell *cell;
-    while (parent != nil) {
-        if( [parent isMemberOfClass:[UITableViewCell class]] ){
-            cell = (UITableViewCell *)parent;
-            break;
-        }
-        parent = [parent superview];
-    }
-    NSIndexPath *indexPath = [theTableView indexPathForCell:cell];
+-(IBAction) dislikeButtonClicked:(int)row{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
     NSLog(@"Dislike");
     NSLog(@"%d",[indexPath row]);
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self  cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"irrelevant subject",@"malicious contents",@"plagiarism", @"false message", nil];
@@ -445,6 +434,9 @@
     NSString *error = [dict objectForKey:@"error"];
     if ([NSNull null] == (NSNull *)error) {
         NSLog(@"Like Success");
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Like Success" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
     } else {
         NSLog(@"Like Failed");
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Vote Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -461,6 +453,10 @@
     NSString *error = [dict objectForKey:@"error"];
     if ([NSNull null] == (NSNull *)error) {
         NSLog(@"Disike Success");
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Dislike Success" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+
     } else {
         NSLog(@"Disike Failed");
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Vote Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -481,9 +477,20 @@
         if (buttonIndex != CANCEL){
             WriteSloganViewController *wViewController = [[WriteSloganViewController alloc]initWithNibName:@"WriteSloganViewController" bundle:nil];
             wViewController.snsType = 1024+buttonIndex;
+            wViewController.adId = self.adId;
             [[self navigationController] pushViewController:wViewController animated:YES];
             [wViewController release];
         }
+    } else if(actionSheet.tag >= LIKEDISLIKE_ACTIONSHEET) {
+        if (buttonIndex == 2)
+            return;
+        int row = actionSheet.tag - LIKEDISLIKE_ACTIONSHEET;
+        if (buttonIndex == 0){
+            [self likeButtonClicked:row];
+        } else if(buttonIndex == 1) {
+            [self dislikeButtonClicked:row];
+        }
+        
     } else if (actionSheet.tag >= DISLIKE_ACTIONSHEET) {
         if(buttonIndex == 4)
             return;
@@ -531,6 +538,32 @@
     wViewController.requestURL = urlString;
     [[self navigationController] pushViewController:wViewController animated:YES];
     [wViewController release];
+}
+
+-(IBAction) likeDislikeButtonClicked:(id)sender{
+    UIButton *button = (UIButton *)sender;
+    UIView *parent = [button superview];
+    UITableViewCell *cell;
+    while (parent != nil) {
+        if( [parent isMemberOfClass:[UITableViewCell class]] ){
+            cell = (UITableViewCell *)parent;
+            break;
+        }
+        parent = [parent superview];
+    }
+    NSIndexPath *indexPath = [theTableView indexPathForCell:cell];
+    NSLog(@"Like");
+    NSLog(@"%d",[indexPath row]);
+
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Like", @"Dislike", nil];
+    actionSheet.tag = LIKEDISLIKE_ACTIONSHEET + [indexPath row];
+    [actionSheet showInView:self.view];
+    [actionSheet release];
+    
+}
+
+-(IBAction) refreshButtonClicked{
+    [self loadAd];
 }
 
 @end

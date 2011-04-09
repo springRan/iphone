@@ -24,4 +24,5 @@
 +(NSString *) makeUrl:(NSString *)rest;
 +(NSString *) likeUrl:(NSString *)linkId;
 +(NSString *) dislikeUrl:(NSString *)linkId;
++(NSString *) writeCopy:(NSString *)adId andSnsType:(int)type;
 @end

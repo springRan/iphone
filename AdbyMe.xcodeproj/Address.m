@@ -8,6 +8,9 @@
 
 #import "Address.h"
 
+#define TWITTER 1024
+#define FACEBOOK 1025
+#define ME2DAY 1026
 
 @implementation Address
 
@@ -49,6 +52,18 @@
 
 +(NSString *) dislikeUrl:(NSString *)linkId{
     return [NSString stringWithFormat:@"%@/links/likeOrDislike/%@/dislike.json",HOST_ADDR,linkId];
+}
+
++(NSString *) writeCopy:(NSString *)adId andSnsType:(int)type{
+    NSString *snsType = @"";
+    if (type == TWITTER) {
+        snsType = @"twitter";
+    } else if (type == FACEBOOK) {
+        snsType = @"facebook";
+    } else if (type == ME2DAY) {
+        snsType = @"me2day";
+    }
+    return [NSString stringWithFormat:@"%@/slogans/write/%@/%@.json", HOST_ADDR, adId, snsType];
 }
 
 -(void)dealloc{
