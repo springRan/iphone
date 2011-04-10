@@ -23,6 +23,7 @@
 #define CREATE_DATE_LABEL 1032
 #define UV_LABEL 1033
 #define SCORE_LABEL 1034
+#define SNS_IMAGE_VIEW 1035
 
 #define FONT_HEIGHT 18
 
@@ -34,12 +35,18 @@
 #define ME2DAY 2
 #define CANCEL 3
 
+#define TWITTER_STR @"twitter"
+#define FACEBOOK_STR @"facebook"
+#define ME2DAY_STR @"me2day"
+
 #define SLOGAN_LABEL_DEFAULT_X 65
 #define SLOGAN_LABEL_DEFAULT_Y 7
 
 #define LIKEDISLIKE_ACTIONSHEET 10000
 
-#define UPDATE_RATE 0.7
+#define UPDATE_RATE 0.9
+
+#define MAIN_IMAGE 4096
 
 @implementation AdViewController
 @synthesize adId;
@@ -70,6 +77,11 @@
 @synthesize noMoreUpdate;
 @synthesize updating;
 @synthesize footerView;
+@synthesize mainImageDownloader;
+@synthesize imageArray;
+@synthesize imageDownloadsInProgress;
+@synthesize imageUrlDictionary;
+@synthesize snsDictionary;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -84,6 +96,9 @@
 
 - (void)dealloc
 {
+    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
+    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
+
     [request clearDelegatesAndCancel];  // Cancel request.
     
     [adId release];
@@ -92,9 +107,12 @@
     [adDictionary release];
     [request release];
     [adTitleLabel release];
+    [imageUrlDictionary release];
     [uvLabel release];
     [adImageView release];
     [cpcLabel release];
+    [imageArray release];
+    [imageDownloadsInProgress release];
     [sloganLabel release];
     [linkDictionary release];
     [adTextView release];
@@ -110,8 +128,10 @@
     [linkIdDictionary release];
     [linkScoreDictionary release];
     [loadingView release];
+    [mainImageDownloader release];
     [footerView release];
     [refreshButton release];
+    [snsDictionary release];
     [super dealloc];
 }
 
@@ -121,6 +141,9 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
+	[allDownloads performSelector:@selector(cancelDownload)];
+    
 }
 
 #pragma mark - View lifecycle
@@ -139,6 +162,9 @@
     self.uvDictionary = [[NSMutableDictionary alloc]init];
     self.linkIdDictionary = [[NSMutableDictionary alloc]init];
     self.linkScoreDictionary = [[NSMutableDictionary alloc]init];
+    self.imageUrlDictionary = [[NSMutableDictionary alloc]init];
+    self.snsDictionary = [[NSMutableDictionary alloc]init];
+    
     self.refreshButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(refreshButtonClicked)];
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     
@@ -147,7 +173,10 @@
     [footerActivityIndicatorView startAnimating];
     [footerActivityIndicatorView setFrame:CGRectMake(150, 15, 20, 20)];
     [self.footerView addSubview:footerActivityIndicatorView];
-    
+
+    self.imageArray = [[NSMutableArray alloc]init];
+    self.imageDownloadsInProgress = [[NSMutableDictionary alloc]init];
+
     [self loadAd];
 }
 
@@ -276,6 +305,27 @@
     label = (UILabel *)[cell viewWithTag:SCORE_LABEL];
     label.text = (NSString *)[self.linkScoreDictionary objectForKey:indexPath];
     
+    UIImageView *imageView = (UIImageView *)[cell viewWithTag:AVATAR_VIEW];
+    UIImage *image = (UIImage *)[self.imageArray objectAtIndex:[indexPath row]];
+    if ((NSNull *)image == [NSNull null]) {
+        if(theTableView.dragging == NO && theTableView.decelerating == NO){
+            [self startImageDownload:indexPath andImageUrl:[self.imageUrlDictionary objectForKey:indexPath]];
+        }
+    } else {
+        imageView.image = image;
+    }
+    
+    UIImageView *snsImageView = (UIImageView *)[cell viewWithTag:SNS_IMAGE_VIEW];
+    UIImage *snsImage;
+    NSString *sns = [self.snsDictionary objectForKey:indexPath];
+    if ([sns isEqualToString:TWITTER_STR]) {
+        snsImage = [UIImage imageNamed:@"twlogo.png"];
+    } else if([sns isEqualToString:FACEBOOK_STR]) {
+        snsImage = [UIImage imageNamed:@"fblogo.png"];
+    } else if([sns isEqualToString:ME2DAY_STR]) {
+        snsImage = [UIImage imageNamed:@"m2logo.png"];
+    }
+    snsImageView.image = snsImage;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -322,7 +372,8 @@
     SBJsonParser *parser = [SBJsonParser new];
     NSError *error = nil;
     self.adDictionary = [parser objectWithString:responseString error:&error];
-    
+    [self.imageArray removeAllObjects];
+    [self.imageDownloadsInProgress removeAllObjects];
     [self.loadingView removeFromSuperview];
     
     [self configHeaderView];
@@ -352,9 +403,13 @@
     self.uvLabel.text = [formatter2 stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"uv"] intValue]]];
     self.sloganLabel.text = [NSString stringWithFormat:@"%@ slogans",[adDict objectForKey:@"copy"]];
     
-    NSURL *url = [NSURL URLWithString:[adDict objectForKey:@"image"]];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    adImageView.image = [UIImage imageWithData:data];
+    //NSURL *url = [NSURL URLWithString:[adDict objectForKey:@"image"]];
+    //NSData *data = [NSData dataWithContentsOfURL:url];
+    //adImageView.image = [UIImage imageWithData:data];
+    mainImageDownloader = [[ImageDownloader alloc]init];
+    mainImageDownloader.delegate = self;
+    mainImageDownloader.feedURL = [adDict objectForKey:@"image"];
+    [mainImageDownloader startDownload];
     
     self.cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
     
@@ -371,6 +426,8 @@
     [self.uvDictionary removeAllObjects];
     [self.linkIdDictionary removeAllObjects];
     [self.linkScoreDictionary removeAllObjects];
+    [self.imageUrlDictionary removeAllObjects];
+    [self.snsDictionary removeAllObjects];
     
     NSDictionary *dict;
     NSDictionary *dict2;
@@ -409,11 +466,18 @@
         like = [(NSString *)[dict2 objectForKey:@"like"] intValue];
         dislike = [(NSString *)[dict2 objectForKey:@"dislike"] intValue];
         [self.linkScoreDictionary setObject:[NSString stringWithFormat:@"%d",like-dislike] forKey:indexPath];
+        
+        dict2 = [dict objectForKey:@"Sna"];
+        [self.imageUrlDictionary setObject:(NSString *)[dict2 objectForKey:@"avatar"] forKey:indexPath];
+        [self.snsDictionary setObject:(NSString *)[dict2 objectForKey:@"network"] forKey:indexPath];
         //NSLog(@"%@",user_copy);
         //NSLog(@"%lf %lf",labelSize.width, labelSize.height);
+        [self.imageArray addObject:[NSNull null]];
     }
     
     self.sinceUrl = [self.adDictionary objectForKey:@"since_url"];
+    if((NSNull *)self.sinceUrl == [NSNull null])
+        noMoreUpdate = YES;
     //NSLog(@"%@",sinceUrl);
 }
 
@@ -457,9 +521,16 @@
         like = [(NSString *)[dict2 objectForKey:@"like"] intValue];
         dislike = [(NSString *)[dict2 objectForKey:@"dislike"] intValue];
         [self.linkScoreDictionary setObject:[NSString stringWithFormat:@"%d",like-dislike] forKey:indexPath];
+        
+        dict2 = [dict objectForKey:@"Sna"];
+        [self.imageUrlDictionary setObject:(NSString *)[dict2 objectForKey:@"avatar"] forKey:indexPath];
+        [self.snsDictionary setObject:(NSString *)[dict2 objectForKey:@"network"] forKey:indexPath];
+        [self.imageArray addObject:[NSNull null]];
     }
     
     self.sinceUrl = [moreAdDictionary objectForKey:@"since_url"];
+    if((NSNull *)self.sinceUrl == [NSNull null])
+        noMoreUpdate = YES;
     [self.sloganArray addObjectsFromArray:moreSloganArray];
 }
 
@@ -626,14 +697,36 @@
     [self loadAd];
 }
 
+- (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl
+{
+	ImageDownloader *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
+	if (imageDownloader == nil) 
+	{
+		imageDownloader = [[ImageDownloader alloc] init];
+		imageDownloader.indexPathInTableView = indexPath;
+		imageDownloader.delegate = self;
+		imageDownloader.feedURL = imageUrl;
+		[imageDownloadsInProgress setObject:imageDownloader forKey:indexPath];
+		[imageDownloader startDownload];
+		[imageDownloader release];
+	}
+}
+
 - (void)loadImagesForOnscreenRows
 {
-    NSArray *visiblePaths = [self.theTableView indexPathsForVisibleRows];
-    for (NSIndexPath *indexPath in visiblePaths)
-    {
-
-    }
+	if ([self.imageArray count] > 0)
+	{
+		NSArray *visiblePaths = [self.theTableView indexPathsForVisibleRows];
+		for (NSIndexPath *indexPath in visiblePaths)
+		{
+			if ([self.imageArray objectAtIndex:indexPath.row] == [NSNull null]) // avoid the app icon download if the app already has an icon
+			{
+				[self startImageDownload:indexPath andImageUrl:[self.imageUrlDictionary  objectForKey:indexPath]];
+			}
+		}
+	}
 }
+
 
 -(void) startMoreUpdate{
     updating = YES;
@@ -672,7 +765,24 @@
     }
 }
 
-
+-(void)imageDidLoad:(id)sender indexPath:(NSIndexPath *)indexPath{
+    ImageDownloader *imageDownloader = (ImageDownloader *)sender;
+    if (imageDownloader == self.mainImageDownloader){
+        adImageView.image = imageDownloader.downloadedImage;
+    } else{
+        ImageDownloader *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
+        if (imageDownloader != nil)
+        {
+            UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:imageDownloader.indexPathInTableView];
+            
+            // Display the newly loaded image
+            UIImageView *imageView = (UIImageView *)[cell viewWithTag:AVATAR_VIEW];
+            imageView.image = imageDownloader.downloadedImage;
+            int row = [indexPath row];
+            [self.imageArray replaceObjectAtIndex:row withObject:imageDownloader.downloadedImage];
+        }   
+    }
+}
 #pragma mark -
 #pragma mark Deferred image loading (UIScrollViewDelegate)
 
@@ -689,5 +799,4 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [self updateMore];
 }
-
 @end

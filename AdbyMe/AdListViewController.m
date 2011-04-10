@@ -406,7 +406,7 @@
 		imageDownloader.feedURL = imageUrl;
 		[imageDownloadsInProgress setObject:imageDownloader forKey:indexPath];
 		[imageDownloader startDownload];
-		[imageDownloader release];   
+		[imageDownloader release];
 	}
 }
 
@@ -432,7 +432,7 @@
 	}
 }
 
-- (void)imageDidLoad:(NSIndexPath *)indexPath
+- (void)imageDidLoad:(id)sender indexPath:(NSIndexPath *)indexPath
 {
 	ImageDownloader *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
 	if (imageDownloader != nil)

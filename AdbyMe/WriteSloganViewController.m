@@ -148,7 +148,6 @@
 - (void)initialCheckRequestDone:(ASIHTTPRequest *)aRequest {
     [self.loadingView removeFromSuperview];
     NSString *responseString = [aRequest responseString];
-    NSLog(@"Email Request Done");
     NSLog(@"%@",responseString);
     SBJsonParser *parser = [SBJsonParser new];
     NSDictionary *dict = [parser objectWithString:responseString];

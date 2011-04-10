@@ -65,10 +65,6 @@
 										<int key="IBUITag">1024</int>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<object class="NSCustomResource" key="IBUIImage">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">dora_normal.jpg</string>
-										</object>
 									</object>
 									<object class="IBUIView" id="337108501">
 										<reference key="NSNextResponder" ref="527561823"/>
@@ -82,12 +78,9 @@
 												<reference key="NSSuperview" ref="337108501"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="756071777"/>
+												<int key="IBUITag">1035</int>
 												<bool key="IBUIUserInteractionEnabled">NO</bool>
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<object class="NSCustomResource" key="IBUIImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">fblogo.png</string>
-												</object>
 											</object>
 											<object class="IBUIImageView" id="255375445">
 												<reference key="NSNextResponder" ref="337108501"/>
@@ -637,10 +630,12 @@
 							<string>likeButtonClicked:</string>
 							<string>likeDislikeButtonClicked:</string>
 							<string>linkButtonClicked:</string>
+							<string>refreshButtonClicked</string>
 							<string>writeButtonClicked</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -658,6 +653,7 @@
 							<string>likeButtonClicked:</string>
 							<string>likeDislikeButtonClicked:</string>
 							<string>linkButtonClicked:</string>
+							<string>refreshButtonClicked</string>
 							<string>writeButtonClicked</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -683,6 +679,10 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">refreshButtonClicked</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">writeButtonClicked</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -698,7 +698,9 @@
 							<string>adTextView</string>
 							<string>adTitleLabel</string>
 							<string>cpcLabel</string>
+							<string>footerView</string>
 							<string>loadingView</string>
+							<string>refreshButton</string>
 							<string>sloganLabel</string>
 							<string>theTableView</string>
 							<string>uvLabel</string>
@@ -712,6 +714,8 @@
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UIView</string>
+							<string>UIView</string>
+							<string>UIBarButtonItem</string>
 							<string>UILabel</string>
 							<string>UITableView</string>
 							<string>UILabel</string>
@@ -727,7 +731,9 @@
 							<string>adTextView</string>
 							<string>adTitleLabel</string>
 							<string>cpcLabel</string>
+							<string>footerView</string>
 							<string>loadingView</string>
+							<string>refreshButton</string>
 							<string>sloganLabel</string>
 							<string>theTableView</string>
 							<string>uvLabel</string>
@@ -759,8 +765,16 @@
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">footerView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">loadingView</string>
 								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">refreshButton</string>
+								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">sloganLabel</string>
@@ -795,18 +809,14 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>dora_normal.jpg</string>
 				<string>downicon.png</string>
-				<string>fblogo.png</string>
 				<string>sloganbd.png</string>
 				<string>upicon.png</string>
 				<string>uvicon.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{48, 48}</string>
 				<string>{10, 9}</string>
-				<string>{15, 15}</string>
 				<string>{320, 2}</string>
 				<string>{10, 9}</string>
 				<string>{22, 13}</string>

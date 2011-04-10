@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
+#import "ImageDownloader.h"
 
-@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate> {
+@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, ImageDownloaderDelegate> {
     NSString *adId;
     
     UIView *adHeaderView;
@@ -41,6 +42,8 @@
     NSMutableDictionary *uvDictionary;
     NSMutableDictionary *linkIdDictionary;
     NSMutableDictionary *linkScoreDictionary;
+    NSMutableDictionary *imageUrlDictionary;
+    NSMutableDictionary *snsDictionary;
     
     UIView *loadingView;
     
@@ -50,6 +53,13 @@
     BOOL updating;
     
     UIView *footerView;
+    
+    ImageDownloader *mainImageDownloader;
+
+    NSMutableArray *imageArray;
+
+    NSMutableDictionary *imageDownloadsInProgress;
+    
 }
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
@@ -81,7 +91,12 @@
 @property (nonatomic, assign) BOOL noMoreUpdate;
 @property (nonatomic, assign) BOOL updating;
 @property (nonatomic, retain) IBOutlet UIView *footerView;
+@property (nonatomic, retain) ImageDownloader *mainImageDownloader;
+@property (nonatomic, retain) NSMutableArray *imageArray;
+@property (nonatomic, retain) NSMutableDictionary *imageDownloadsInProgress;
 
+@property (nonatomic, retain) NSMutableDictionary *imageUrlDictionary;
+@property (nonatomic, retain) NSMutableDictionary *snsDictionary;
 
 -(void)loadAd;
 -(void)loadSlogan;
@@ -97,4 +112,5 @@
 
 -(IBAction) likeDislikeButtonClicked:(id)sender;
 -(IBAction) refreshButtonClicked;
+- (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl;
 @end

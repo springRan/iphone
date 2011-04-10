@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface WebViewController : UIViewController <UIWebViewDelegate> {
     NSString *requestURL;
     UIWebView *webView;

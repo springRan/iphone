@@ -172,6 +172,8 @@
 		73F21A131350420600554A3C /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F21A111350420600554A3C /* WebViewController.xib */; };
 		73F21A171350559800554A3C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F21A151350559800554A3C /* Icon.png */; };
 		73F21A181350559800554A3C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F21A161350559800554A3C /* Icon@2x.png */; };
+		73F7FD081351C3D300935829 /* SnsWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F7FD061351C3D300935829 /* SnsWebViewController.m */; };
+		73F7FD091351C3D300935829 /* SnsWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F7FD071351C3D300935829 /* SnsWebViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -399,6 +401,9 @@
 		73F21A111350420600554A3C /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 		73F21A151350559800554A3C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		73F21A161350559800554A3C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		73F7FD051351C3D200935829 /* SnsWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SnsWebViewController.h; path = AdbyMe.xcodeproj/SnsWebViewController.h; sourceTree = SOURCE_ROOT; };
+		73F7FD061351C3D300935829 /* SnsWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SnsWebViewController.m; path = AdbyMe.xcodeproj/SnsWebViewController.m; sourceTree = SOURCE_ROOT; };
+		73F7FD071351C3D300935829 /* SnsWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SnsWebViewController.xib; path = AdbyMe.xcodeproj/SnsWebViewController.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -506,6 +511,9 @@
 				73F21A0F1350420600554A3C /* WebViewController.h */,
 				73F21A101350420600554A3C /* WebViewController.m */,
 				73F21A111350420600554A3C /* WebViewController.xib */,
+				73F7FD051351C3D200935829 /* SnsWebViewController.h */,
+				73F7FD061351C3D300935829 /* SnsWebViewController.m */,
+				73F7FD071351C3D300935829 /* SnsWebViewController.xib */,
 				7312C9BD1348C9E000A33091 /* EarningViewController.h */,
 				7312C9BE1348C9E000A33091 /* EarningViewController.m */,
 				7312C9BF1348C9E000A33091 /* EarningViewController.xib */,
@@ -964,6 +972,7 @@
 				73F21A181350559800554A3C /* Icon@2x.png in Resources */,
 				7346A3C81351853700D93C98 /* Default@2x.png in Resources */,
 				7346A3C91351853700D93C98 /* Default.png in Resources */,
+				73F7FD091351C3D300935829 /* SnsWebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1042,6 +1051,7 @@
 				73F085B5134DF4940086499C /* HtmlString.m in Sources */,
 				73F1997C134F6FD8009F174D /* WriteSloganViewController.m in Sources */,
 				73F21A121350420600554A3C /* WebViewController.m in Sources */,
+				73F7FD081351C3D300935829 /* SnsWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

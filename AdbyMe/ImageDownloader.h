@@ -80,6 +80,6 @@
 
 @protocol ImageDownloaderDelegate 
 
-- (void)imageDidLoad:(NSIndexPath *)indexPath;
+- (void)imageDidLoad:(id)sender indexPath:(NSIndexPath *)indexPath;
 
 @end

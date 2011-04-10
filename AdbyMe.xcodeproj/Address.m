@@ -66,6 +66,18 @@
     return [NSString stringWithFormat:@"%@/slogans/write/%@/%@.json", HOST_ADDR, adId, snsType];
 }
 
++(NSString *) connectSns:(int)type {
+    NSString *snsType = @"";
+    if (type == 2048) {
+        snsType = @"twitter";
+    } else if (type == 2049) {
+        snsType = @"facebook";
+    } else if (type == 2050) {
+        snsType = @"me2day";
+    }
+    return [NSString stringWithFormat:@"%@/snas/add/%@.json", HOST_ADDR, snsType];
+}
+
 -(void)dealloc{
     [super dealloc];
 }

@@ -7,6 +7,8 @@
 //
 
 #import "SNSSettingViewController.h"
+#import "Address.h"
+#import "SBJsonParser.h"
 
 #define LABEL_Y_WIDTH 283
 #define LABEL_DEFAULT_Y 6
@@ -19,12 +21,11 @@
 #define CONNECTED 2051
 #define DISCONNECTED 2052
 
-
-
 @implementation SNSSettingViewController
 @synthesize twitterLabelBackgroundView;
 @synthesize facebookLabelBackgroundView;
 @synthesize me2dayLabelBackgroundView;
+@synthesize request;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,9 +39,12 @@
 
 - (void)dealloc
 {
+    [request clearDelegatesAndCancel];
+    
     [twitterLabelBackgroundView release];
     [facebookLabelBackgroundView release];
     [me2dayLabelBackgroundView release];
+    [request release];
     [super dealloc];
 }
 
@@ -145,7 +149,7 @@
 }
 
 -(IBAction) snsButtonClicked:(id)sender{
-    UIButton *button = (UIButton *)sender;
+/*    UIButton *button = (UIButton *)sender;
     int buttonTag = button.tag;
     
     if (buttonTag == TWITTER) {
@@ -157,7 +161,17 @@
     }
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Remove account" otherButtonTitles:@"Make default", nil];
     [actionSheet showInView:self.view];
-    [actionSheet release];
+    [actionSheet release];*/
+    
+    SnsWebViewController *sViewController = [[SnsWebViewController alloc]initWithNibName:@"SnsWebViewController" bundle:nil];
+    sViewController.requestURL = [Address connectSns:2048];
+    sViewController.delegate = self;
+    [[self navigationController] pushViewController:sViewController animated:YES];
+
+}
+
+- (void)connectFinished:(NSString *)json{
+    NSLog(@"%@",json);
 }
 
 @end

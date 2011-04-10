@@ -127,7 +127,7 @@
     self.imageConnection = nil;
         
     // call our delegate and tell it that our icon is ready for display
-    [delegate imageDidLoad:self.indexPathInTableView];
+    [delegate imageDidLoad:self indexPath:self.indexPathInTableView];
 }
 
 @end
