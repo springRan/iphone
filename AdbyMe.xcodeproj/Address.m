@@ -63,7 +63,7 @@
     } else if (type == ME2DAY) {
         snsType = @"me2day";
     }
-    return [NSString stringWithFormat:@"%@/slogans/write/%@/%@.json", HOST_ADDR, adId, snsType];
+    return [NSString stringWithFormat:@"%@/slogans/write/%@/%@.json?forcelink=true", HOST_ADDR, adId, snsType];
 }
 
 +(NSString *) connectSns:(int)type {

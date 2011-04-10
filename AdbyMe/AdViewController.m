@@ -196,33 +196,20 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"SloganCellIdentifier";
-    static NSString *MoreCellIdentifier = @"MoreCellIdentifier";
     
-    int row = [indexPath row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    if (row < [self.sloganArray count]) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        if (cell == nil){
-            [[NSBundle mainBundle] loadNibNamed:@"AdCell3" owner:self options:nil];
-            cell = self.adCell;
-            self.adCell = nil;
-        }
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        [self configCell:cell andIndexPath:indexPath];
-        
-        return cell;
-    } else {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MoreCellIdentifier];
-        
-        if (cell == nil){
-            cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MoreCellIdentifier]autorelease];
-        }
-        cell.textLabel.text = @"더 보기";
-        return cell;
+    if (cell == nil){
+        [[NSBundle mainBundle] loadNibNamed:@"AdCell3" owner:self options:nil];
+        cell = self.adCell;
+        self.adCell = nil;
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    [self configCell:cell andIndexPath:indexPath];
+    
+    return cell;
 }
 
 -(void) addHeight:(double)addHeight forView:(UIView *)cellView{
@@ -236,7 +223,28 @@
     [cellView setFrame:frame];
 }
 
+-(void)restoreCell:(UITableViewCell *)cell{
+    UIView *containerView = (UIView *)[cell viewWithTag:CONTAINER_VIEW];
+    [containerView setFrame:CGRectMake(0, 0, 320, 95)];
+    UIImageView *avatarView = (UIImageView *)[cell viewWithTag:AVATAR_VIEW];
+    [avatarView setFrame:CGRectMake(7, 7, 48, 48)];
+    UIView *uvView = (UIView *)[cell viewWithTag:UV_VIEW];
+    [uvView setFrame:CGRectMake(65, 66, 220, 24)];
+    UIView *updownView = (UIView *)[cell viewWithTag:UPDOWN_VIEW];
+    [updownView setFrame:CGRectMake(288, 21, 30, 53)];
+    UIImageView *sloganBorder = (UIImageView *)[cell viewWithTag:SLOGAN_BORDER];
+    [sloganBorder setFrame:CGRectMake(0, 93, 320, 2)];
+    UILabel *sloganLabel2 = (UILabel *)[cell viewWithTag:SLOGAN_LABEL];
+    [sloganLabel2 setFrame:CGRectMake(65, 7, 215, 35)];
+    UIButton *linkButton = (UIButton *)[cell viewWithTag:LINK_BUTTON];
+    [linkButton setFrame:CGRectMake(65, 7, 215, 35)];
+    
+}
+
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath{
+    
+    //[self restoreCell:cell];
+    
     NSString *user = (NSString *)[self.userDictionary objectForKey:indexPath];
     NSString *user_copy = (NSString *)[self.sloganDictionary objectForKey:indexPath];
     NSString *link = (NSString *)[self.linkDictionary objectForKey:indexPath];
@@ -324,6 +332,8 @@
         snsImage = [UIImage imageNamed:@"fblogo.png"];
     } else if([sns isEqualToString:ME2DAY_STR]) {
         snsImage = [UIImage imageNamed:@"m2logo.png"];
+    } else {
+        snsImage = [UIImage imageNamed:@"adbylogo.png"];
     }
     snsImageView.image = snsImage;
 }

@@ -387,6 +387,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUISeparatorStyle">1</int>
 				<reference key="IBUIContentView" ref="946452770"/>
+				<string key="IBUIReuseIdentifier">SloganCellIdentifier2</string>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">

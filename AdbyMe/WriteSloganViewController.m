@@ -91,7 +91,6 @@
     AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
     self.usernameLabel.text = [delegate.userDictionary objectForKey:@"username"];
     [self.usernameLabel sizeToFit];
-    [self setLinkButtonUrl:@"http://adby.me/wg324t"];
     
     [self.copyInputView becomeFirstResponder];
     
@@ -154,6 +153,15 @@
     NSString *error = [dict objectForKey:@"error"];
     if ([NSNull null] == (NSNull *)error) {
         //[self setCheckView:EMAIL_FIELD status:OK_STATUS message:@"OK"];
+        NSString *link = [dict objectForKey:@"link"];
+        if ((NSNull *)link == [NSNull null]) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:@"Connect a SNS" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            alertView.tag = INITIAL_CHECK_ALERT_VIEW;
+            [alertView show];
+            [alertView release];
+        } else {
+            [self setLinkButtonUrl:[dict objectForKey:@"link"]];
+        }
     } else {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         alertView.tag = INITIAL_CHECK_ALERT_VIEW;

@@ -22,6 +22,8 @@
 @synthesize hViewController;
 
 @synthesize userDictionary;
+@synthesize snaArray;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -86,6 +88,7 @@
     [__persistentStoreCoordinator release];
     [hViewController release];
     [userDictionary release];
+    [snaArray release];
     [super dealloc];
 }
 

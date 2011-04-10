@@ -235,7 +235,7 @@
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *CellIdentifier = @"CellIdentifier";
+    static NSString *CellIdentifier = @"AdListViewCellIdentifier";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -468,4 +468,5 @@
 - (void)logoutRequestDone:(ASIHTTPRequest *)aRequest {
     [[self navigationController] popViewControllerAnimated:YES];
 }
+
 @end

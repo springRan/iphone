@@ -10,6 +10,10 @@
 
 
 @implementation EarningViewController
+@synthesize headerView;
+@synthesize theTableView;
+@synthesize earningLifeTimeCell;
+@synthesize earningCell;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -23,6 +27,10 @@
 
 - (void)dealloc
 {
+    [headerView release];
+    [theTableView release];
+    [earningLifeTimeCell release];
+    [earningCell release];
     [super dealloc];
 }
 
@@ -53,6 +61,54 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *CellIdentifier = @"EarningLifetimeCellIdentifier";
+    static NSString *CellIdentifier2 = @"EarningCellIdentifier";
+    
+    int row = [indexPath row];
+    
+    if (row == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil){
+            [[NSBundle mainBundle] loadNibNamed:@"EarningCellLifetime" owner:self options:nil];
+            cell = self.earningLifeTimeCell;
+            self.earningLifeTimeCell = nil;
+        }
+        return cell;
+    } else {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
+        
+        if (cell == nil){ 
+            [[NSBundle mainBundle] loadNibNamed:@"EarningCell" owner:self options:nil];
+            cell = self.earningCell;
+            self.earningCell = nil;
+        }
+        
+        return cell;
+    }
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 10;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return self.headerView;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 35.0;
 }
 
 @end

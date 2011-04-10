@@ -9,6 +9,7 @@
 #import "SNSSettingViewController.h"
 #import "Address.h"
 #import "SBJsonParser.h"
+#import "AdbyMeAppDelegate.h"
 
 #define LABEL_Y_WIDTH 283
 #define LABEL_DEFAULT_Y 6
@@ -17,6 +18,10 @@
 #define TWITTER 2048
 #define FACEBOOK 2049
 #define ME2DAY 2050
+
+#define TWITTER_STR @"twitter"
+#define FACEBOOK_STR @"facebook"
+#define ME2DAY_STR @"me2day"
 
 #define CONNECTED 2051
 #define DISCONNECTED 2052
@@ -62,9 +67,21 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self updateSnsLabel:TWITTER status:CONNECTED andSnsId:@"Onasup" setDefault:YES];
+    [self updateSnsLabel:TWITTER status:DISCONNECTED];
     [self updateSnsLabel:FACEBOOK status:DISCONNECTED];
-    [self updateSnsLabel:ME2DAY status:CONNECTED andSnsId:@"최완섭" setDefault:NO];
+    [self updateSnsLabel:ME2DAY status:DISCONNECTED];
+    AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
+    for (NSDictionary *dict in delegate.snaArray) {
+        NSDictionary *dict2 = [dict objectForKey:@"Sna"];
+        NSString *network = [dict2 objectForKey:@"network"];
+        if ([network isEqualToString:TWITTER_STR]) {
+            [self updateSnsLabel:TWITTER status:CONNECTED andSnsId:[dict2 objectForKey:@"username"] setDefault:NO];
+        } else if ([network isEqualToString:FACEBOOK_STR]) {
+            [self updateSnsLabel:FACEBOOK status:CONNECTED andSnsId:[dict2 objectForKey:@"username"] setDefault:NO];
+        } else if ([network isEqualToString:ME2DAY_STR]) {
+            [self updateSnsLabel:ME2DAY status:CONNECTED andSnsId:[dict2 objectForKey:@"username"] setDefault:NO];
+        }
+    }
 }
 
 - (void)viewDidUnload

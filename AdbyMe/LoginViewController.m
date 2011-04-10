@@ -119,6 +119,12 @@
     if ([NSNull null] == (NSNull *)error) {
         AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
         delegate.userDictionary = [dict objectForKey:@"user"];
+        NSMutableArray *arr = [dict objectForKey:@"snas"];
+        if ((NSNull *)arr == [NSNull null]) {
+            delegate.snaArray = [[NSMutableArray alloc]initWithCapacity:3];
+        } else {
+            delegate.snaArray = arr;
+        }
         AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
         [[self navigationController] pushViewController:aViewController animated:YES];
         [aViewController release];

@@ -109,7 +109,7 @@
 -(IBAction) writeButtonClicked;
 -(IBAction) linkButtonClicked:(id)sender;
 -(IBAction) goPageButtonClicked;
-
+-(void) restoreCell:(UITableViewCell *)cell;
 -(IBAction) likeDislikeButtonClicked:(id)sender;
 -(IBAction) refreshButtonClicked;
 - (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl;
