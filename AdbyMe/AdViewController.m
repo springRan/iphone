@@ -39,6 +39,8 @@
 
 #define LIKEDISLIKE_ACTIONSHEET 10000
 
+#define UPDATE_RATE 0.7
+
 @implementation AdViewController
 @synthesize adId;
 @synthesize adHeaderView;
@@ -65,6 +67,9 @@
 @synthesize linkScoreDictionary;
 @synthesize loadingView;
 @synthesize refreshButton;
+@synthesize noMoreUpdate;
+@synthesize updating;
+@synthesize footerView;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -105,6 +110,7 @@
     [linkIdDictionary release];
     [linkScoreDictionary release];
     [loadingView release];
+    [footerView release];
     [refreshButton release];
     [super dealloc];
 }
@@ -135,6 +141,13 @@
     self.linkScoreDictionary = [[NSMutableDictionary alloc]init];
     self.refreshButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(refreshButtonClicked)];
     self.navigationItem.rightBarButtonItem = self.refreshButton;
+    
+    self.footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
+    UIActivityIndicatorView *footerActivityIndicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [footerActivityIndicatorView startAnimating];
+    [footerActivityIndicatorView setFrame:CGRectMake(150, 15, 20, 20)];
+    [self.footerView addSubview:footerActivityIndicatorView];
+    
     [self loadAd];
 }
 
@@ -298,6 +311,7 @@
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
     [self.request startAsynchronous];
+    self.noMoreUpdate = NO;
 
 }
 
@@ -401,6 +415,52 @@
     
     self.sinceUrl = [self.adDictionary objectForKey:@"since_url"];
     //NSLog(@"%@",sinceUrl);
+}
+
+-(void)reloadSlogan:(NSDictionary *)moreAdDictionary{
+    NSArray *moreSloganArray = [moreAdDictionary objectForKey:@"slogans"];
+    
+    NSDictionary *dict;
+    NSDictionary *dict2;
+    UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:14.0];
+    CGSize constraintSize = CGSizeMake(215.0f, MAXFLOAT);
+    
+    for(int i = 0; i<[moreSloganArray count]; i++){
+        NSIndexPath *indexPath  = [NSIndexPath indexPathForRow:i+[self.sloganArray count] inSection:0];
+        
+        dict = [moreSloganArray objectAtIndex:i];
+        dict2 = [dict objectForKey:@"User"];
+        NSString *user = [dict2 objectForKey:@"username"];
+        
+        dict2 = [dict objectForKey:@"Slogan"];
+        NSString *copy = [dict2 objectForKey:@"copy"];
+        
+        NSString *user_copy = [NSString stringWithFormat:@"%@ %@",user,copy];
+        [self.userDictionary setObject:user forKey:indexPath];
+        [self.sloganDictionary setObject:user_copy forKey:indexPath];
+        
+        CGSize labelSize = [user_copy sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+        
+        int numberOfLines = labelSize.height / 18.0;
+        
+        [self.numberOfLinesDictionary setObject:[NSNumber numberWithInt:numberOfLines] forKey:indexPath];
+        
+        [self.linkDictionary setObject:(NSString *)[dict2 objectForKey:@"link"] forKey:indexPath];
+        
+        [self.createdDictionary setObject:(NSString *)[dict2 objectForKey:@"created"] forKey:indexPath];
+        
+        dict2 = [dict objectForKey:@"Link"];
+        
+        [self.uvDictionary setObject:(NSString *)[dict2 objectForKey:@"uv"] forKey:indexPath];
+        [self.linkIdDictionary setObject:(NSString *)[dict2 objectForKey:@"id"] forKey:indexPath];
+        int like,dislike;
+        like = [(NSString *)[dict2 objectForKey:@"like"] intValue];
+        dislike = [(NSString *)[dict2 objectForKey:@"dislike"] intValue];
+        [self.linkScoreDictionary setObject:[NSString stringWithFormat:@"%d",like-dislike] forKey:indexPath];
+    }
+    
+    self.sinceUrl = [moreAdDictionary objectForKey:@"since_url"];
+    [self.sloganArray addObjectsFromArray:moreSloganArray];
 }
 
 -(IBAction) likeButtonClicked:(int)row{
@@ -564,6 +624,70 @@
 
 -(IBAction) refreshButtonClicked{
     [self loadAd];
+}
+
+- (void)loadImagesForOnscreenRows
+{
+    NSArray *visiblePaths = [self.theTableView indexPathsForVisibleRows];
+    for (NSIndexPath *indexPath in visiblePaths)
+    {
+
+    }
+}
+
+-(void) startMoreUpdate{
+    updating = YES;
+    NSLog(@"%@",self.sinceUrl);
+    self.theTableView.tableFooterView = self.footerView;
+    NSURL *url = [NSURL URLWithString:[Address makeUrl:self.sinceUrl]];
+    self.request = [[ASIFormDataRequest alloc] initWithURL:url];
+    [self.request setDelegate:self];
+    [self.request setDidFinishSelector:@selector(moreRequestDone:)];
+    [self.request startAsynchronous];
+}
+
+- (void)moreRequestDone:(ASIFormDataRequest *)aRequest{
+    [self.footerView removeFromSuperview];
+    self.theTableView.tableFooterView = nil;
+    NSString *responseString = [aRequest responseString];
+    SBJsonParser *parser = [SBJsonParser new];
+    NSError *error = nil;
+    NSDictionary *temp = [parser objectWithString:responseString error:&error];
+    [self reloadSlogan:temp];
+    [self.theTableView reloadData];
+    updating = NO;
+}
+
+-(void)updateMore{
+    if (noMoreUpdate || updating)
+        return;
+    NSArray *visiblePaths = [self.theTableView indexPathsForVisibleRows];
+    for (NSIndexPath *indexPath in visiblePaths)
+    {
+        int row = [indexPath row];
+        if (row >= UPDATE_RATE * ([self.sloganArray count]-1)) {
+            [self startMoreUpdate];
+            return;
+        }
+    }
+}
+
+
+#pragma mark -
+#pragma mark Deferred image loading (UIScrollViewDelegate)
+
+// Load images for all onscreen rows when scrolling is finished
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self loadImagesForOnscreenRows];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+	[self loadImagesForOnscreenRows];
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [self updateMore];
 }
 
 @end

@@ -28,7 +28,7 @@
     UILabel *cpcLabel;
     NSString *bestSloganId;
     
-    NSArray *sloganArray;
+    NSMutableArray *sloganArray;
     
     NSString *sinceUrl;
     
@@ -45,6 +45,11 @@
     UIView *loadingView;
     
     UIBarButtonItem *refreshButton;
+    
+    BOOL noMoreUpdate;
+    BOOL updating;
+    
+    UIView *footerView;
 }
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
@@ -59,7 +64,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *adImageView;
 @property (nonatomic, retain) IBOutlet UILabel *cpcLabel;
 @property (nonatomic, retain) NSString *bestSloganId;
-@property (nonatomic, retain) NSArray *sloganArray;
+@property (nonatomic, retain) NSMutableArray *sloganArray;
 @property (nonatomic, retain) NSString *sinceUrl;
 @property (nonatomic, retain) IBOutlet UITableViewCell *adCell;
 @property (nonatomic, retain) NSMutableDictionary *numberOfLinesDictionary;
@@ -73,6 +78,9 @@
 
 @property (nonatomic, retain) IBOutlet UIView *loadingView;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
+@property (nonatomic, assign) BOOL noMoreUpdate;
+@property (nonatomic, assign) BOOL updating;
+@property (nonatomic, retain) IBOutlet UIView *footerView;
 
 
 -(void)loadAd;
