@@ -16,13 +16,31 @@
     UITableViewCell *earningCell;
     
     ASIHTTPRequest *request;
+    NSString *sinceUrl;
+    
+    NSMutableArray *earningsArray;
+    NSDictionary *userDictionary;
+
+    UIView *footerView;
+    
+    BOOL updating;
 }
 @property (nonatomic, retain) IBOutlet UIView *headerView;
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
 @property (nonatomic, retain) IBOutlet UITableViewCell *earningLifeTimeCell;
 @property (nonatomic, retain) IBOutlet UITableViewCell *earningCell;
 @property (nonatomic, retain) ASIHTTPRequest *request;
+@property (nonatomic, retain) NSString *sinceUrl;
+@property (nonatomic, retain) NSMutableArray *earningsArray;
+@property (nonatomic, retain) NSDictionary *userDictionary;
+@property (nonatomic, retain) IBOutlet UIView *footerView;
+@property (nonatomic, assign) BOOL updating;
 
 -(void)loadEarning;
-
+-(void)configHeaderCell:(UITableViewCell *)cell;
+-(void)configCell:(UITableViewCell *)cell row:(int)row;
+-(void)loadingStart;
+-(void)loadingEnd;
+-(void)updateMore;
+-(void) startMoreUpdate;
 @end

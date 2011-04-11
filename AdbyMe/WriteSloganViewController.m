@@ -96,8 +96,8 @@
     [self.snsImageView setImage:snsImage];
     [self.snsImageView setHighlightedImage:snsImage];
  
-    AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
-    self.usernameLabel.text = [delegate.userDictionary objectForKey:@"username"];
+    AdbyMeAppDelegate *adbymeDelegate = [[UIApplication sharedApplication]delegate];
+    self.usernameLabel.text = [adbymeDelegate.userDictionary objectForKey:@"username"];
     [self.usernameLabel sizeToFit];
     
     [self.copyInputView becomeFirstResponder];

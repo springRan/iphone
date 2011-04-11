@@ -118,7 +118,7 @@
 					<object class="IBUILabel" id="7928208">
 						<reference key="NSNextResponder" ref="701556788"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{11, 2}, {44, 20}}</string>
+						<string key="NSFrame">{{0, 2}, {95, 20}}</string>
 						<reference key="NSSuperview" ref="701556788"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="730809749"/>
@@ -140,11 +140,12 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<int key="IBUITextAlignment">1</int>
 					</object>
 					<object class="IBUILabel" id="730809749">
 						<reference key="NSNextResponder" ref="701556788"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{102, 1}, {28, 21}}</string>
+						<string key="NSFrame">{{95, 2}, {63, 21}}</string>
 						<reference key="NSSuperview" ref="701556788"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="789308330"/>
@@ -159,11 +160,12 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<int key="IBUITextAlignment">1</int>
 					</object>
 					<object class="IBUILabel" id="789308330">
 						<reference key="NSNextResponder" ref="701556788"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{154, 1}, {73, 21}}</string>
+						<string key="NSFrame">{{158, 2}, {73, 21}}</string>
 						<reference key="NSSuperview" ref="701556788"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="28040875"/>
@@ -178,11 +180,12 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<int key="IBUITextAlignment">1</int>
 					</object>
 					<object class="IBUILabel" id="28040875">
 						<reference key="NSNextResponder" ref="701556788"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{250, 1}, {57, 21}}</string>
+						<string key="NSFrame">{{231, 2}, {89, 21}}</string>
 						<reference key="NSSuperview" ref="701556788"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -197,6 +200,7 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<int key="IBUITextAlignment">1</int>
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 24}</string>
@@ -392,11 +396,15 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>earningCell</string>
+							<string>earningLifeTimeCell</string>
 							<string>headerView</string>
 							<string>theTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UITableViewCell</string>
+							<string>UITableViewCell</string>
 							<string>UIView</string>
 							<string>UITableView</string>
 						</object>
@@ -405,11 +413,21 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>earningCell</string>
+							<string>earningLifeTimeCell</string>
 							<string>headerView</string>
 							<string>theTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">earningCell</string>
+								<string key="candidateClassName">UITableViewCell</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">earningLifeTimeCell</string>
+								<string key="candidateClassName">UITableViewCell</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">headerView</string>
 								<string key="candidateClassName">UIView</string>

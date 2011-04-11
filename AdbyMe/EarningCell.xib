@@ -68,9 +68,10 @@
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
 												<int key="IBUIContentMode">7</int>
+												<int key="IBUITag">1024</int>
 												<bool key="IBUIUserInteractionEnabled">NO</bool>
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<string key="IBUIText">Label</string>
+												<string key="IBUIText"/>
 												<object class="NSFont" key="IBUIFont" id="453718296">
 													<string key="NSName">Helvetica</string>
 													<double key="NSSize">15</double>
@@ -111,9 +112,10 @@
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
 												<int key="IBUIContentMode">7</int>
+												<int key="IBUITag">1026</int>
 												<bool key="IBUIUserInteractionEnabled">NO</bool>
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<string key="IBUIText">Label</string>
+												<string key="IBUIText"/>
 												<reference key="IBUIFont" ref="453718296"/>
 												<reference key="IBUITextColor" ref="363433104"/>
 												<nil key="IBUIHighlightedColor"/>
@@ -144,9 +146,10 @@
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
 												<int key="IBUIContentMode">7</int>
+												<int key="IBUITag">1025</int>
 												<bool key="IBUIUserInteractionEnabled">NO</bool>
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<string key="IBUIText">Label</string>
+												<string key="IBUIText"/>
 												<reference key="IBUIFont" ref="453718296"/>
 												<reference key="IBUITextColor" ref="363433104"/>
 												<nil key="IBUIHighlightedColor"/>
@@ -180,9 +183,10 @@
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
 												<int key="IBUIContentMode">7</int>
+												<int key="IBUITag">1027</int>
 												<bool key="IBUIUserInteractionEnabled">NO</bool>
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<string key="IBUIText">Label</string>
+												<string key="IBUIText"/>
 												<reference key="IBUIFont" ref="453718296"/>
 												<reference key="IBUITextColor" ref="363433104"/>
 												<nil key="IBUIHighlightedColor"/>
