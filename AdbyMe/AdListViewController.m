@@ -40,6 +40,7 @@
 #define STATUS_BGIMAGE 1037
 #define STATUS_IMAGE 1038
 #define AD_DESCRIPTION 1039
+#define ACTIVITY_VIEW 1040
 
 @implementation AdListViewController
 
@@ -332,9 +333,13 @@
     descriptionLabel.text = descriptionString;
     
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:AD_IMAGE];
+    imageView.image = nil;
     UIImage *image = (UIImage *)[self.imageArray objectAtIndex:row];
     if ((NSNull *)image == [NSNull null]) {
         if(theTableView.dragging == NO && theTableView.decelerating == NO){
+            UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+            [activity setHidden:NO];
+            [activity startAnimating];
             [self startImageDownload:indexPath andImageUrl:[adDict objectForKey:@"image"]];
         }
     } else {
@@ -421,6 +426,10 @@
 			
 			if ([self.imageArray objectAtIndex:indexPath.row] == [NSNull null]) // avoid the app icon download if the app already has an icon
 			{
+                UITableViewCell *cell = [theTableView cellForRowAtIndexPath:indexPath];
+                UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+                [activity setHidden:NO];
+                [activity startAnimating];
                 int row = [indexPath row];
                 
                 NSDictionary *dict = [self.adArray objectAtIndex:row];
@@ -440,6 +449,8 @@
 		UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:imageDownloader.indexPathInTableView];
 		
 		// Display the newly loaded image
+        UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+        [activity stopAnimating];
 		UIImageView *imageView = (UIImageView *)[cell viewWithTag:AD_IMAGE];
 		imageView.image = imageDownloader.downloadedImage;
 		int row = [indexPath row];

@@ -10,7 +10,6 @@
 #import "Address.h"
 #import "SBJsonParser.h"
 #import "HtmlString.h"
-#import "WriteSloganViewController.h"
 #import "WebViewController.h"
 
 #define AVATAR_VIEW 1024
@@ -24,6 +23,7 @@
 #define UV_LABEL 1033
 #define SCORE_LABEL 1034
 #define SNS_IMAGE_VIEW 1035
+#define ACTIVITY_VIEW 1036
 
 #define FONT_HEIGHT 18
 
@@ -44,7 +44,7 @@
 
 #define LIKEDISLIKE_ACTIONSHEET 10000
 
-#define UPDATE_RATE 0.9
+#define UPDATE_RATE 1.0
 
 #define MAIN_IMAGE 4096
 
@@ -82,6 +82,8 @@
 @synthesize imageDownloadsInProgress;
 @synthesize imageUrlDictionary;
 @synthesize snsDictionary;
+@synthesize statusBgImageView;
+@synthesize statusImageView;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -130,6 +132,8 @@
     [loadingView release];
     [mainImageDownloader release];
     [footerView release];
+    [statusBgImageView release];
+    [statusImageView release];
     [refreshButton release];
     [snsDictionary release];
     [super dealloc];
@@ -314,9 +318,13 @@
     label.text = (NSString *)[self.linkScoreDictionary objectForKey:indexPath];
     
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:AVATAR_VIEW];
+    imageView.image = nil;
     UIImage *image = (UIImage *)[self.imageArray objectAtIndex:[indexPath row]];
     if ((NSNull *)image == [NSNull null]) {
         if(theTableView.dragging == NO && theTableView.decelerating == NO){
+            UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+            [activity setHidden:NO];
+            [activity startAnimating];
             [self startImageDownload:indexPath andImageUrl:[self.imageUrlDictionary objectForKey:indexPath]];
         }
     } else {
@@ -326,12 +334,16 @@
     UIImageView *snsImageView = (UIImageView *)[cell viewWithTag:SNS_IMAGE_VIEW];
     UIImage *snsImage;
     NSString *sns = [self.snsDictionary objectForKey:indexPath];
-    if ([sns isEqualToString:TWITTER_STR]) {
-        snsImage = [UIImage imageNamed:@"twlogo.png"];
-    } else if([sns isEqualToString:FACEBOOK_STR]) {
-        snsImage = [UIImage imageNamed:@"fblogo.png"];
-    } else if([sns isEqualToString:ME2DAY_STR]) {
-        snsImage = [UIImage imageNamed:@"m2logo.png"];
+    if ((NSNull *)sns != [NSNull null]) {
+        if ([sns isEqualToString:TWITTER_STR]) {
+            snsImage = [UIImage imageNamed:@"twlogo.png"];
+        } else if([sns isEqualToString:FACEBOOK_STR]) {
+            snsImage = [UIImage imageNamed:@"fblogo.png"];
+        } else if([sns isEqualToString:ME2DAY_STR]) {
+            snsImage = [UIImage imageNamed:@"m2logo.png"];
+        } else {
+            snsImage = [UIImage imageNamed:@"adbylogo.png"];
+        }
     } else {
         snsImage = [UIImage imageNamed:@"adbylogo.png"];
     }
@@ -424,6 +436,24 @@
     self.cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
     
     self.bestSloganId = [adDict objectForKey:@"best_slogan_id"];
+    
+    NSString *status = [adDict objectForKey:@"status"];
+    if ([status isEqualToString:@"active"]){
+        CGRect frame = statusImageView.frame;
+        frame.size.width = 15;
+        frame.origin.x = 11;
+        [statusImageView setFrame:frame];
+        [statusImageView setImage:[UIImage imageNamed:@"activeicon.png"]];
+        [statusBgImageView setImage:[UIImage imageNamed:@"activeCPUV.png"]];
+    } else{
+        cpcLabel.text = @"Paused";
+        CGRect frame = statusImageView.frame;
+        frame.size.width = 7;
+        frame.origin.x = 15;
+        [statusImageView setFrame:frame];
+        [statusImageView setImage:[UIImage imageNamed:@"pausedicon.png"]];
+        [statusBgImageView setImage:[UIImage imageNamed:@"pausedCPUV.png"]];
+    }
 }
 
 -(void)loadSlogan{
@@ -619,6 +649,7 @@
             WriteSloganViewController *wViewController = [[WriteSloganViewController alloc]initWithNibName:@"WriteSloganViewController" bundle:nil];
             wViewController.snsType = 1024+buttonIndex;
             wViewController.adId = self.adId;
+            wViewController.delegate = self;
             [[self navigationController] pushViewController:wViewController animated:YES];
             [wViewController release];
         }
@@ -731,6 +762,10 @@
 		{
 			if ([self.imageArray objectAtIndex:indexPath.row] == [NSNull null]) // avoid the app icon download if the app already has an icon
 			{
+                UITableViewCell *cell = [theTableView cellForRowAtIndexPath:indexPath];
+                UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+                [activity setHidden:NO];
+                [activity startAnimating];
 				[self startImageDownload:indexPath andImageUrl:[self.imageUrlDictionary  objectForKey:indexPath]];
 			}
 		}
@@ -784,7 +819,8 @@
         if (imageDownloader != nil)
         {
             UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:imageDownloader.indexPathInTableView];
-            
+            UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+            [activity stopAnimating];
             // Display the newly loaded image
             UIImageView *imageView = (UIImageView *)[cell viewWithTag:AVATAR_VIEW];
             imageView.image = imageDownloader.downloadedImage;
@@ -808,5 +844,9 @@
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [self updateMore];
+}
+
+- (void)writeSuccess{
+    [self loadAd];
 }
 @end

@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "ASIFormDataRequest.h"
 #import "ASIHTTPRequest.h"
-@interface WriteSloganViewController : UIViewController <UITextViewDelegate, ASIHTTPRequestDelegate, UIAlertViewDelegate> {
+
+@protocol WriteSloganViewControllerDelegate;
+
+@interface WriteSloganViewController : UIViewController <UITextViewDelegate, ASIHTTPRequestDelegate, UIAlertViewDelegate, UIActionSheetDelegate> {
     int snsType;
     UIBarButtonItem *publishButton;
     UIImageView *snsImageView;
@@ -23,6 +26,8 @@
     ASIFormDataRequest *request;
     
     UIView *loadingView;
+    
+    id <WriteSloganViewControllerDelegate> delegate;
 }
 @property (nonatomic, assign) int snsType;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *publishButton;
@@ -36,8 +41,17 @@
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) ASIFormDataRequest *request;
 @property (nonatomic, retain) IBOutlet UIView *loadingView;
+@property (nonatomic, assign) id <WriteSloganViewControllerDelegate> delegate;
 
 -(void)publishButtonClicked;
 -(void)updateLeftLabel:(int)length;
 -(void)setLinkButtonUrl:(NSString *)url;
+-(IBAction) linkButtonClicked;
+
+@end
+
+@protocol WriteSloganViewControllerDelegate 
+
+- (void)writeSuccess;
+
 @end

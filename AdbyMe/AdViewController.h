@@ -10,8 +10,10 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "ImageDownloader.h"
+#import "WriteSloganViewController.h"
 
-@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, ImageDownloaderDelegate> {
+@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, ImageDownloaderDelegate, WriteSloganViewControllerDelegate> {
+    
     NSString *adId;
     
     UIView *adHeaderView;
@@ -28,6 +30,8 @@
     UIImageView *adImageView;
     UILabel *cpcLabel;
     NSString *bestSloganId;
+    UIImageView *statusBgImageView;
+    UIImageView *statusImageView;
     
     NSMutableArray *sloganArray;
     
@@ -97,6 +101,9 @@
 
 @property (nonatomic, retain) NSMutableDictionary *imageUrlDictionary;
 @property (nonatomic, retain) NSMutableDictionary *snsDictionary;
+
+@property (nonatomic, retain) IBOutlet UIImageView *statusBgImageView;
+@property (nonatomic, retain) IBOutlet UIImageView *statusImageView;
 
 -(void)loadAd;
 -(void)loadSlogan;

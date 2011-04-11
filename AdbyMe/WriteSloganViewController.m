@@ -20,6 +20,10 @@
 #define INITIAL_CHECK_ALERT_VIEW 2048
 #define PUBLISH_ALERT_VIEW 2049
 
+#define ADBY_ME 0
+#define BIT_LY 1
+#define GOO_GL 2
+
 @implementation WriteSloganViewController
 @synthesize snsType;
 @synthesize publishButton;
@@ -33,6 +37,8 @@
 @synthesize adId;
 @synthesize request;
 @synthesize loadingView;
+@synthesize delegate;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,6 +63,8 @@
     [copyInputView release];
     [adId release];
     [request release];
+    
+    delegate = nil;
     [super dealloc];
 }
 
@@ -189,6 +197,7 @@
     [alertView show];
     [alertView release];
 }
+
 - (void)publishRequestDone:(ASIHTTPRequest *)aRequest {
     NSString *responseString = [aRequest responseString];
     NSLog(@"Email Request Done");
@@ -200,10 +209,38 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Success" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         [alertView release];
+        [delegate writeSuccess];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         [alertView release];
+    }
+}
+-(IBAction) linkButtonClicked {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"adby.me", @"bit.ly", @"goo.gl", nil];
+    [actionSheet showInView:self.view];
+    [actionSheet release];
+}
+
+- (void)linkRequestDone:(ASIHTTPRequest *)aRequest {
+    NSString *response = [aRequest responseString];
+    [self setLinkButtonUrl:response];
+}
+- (void)linkRequestFailed:(ASIHTTPRequest *)aRequest {
+    NSError *error = [aRequest error];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Change Link Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
+}
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex != [actionSheet cancelButtonIndex]) {
+        [request clearDelegatesAndCancel];
+        NSURL *url = [NSURL URLWithString:[Address makeShortLink:adId andLinkType:buttonIndex]];
+        request = [[ASIFormDataRequest alloc]initWithURL:url];
+        [request setDelegate:self];
+        [request setDidFinishSelector:@selector(linkRequestDone:)];
+        [request setDidFailSelector:@selector(linkRequestFailed:)];
+        [request startAsynchronous];
     }
 }
 @end

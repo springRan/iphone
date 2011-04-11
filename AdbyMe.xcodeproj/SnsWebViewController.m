@@ -14,6 +14,7 @@
 @synthesize webView;
 @synthesize activityView;
 @synthesize delegate;
+@synthesize snsType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -76,7 +77,7 @@
     NSRange range = [urlString rangeOfString:@"snas/callback"];
     if(range.location != NSNotFound) {
         NSString *json = [self.webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.textContent"];
-        [delegate connectFinished:json];
+        [delegate connectFinished:self json:json];
         [[self navigationController] popViewControllerAnimated:YES];
     }
     [self.activityView stopAnimating];

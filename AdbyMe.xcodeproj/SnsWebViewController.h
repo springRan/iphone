@@ -15,12 +15,14 @@
     UIWebView *webView;
     UIActivityIndicatorView *activityView;
     id <SnsWebViewControllerDelegate> delegate;
+    int snsType;
+    
 }
 @property (nonatomic, retain) NSString *requestURL;
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityView;
 @property (nonatomic, assign) id <SnsWebViewControllerDelegate> delegate;
-
+@property (nonatomic, assign) int snsType;
 
 
 @end
@@ -29,6 +31,6 @@
 
 @protocol SnsWebViewControllerDelegate 
 
-- (void)connectFinished:(NSString *)json;
+- (void)connectFinished:(id)sender json:(NSString *)json;
 
 @end

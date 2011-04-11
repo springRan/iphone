@@ -78,6 +78,35 @@
     return [NSString stringWithFormat:@"%@/snas/add/%@.json", HOST_ADDR, snsType];
 }
 
++(NSString *) disconnectSns:(int)type{
+    NSString *snsType = @"";
+    if (type == 2048) {
+        snsType = @"twitter";
+    } else if (type == 2049) {
+        snsType = @"facebook";
+    } else if (type == 2050) {
+        snsType = @"me2day";
+    }
+    return [NSString stringWithFormat:@"%@/snas/delete/%@.json", HOST_ADDR, snsType];
+}
+
++(NSString *) makeShortLink:(NSString *)adId andLinkType:(int)type{
+    NSString *linkType = @"";
+    if (type == 0) {
+        linkType = @"adby.me";
+    } else if (type == 1) {
+        linkType = @"bit.ly";
+    } else if (type == 2) {
+        linkType = @"goo.gl";
+    }
+    return [NSString stringWithFormat:@"%@/links/makeShortLink/%@/%@", HOST_ADDR, adId, linkType];
+}
+
++(NSString *) earningURL{
+    return [NSString stringWithFormat:@"%@/copy/earnings.json", HOST_ADDR];
+}
+
+
 -(void)dealloc{
     [super dealloc];
 }

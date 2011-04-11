@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define HOST_ADDR @"http://exp.lostady.adby.me"
+#define HOST_ADDR @"http://exp.siwonred.adby.me"
 
 @interface Address : NSObject {
 
@@ -26,4 +26,8 @@
 +(NSString *) dislikeUrl:(NSString *)linkId;
 +(NSString *) writeCopy:(NSString *)adId andSnsType:(int)type;
 +(NSString *) connectSns:(int)type;
++(NSString *) disconnectSns:(int)type;
++(NSString *) makeShortLink:(NSString *)adId andLinkType:(int)type;
++(NSString *) earningURL;
+
 @end

@@ -7,13 +7,15 @@
 //
 
 #import "EarningViewController.h"
-
+#import "Address.h"
+#import "SBJsonParser.h"
 
 @implementation EarningViewController
 @synthesize headerView;
 @synthesize theTableView;
 @synthesize earningLifeTimeCell;
 @synthesize earningCell;
+@synthesize request;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,6 +33,7 @@
     [theTableView release];
     [earningLifeTimeCell release];
     [earningCell release];
+    [request release];
     [super dealloc];
 }
 
@@ -48,6 +51,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self loadEarning];
 }
 
 - (void)viewDidUnload
@@ -109,6 +113,41 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 35.0;
+}
+
+-(void)loadEarning{
+    [self.request clearDelegatesAndCancel];
+    NSURL *url = [NSURL URLWithString:[Address earningURL]];
+    self.request = [[ASIHTTPRequest alloc]initWithURL:url];
+    [self.request setDelegate:self];
+    [self.request startAsynchronous];
+}
+
+
+- (void)requestFinished:(ASIHTTPRequest *)aRequest
+{
+    // Use when fetching text data
+    NSString *responseString = [aRequest responseString];
+    SBJsonParser *parser = [SBJsonParser new];
+    NSDictionary *dict = [parser objectWithString:responseString];
+    NSLog(@"%@",dict);
+    NSString *error = [dict objectForKey:@"error"];
+    if ([NSNull null] == (NSNull *)error) {
+        
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Loading Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+        
+    }
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)aRequest
+{
+    NSError *error = [aRequest error];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Loading Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 @end
