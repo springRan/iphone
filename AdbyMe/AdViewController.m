@@ -11,6 +11,7 @@
 #import "SBJsonParser.h"
 #import "HtmlString.h"
 #import "WebViewController.h"
+#import "DateDifference.h"
 
 #define AVATAR_VIEW 1024
 #define UPDOWN_VIEW 1026
@@ -84,6 +85,7 @@
 @synthesize snsDictionary;
 @synthesize statusBgImageView;
 @synthesize statusImageView;
+
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -301,12 +303,9 @@
     label = (UILabel *)[cell viewWithTag:CREATE_DATE_LABEL];
     NSString *createdString = (NSString *)[self.createdDictionary objectForKey:indexPath];
     NSRange range = [createdString rangeOfString:@"+"];
+    
     createdString = [createdString substringToIndex:range.location];
-    NSDateFormatter *formatter = [[[NSDateFormatter alloc]init]autorelease];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDate *date = [formatter dateFromString:createdString];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    label.text = [formatter stringFromDate:date];
+    label.text = [NSDateFormatter dateDifferenceStringFromString:createdString withFormat:@"yyyy-MM-dd HH:mm:ss+00"];
     
     NSNumberFormatter *formatter2 = [[[NSNumberFormatter alloc]init]autorelease];
     [formatter2 setNumberStyle:NSNumberFormatterDecimalStyle];

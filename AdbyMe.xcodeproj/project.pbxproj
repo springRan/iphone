@@ -176,6 +176,7 @@
 		73F21A181350559800554A3C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F21A161350559800554A3C /* Icon@2x.png */; };
 		73F7FD081351C3D300935829 /* SnsWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F7FD061351C3D300935829 /* SnsWebViewController.m */; };
 		73F7FD091351C3D300935829 /* SnsWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F7FD071351C3D300935829 /* SnsWebViewController.xib */; };
+		A759DEE3135486FC00C884C3 /* DateDifference.m in Sources */ = {isa = PBXBuildFile; fileRef = A759DEE2135486FC00C884C3 /* DateDifference.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -408,6 +409,8 @@
 		73F7FD051351C3D200935829 /* SnsWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SnsWebViewController.h; path = AdbyMe.xcodeproj/SnsWebViewController.h; sourceTree = SOURCE_ROOT; };
 		73F7FD061351C3D300935829 /* SnsWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SnsWebViewController.m; path = AdbyMe.xcodeproj/SnsWebViewController.m; sourceTree = SOURCE_ROOT; };
 		73F7FD071351C3D300935829 /* SnsWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SnsWebViewController.xib; path = AdbyMe.xcodeproj/SnsWebViewController.xib; sourceTree = SOURCE_ROOT; };
+		A759DEE1135486FC00C884C3 /* DateDifference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateDifference.h; sourceTree = "<group>"; };
+		A759DEE2135486FC00C884C3 /* DateDifference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateDifference.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -506,6 +509,8 @@
 				7376850F134CA95D00410773 /* AdViewController.xib */,
 				7361F87E134CC86B00F84E0D /* AdHeaderView.xib */,
 				73988F67134DD69600D0A2EB /* AdCell3.xib */,
+				A759DEE1135486FC00C884C3 /* DateDifference.h */,
+				A759DEE2135486FC00C884C3 /* DateDifference.m */,
 				73F19979134F6FD8009F174D /* WriteSloganViewController.h */,
 				73F1997A134F6FD8009F174D /* WriteSloganViewController.m */,
 				73F1997B134F6FD8009F174D /* WriteSloganViewController.xib */,
@@ -1060,6 +1065,7 @@
 				73F1997C134F6FD8009F174D /* WriteSloganViewController.m in Sources */,
 				73F21A121350420600554A3C /* WebViewController.m in Sources */,
 				73F7FD081351C3D300935829 /* SnsWebViewController.m in Sources */,
+				A759DEE3135486FC00C884C3 /* DateDifference.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
