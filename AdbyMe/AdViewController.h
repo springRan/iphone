@@ -121,3 +121,4 @@
 -(IBAction) refreshButtonClicked;
 - (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl;
 @end
+
