@@ -320,14 +320,16 @@
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:AVATAR_VIEW];
     imageView.image = nil;
     UIImage *image = (UIImage *)[self.imageArray objectAtIndex:[indexPath row]];
+    //UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+    //[activity setHidden:NO];
+    //[activity startAnimating];
+
     if ((NSNull *)image == [NSNull null]) {
         if(theTableView.dragging == NO && theTableView.decelerating == NO){
-            UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
-            [activity setHidden:NO];
-            [activity startAnimating];
             [self startImageDownload:indexPath andImageUrl:[self.imageUrlDictionary objectForKey:indexPath]];
         }
     } else {
+        //[activity stopAnimating];
         imageView.image = image;
     }
     
@@ -583,6 +585,7 @@
     
     [self.request clearDelegatesAndCancel];
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
+    self.request.userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:row] forKey:@"row"];
     [self.request setDelegate:self];
     [self.request setDidFinishSelector:@selector(likeRequestDone:)];
     [self.request startAsynchronous];
@@ -608,6 +611,14 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Like Success" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         [alertView release];
+        NSDictionary *dict = [aRequest userInfo];
+        NSNumber *number = (NSNumber *)[dict objectForKey:@"row"];
+        int row = [number intValue];
+        UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+        UILabel *label = (UILabel *)[cell viewWithTag:SCORE_LABEL];
+        int curScore = [label.text intValue];
+        curScore++;
+        label.text = [NSString stringWithFormat:@"%d",curScore];
     } else {
         NSLog(@"Like Failed");
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Vote Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -627,6 +638,14 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Dislike Success" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         [alertView release];
+        NSDictionary *dict = [aRequest userInfo];
+        NSNumber *number = (NSNumber *)[dict objectForKey:@"row"];
+        int row = [number intValue];
+        UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+        UILabel *label = (UILabel *)[cell viewWithTag:SCORE_LABEL];
+        int curScore = [label.text intValue];
+        curScore--;
+        label.text = [NSString stringWithFormat:@"%d",curScore];
 
     } else {
         NSLog(@"Disike Failed");
@@ -680,6 +699,7 @@
         NSURL *url = [NSURL URLWithString:[Address dislikeUrl:(NSString *)[self.linkIdDictionary objectForKey:indexPath]]];
         [self.request clearDelegatesAndCancel];
         self.request = [[ASIFormDataRequest alloc] initWithURL:url];
+        self.request.userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:[indexPath row]] forKey:@"row"];
         [self.request setPostValue:reason forKey:@"data[LinkLikeUv][reason]"];
         [self.request setDelegate:self];
         [self.request setDidFinishSelector:@selector(dislikeRequestDone:)];
@@ -762,10 +782,6 @@
 		{
 			if ([self.imageArray objectAtIndex:indexPath.row] == [NSNull null]) // avoid the app icon download if the app already has an icon
 			{
-                UITableViewCell *cell = [theTableView cellForRowAtIndexPath:indexPath];
-                UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
-                [activity setHidden:NO];
-                [activity startAnimating];
 				[self startImageDownload:indexPath andImageUrl:[self.imageUrlDictionary  objectForKey:indexPath]];
 			}
 		}
@@ -819,8 +835,8 @@
         if (imageDownloader != nil)
         {
             UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:imageDownloader.indexPathInTableView];
-            UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
-            [activity stopAnimating];
+            //UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+            //[activity stopAnimating];
             // Display the newly loaded image
             UIImageView *imageView = (UIImageView *)[cell viewWithTag:AVATAR_VIEW];
             imageView.image = imageDownloader.downloadedImage;

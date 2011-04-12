@@ -64,6 +64,7 @@
 
     NSMutableDictionary *imageDownloadsInProgress;
     
+    
 }
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;

@@ -291,7 +291,6 @@
 										<string key="NSFrame">{{0, 93}, {320, 2}}</string>
 										<reference key="NSSuperview" ref="527561823"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<int key="IBUITag">1030</int>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -351,7 +350,7 @@
 									</object>
 									<object class="IBUIActivityIndicatorView" id="422858834">
 										<reference key="NSNextResponder" ref="527561823"/>
-										<int key="NSvFlags">292</int>
+										<int key="NSvFlags">-2147483356</int>
 										<string key="NSFrame">{{21, 21}, {20, 20}}</string>
 										<reference key="NSSuperview" ref="527561823"/>
 										<reference key="NSWindow"/>
@@ -359,7 +358,6 @@
 										<bool key="IBUIOpaque">NO</bool>
 										<int key="IBUITag">1036</int>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<bool key="IBUIHidesWhenStopped">NO</bool>
 										<int key="IBUIStyle">2</int>
 									</object>
 								</object>
@@ -725,6 +723,8 @@
 							<string>loadingView</string>
 							<string>refreshButton</string>
 							<string>sloganLabel</string>
+							<string>statusBgImageView</string>
+							<string>statusImageView</string>
 							<string>theTableView</string>
 							<string>uvLabel</string>
 						</object>
@@ -740,6 +740,8 @@
 							<string>UIView</string>
 							<string>UIBarButtonItem</string>
 							<string>UILabel</string>
+							<string>UIImageView</string>
+							<string>UIImageView</string>
 							<string>UITableView</string>
 							<string>UILabel</string>
 						</object>
@@ -758,6 +760,8 @@
 							<string>loadingView</string>
 							<string>refreshButton</string>
 							<string>sloganLabel</string>
+							<string>statusBgImageView</string>
+							<string>statusImageView</string>
 							<string>theTableView</string>
 							<string>uvLabel</string>
 						</object>
@@ -802,6 +806,14 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">sloganLabel</string>
 								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">statusBgImageView</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">statusImageView</string>
+								<string key="candidateClassName">UIImageView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">theTableView</string>

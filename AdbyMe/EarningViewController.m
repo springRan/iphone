@@ -153,7 +153,6 @@
     self.request = [[ASIHTTPRequest alloc]initWithURL:url];
     [self.request setDelegate:self];
     [self.request startAsynchronous];
-
 }
 
 -(void)loadingStart{
@@ -251,6 +250,7 @@
 -(void) startMoreUpdate{
     NSLog(@"%@",self.sinceUrl);
     [self loadingStart];
+    
     NSURL *url = [NSURL URLWithString:[Address makeUrl:self.sinceUrl]];
     self.request = [[ASIHTTPRequest alloc] initWithURL:url];
     [self.request setDelegate:self];

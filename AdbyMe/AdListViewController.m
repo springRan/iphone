@@ -56,6 +56,7 @@
 @synthesize imageArray;
 @synthesize request;
 @synthesize imageDownloadsInProgress;
+@synthesize tableViewCellDictionary;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -82,6 +83,7 @@
     [adCell4 release];
     [reservedLabel release];
     [availableLabel release];
+    [tableViewCellDictionary release];
     [numberOfLinesDictionary release];
     [imageArray release];
     [imageDownloadsInProgress release];
@@ -104,6 +106,7 @@
     self.numberOfLinesDictionary = [[NSMutableDictionary alloc]init];
     self.imageArray = [[NSMutableArray alloc]init];
     self.imageDownloadsInProgress = [[NSMutableDictionary alloc]init];
+    self.tableViewCellDictionary = [[NSMutableDictionary alloc]init];
     self.settingButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"seticon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingButtonClicked)];
     self.updateButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(updateButtonClicked)];
     self.navigationItem.leftBarButtonItem = self.updateButton;
@@ -202,6 +205,7 @@
         [self.imageArray addObject:[NSNull null]];
     }
     [self.imageDownloadsInProgress removeAllObjects];
+    [self.tableViewCellDictionary removeAllObjects];
     [self getHeight];
     [self.theTableView reloadData];
 }
@@ -236,20 +240,23 @@
 
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *CellIdentifier = @"AdListViewCellIdentifier";
+    //static NSString *CellIdentifier = @"AdListViewCellIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NSLog(@"Cell %d Start",[indexPath row]);
     
-    if (cell == nil){
-        [[NSBundle mainBundle] loadNibNamed:@"AdCell4" owner:self options:nil];
-		cell = self.adCell4;
-		self.adCell4 = nil;
-    }
+    if ([self.tableViewCellDictionary objectForKey:indexPath] != nil)
+        return [self.tableViewCellDictionary objectForKey:indexPath];
+    
+    [[NSBundle mainBundle] loadNibNamed:@"AdCell4" owner:self options:nil];
+    UITableViewCell *cell = self.adCell4;
+    self.adCell4 = nil;
     
     [self configCell:cell andIndexPath:indexPath];
     
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [self.tableViewCellDictionary setObject:cell forKey:indexPath];
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    NSLog(@"Cell %d End",[indexPath row]);
     return cell;
 }
 
@@ -335,14 +342,15 @@
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:AD_IMAGE];
     imageView.image = nil;
     UIImage *image = (UIImage *)[self.imageArray objectAtIndex:row];
+    UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+    [activity setHidden:NO];
+    [activity startAnimating];
     if ((NSNull *)image == [NSNull null]) {
         if(theTableView.dragging == NO && theTableView.decelerating == NO){
-            UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
-            [activity setHidden:NO];
-            [activity startAnimating];
             [self startImageDownload:indexPath andImageUrl:[adDict objectForKey:@"image"]];
         }
     } else {
+        [activity stopAnimating];
         imageView.image = image;
     }
     
@@ -426,10 +434,6 @@
 			
 			if ([self.imageArray objectAtIndex:indexPath.row] == [NSNull null]) // avoid the app icon download if the app already has an icon
 			{
-                UITableViewCell *cell = [theTableView cellForRowAtIndexPath:indexPath];
-                UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
-                [activity setHidden:NO];
-                [activity startAnimating];
                 int row = [indexPath row];
                 
                 NSDictionary *dict = [self.adArray objectAtIndex:row];
@@ -446,8 +450,8 @@
 	ImageDownloader *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
 	if (imageDownloader != nil)
 	{
-		UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:imageDownloader.indexPathInTableView];
-		
+//		UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:imageDownloader.indexPathInTableView];
+        UITableViewCell *cell = [self.tableViewCellDictionary objectForKey:indexPath];
 		// Display the newly loaded image
         UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
         [activity stopAnimating];

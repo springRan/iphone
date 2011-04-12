@@ -19,13 +19,13 @@
     NSArray *adArray;
     UITableViewCell *adCell4;
     NSMutableDictionary *numberOfLinesDictionary;
-    
+
     UILabel *reservedLabel;
     UILabel *availableLabel;
     NSMutableArray *imageArray;
     ASIHTTPRequest *request;
     NSMutableDictionary *imageDownloadsInProgress;
-
+    NSMutableDictionary *tableViewCellDictionary;
 }
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *settingButton;
@@ -40,6 +40,7 @@
 @property (nonatomic, retain) NSMutableArray *imageArray;
 @property (nonatomic, retain) ASIHTTPRequest *request;
 @property (nonatomic, retain) NSMutableDictionary *imageDownloadsInProgress;
+@property (nonatomic, retain) NSMutableDictionary *tableViewCellDictionary;
 
 
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath;
