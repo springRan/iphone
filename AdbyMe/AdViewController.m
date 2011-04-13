@@ -179,11 +179,12 @@
     [footerActivityIndicatorView startAnimating];
     [footerActivityIndicatorView setFrame:CGRectMake(150, 15, 20, 20)];
     [self.footerView addSubview:footerActivityIndicatorView];
-
+    self.theTableView.tableFooterView = self.footerView;
     self.imageArray = [[NSMutableArray alloc]init];
     self.imageDownloadsInProgress = [[NSMutableDictionary alloc]init];
 
     [self loadAd];
+    NSLog(@"viewDidLoad");
 }
 
 - (void)viewDidUnload
@@ -250,7 +251,7 @@
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath{
     
     //[self restoreCell:cell];
-    
+        
     NSString *user = (NSString *)[self.userDictionary objectForKey:indexPath];
     NSString *user_copy = (NSString *)[self.sloganDictionary objectForKey:indexPath];
     NSString *link = (NSString *)[self.linkDictionary objectForKey:indexPath];
@@ -517,8 +518,12 @@
     }
     
     self.sinceUrl = [self.adDictionary objectForKey:@"since_url"];
-    if((NSNull *)self.sinceUrl == [NSNull null])
+    if((NSNull *)self.sinceUrl == [NSNull null]){
         noMoreUpdate = YES;
+        [self.footerView removeFromSuperview];
+        self.theTableView.tableFooterView = nil;
+
+    }
     //NSLog(@"%@",sinceUrl);
 }
 
@@ -721,7 +726,7 @@
         urlString = [dict2 objectForKey:@"link"];
     }
     else {
-        NSDictionary *dict2 = [dict objectForKey:@"ad"];
+        NSDictionary *dict2 = [self.adDictionary objectForKey:@"ad"];
         dict2 = [dict2 objectForKey:@"Ad"];
         urlString = [dict2 objectForKey:@"link"];
     }
@@ -791,7 +796,6 @@
 -(void) startMoreUpdate{
     updating = YES;
     NSLog(@"%@",self.sinceUrl);
-    self.theTableView.tableFooterView = self.footerView;
     NSURL *url = [NSURL URLWithString:[Address makeUrl:self.sinceUrl]];
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
@@ -800,8 +804,6 @@
 }
 
 - (void)moreRequestDone:(ASIFormDataRequest *)aRequest{
-    [self.footerView removeFromSuperview];
-    self.theTableView.tableFooterView = nil;
     NSString *responseString = [aRequest responseString];
     SBJsonParser *parser = [SBJsonParser new];
     NSError *error = nil;

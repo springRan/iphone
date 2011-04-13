@@ -26,6 +26,8 @@
     ASIHTTPRequest *request;
     NSMutableDictionary *imageDownloadsInProgress;
     NSMutableDictionary *tableViewCellDictionary;
+    
+    UIView *loadingView;
 }
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *settingButton;
@@ -41,7 +43,7 @@
 @property (nonatomic, retain) ASIHTTPRequest *request;
 @property (nonatomic, retain) NSMutableDictionary *imageDownloadsInProgress;
 @property (nonatomic, retain) NSMutableDictionary *tableViewCellDictionary;
-
+@property (nonatomic, retain) IBOutlet UIView *loadingView;
 
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath;
 -(IBAction) settingButtonClicked;

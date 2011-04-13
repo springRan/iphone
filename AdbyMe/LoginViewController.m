@@ -105,7 +105,6 @@
     [request startAsynchronous];
 
     [self.activityIndicatorView startAnimating];
-
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)aRequest

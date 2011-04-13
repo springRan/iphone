@@ -11,6 +11,7 @@
 #import "Address.h"
 #import "SBJsonParser.h"
 #import "AdListViewController.h"
+#import "WebViewController.h"
 
 #define EMAIL_FIELD 1
 #define USERNAME_FIELD 2
@@ -368,7 +369,10 @@
 }
 
 -(IBAction) termsClicked{
-    
+    WebViewController *wViewController = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
+    wViewController.requestURL = @"http://www.acmicpc.net/JudgeOnline";
+    [[self navigationController] pushViewController:wViewController animated:YES];
+    [wViewController release];
 }
 
 - (void)requestWentWrong:(ASIHTTPRequest *)aRequest {

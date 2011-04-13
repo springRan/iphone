@@ -57,6 +57,7 @@
 @synthesize request;
 @synthesize imageDownloadsInProgress;
 @synthesize tableViewCellDictionary;
+@synthesize loadingView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -80,6 +81,7 @@
     [settingButton release];
     [adArray release];
     [updateButton release];
+    [loadingView release];
     [adCell4 release];
     [reservedLabel release];
     [availableLabel release];
@@ -183,6 +185,9 @@
 }
 
 -(void)loadAd{
+    if ([self.loadingView superview] == nil){
+        [self.view addSubview:loadingView];
+    }
     NSURL *url = [NSURL URLWithString:[Address adListURL]];
     NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
     [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
@@ -195,6 +200,7 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)aRequest
 {
+    [self.loadingView removeFromSuperview];
     // Use when fetching text data
     NSString *responseString = [aRequest responseString];
     SBJsonParser *parser = [SBJsonParser new];
@@ -228,6 +234,7 @@
 }
 - (void)requestFailed:(ASIHTTPRequest *)aRequest
 {
+    [self.loadingView removeFromSuperview];
     NSError *error = [aRequest error];
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
@@ -242,8 +249,6 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     //static NSString *CellIdentifier = @"AdListViewCellIdentifier";
     
-    NSLog(@"Cell %d Start",[indexPath row]);
-    
     if ([self.tableViewCellDictionary objectForKey:indexPath] != nil)
         return [self.tableViewCellDictionary objectForKey:indexPath];
     
@@ -256,7 +261,6 @@
     [self.tableViewCellDictionary setObject:cell forKey:indexPath];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    NSLog(@"Cell %d End",[indexPath row]);
     return cell;
 }
 

@@ -17,6 +17,8 @@
 
 #define MAX_COPY_LENGTH 140
 
+#define SPACE_LENGTH 5
+
 #define INITIAL_CHECK_ALERT_VIEW 2048
 #define PUBLISH_ALERT_VIEW 2049
 
@@ -136,7 +138,7 @@
 }
 
 -(void)updateLeftLabel:(int)length{
-    int remain =  MAX_COPY_LENGTH - length;
+    int remain =  MAX_COPY_LENGTH - ([self.linkButton.titleLabel.text length] - SPACE_LENGTH) - length;
     if (remain < 0)
         leftCharLabel.textColor = [UIColor redColor];
     else 
@@ -150,6 +152,7 @@
     NSString *urlText = [NSString stringWithFormat:@"     %@",url];
     [self.linkButton setTitle:urlText forState:UIControlStateNormal];
     [self.linkButton setTitle:urlText forState:UIControlStateHighlighted];
+    [self updateLeftLabel:[self.copyInputView.text length]];
 }
 
 - (void)initialCheckRequestDone:(ASIHTTPRequest *)aRequest {
