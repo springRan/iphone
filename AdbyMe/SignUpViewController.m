@@ -11,6 +11,7 @@
 #import "Address.h"
 #import "SBJsonParser.h"
 #import "AdListViewController.h"
+#import "AdbyMeAppDelegate.h"
 #import "WebViewController.h"
 
 #define EMAIL_FIELD 1
@@ -340,9 +341,13 @@
     NSString *error = [dict objectForKey:@"error"];
     if ([NSNull null] == (NSNull *)error) {
         NSLog(@"Success");
-        AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
-        [[self navigationController] pushViewController:aViewController animated:YES];
-        [aViewController release];
+        NSURL *url = [NSURL URLWithString:[Address loginURL]];
+        request = [[ASIFormDataRequest alloc] initWithURL:url];
+        [request setPostValue:self.emailTextField.text forKey:@"data[User][username_or_email]"];
+        [request setPostValue:self.passwordTextField.text forKey:@"data[User][password]"];
+        [request setDelegate:self];
+        [request setDidFinishSelector:@selector(loginRequestDone:)];
+        [request startAsynchronous];
     } else {
         NSLog(@"Failed");
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Sign Up Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -382,5 +387,32 @@
     [alertView release];
 }
 
-                                                
+- (void)loginRequestDone:(ASIHTTPRequest *)aRequest
+{
+    NSString *responseString = [aRequest responseString];
+    SBJsonParser *parser = [SBJsonParser new];
+    NSDictionary *dict = [parser objectWithString:responseString];
+    NSString *error = [dict objectForKey:@"error"];
+    if ([NSNull null] == (NSNull *)error) {
+        AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
+        delegate.userDictionary = [[dict objectForKey:@"user"] objectForKey:@"User"];
+        NSMutableArray *arr = [dict objectForKey:@"snas"];
+        if ((NSNull *)arr == [NSNull null]) {
+            delegate.snaArray = [[NSMutableArray alloc]initWithCapacity:3];
+        } else {
+            delegate.snaArray = arr;
+        }
+        AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
+        aViewController.popToRoot = YES;
+        [[self navigationController] pushViewController:aViewController animated:YES];
+        [aViewController release];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+        
+    }
+
+}
+
 @end

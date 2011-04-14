@@ -189,7 +189,7 @@
         } else if (actionSheet.tag == FACEBOOK) {
             [request setDidFinishSelector:@selector(facebookRequestDone:)];            
         } else if(actionSheet.tag == ME2DAY) {
-            [request setDidFinishSelector:@selector(twitterRequestDone:)];            
+            [request setDidFinishSelector:@selector(me2dayRequestDone:)];            
         }
         
         [request startAsynchronous];

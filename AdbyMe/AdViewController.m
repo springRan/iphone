@@ -85,6 +85,7 @@
 @synthesize snsDictionary;
 @synthesize statusBgImageView;
 @synthesize statusImageView;
+@synthesize keyword;
 
 
 
@@ -110,6 +111,7 @@
     [theTableView release];
     [adDictionary release];
     [request release];
+    [keyword release];
     [adTitleLabel release];
     [imageUrlDictionary release];
     [uvLabel release];
@@ -171,7 +173,7 @@
     self.imageUrlDictionary = [[NSMutableDictionary alloc]init];
     self.snsDictionary = [[NSMutableDictionary alloc]init];
     
-    self.refreshButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(refreshButtonClicked)];
+    self.refreshButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(refreshButtonClicked)];
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     
     self.footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
@@ -456,6 +458,18 @@
         [statusImageView setImage:[UIImage imageNamed:@"pausedicon.png"]];
         [statusBgImageView setImage:[UIImage imageNamed:@"pausedCPUV.png"]];
     }
+    
+    SBJsonParser *parser = [SBJsonParser new];
+    NSString *keywordJson = [adDict objectForKey:@"keyword"];
+    if ((NSNull *)keywordJson != [NSNull null]) {
+        NSArray *arr = [parser objectWithString:keywordJson];
+        self.keyword = @"";
+        self.keyword = [arr objectAtIndex:0];
+        for (int i = 1; i < [arr count]; ++i) {
+            self.keyword = [NSString stringWithFormat:@"%@ or %@",self.keyword, [arr objectAtIndex:i]];
+        }
+    }
+    else self.keyword = nil;
 }
 
 -(void)loadSlogan{
@@ -598,7 +612,7 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
     NSLog(@"Dislike");
     NSLog(@"%d",[indexPath row]);
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self  cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"irrelevant subject",@"malicious contents",@"plagiarism", @"false message", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self  cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Irrelevant subject",@"Malicious contents",@"Plagiarism", @"False message", nil];
     actionSheet.tag = DISLIKE_ACTIONSHEET+[indexPath row];
     [actionSheet showInView:self.view];
     [actionSheet release];
@@ -671,6 +685,7 @@
         if (buttonIndex != CANCEL){
             WriteSloganViewController *wViewController = [[WriteSloganViewController alloc]initWithNibName:@"WriteSloganViewController" bundle:nil];
             wViewController.snsType = 1024+buttonIndex;
+            wViewController.keyword = self.keyword;
             wViewController.adId = self.adId;
             wViewController.delegate = self;
             [[self navigationController] pushViewController:wViewController animated:YES];
@@ -751,7 +766,7 @@
     NSLog(@"Like");
     NSLog(@"%d",[indexPath row]);
 
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Like", @"Dislike", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Up", @"Down", nil];
     actionSheet.tag = LIKEDISLIKE_ACTIONSHEET + [indexPath row];
     [actionSheet showInView:self.view];
     [actionSheet release];

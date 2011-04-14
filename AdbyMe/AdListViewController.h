@@ -28,6 +28,8 @@
     NSMutableDictionary *tableViewCellDictionary;
     
     UIView *loadingView;
+    
+    BOOL popToRoot;
 }
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *settingButton;
@@ -44,6 +46,7 @@
 @property (nonatomic, retain) NSMutableDictionary *imageDownloadsInProgress;
 @property (nonatomic, retain) NSMutableDictionary *tableViewCellDictionary;
 @property (nonatomic, retain) IBOutlet UIView *loadingView;
+@property (nonatomic, assign) BOOL popToRoot;
 
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath;
 -(IBAction) settingButtonClicked;

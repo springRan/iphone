@@ -303,7 +303,7 @@
 											<object class="IBUIImageView" id="253035830">
 												<reference key="NSNextResponder" ref="589249286"/>
 												<int key="NSvFlags">292</int>
-												<string key="NSFrame">{{0, 96}, {320, 4}}</string>
+												<string key="NSFrame">{{0, 98}, {320, 2}}</string>
 												<reference key="NSSuperview" ref="589249286"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView"/>
@@ -510,11 +510,6 @@
 						<reference key="parent" ref="589249286"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">22</int>
-						<reference key="object" ref="253035830"/>
-						<reference key="parent" ref="589249286"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">23</int>
 						<reference key="object" ref="478210692"/>
 						<reference key="parent" ref="589249286"/>
@@ -522,6 +517,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">24</int>
 						<reference key="object" ref="196794778"/>
+						<reference key="parent" ref="589249286"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">22</int>
+						<reference key="object" ref="253035830"/>
 						<reference key="parent" ref="589249286"/>
 					</object>
 				</object>
@@ -631,6 +631,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>adCell4</string>
 							<string>availableLabel</string>
+							<string>loadingView</string>
 							<string>reservedLabel</string>
 							<string>settingButton</string>
 							<string>theTableView</string>
@@ -641,6 +642,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UITableViewCell</string>
 							<string>UILabel</string>
+							<string>UIView</string>
 							<string>UILabel</string>
 							<string>UIBarButtonItem</string>
 							<string>UITableView</string>
@@ -654,6 +656,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>adCell4</string>
 							<string>availableLabel</string>
+							<string>loadingView</string>
 							<string>reservedLabel</string>
 							<string>settingButton</string>
 							<string>theTableView</string>
@@ -669,6 +672,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">availableLabel</string>
 								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">loadingView</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">reservedLabel</string>

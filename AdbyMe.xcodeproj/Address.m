@@ -14,6 +14,10 @@
 
 @implementation Address
 
++(NSString *) hostURL{
+    return HOST_ADDR;
+}
+
 +(NSString *) loginURL {
     return [NSString stringWithFormat:@"%@/users/login.json",HOST_ADDR];
 }
@@ -104,6 +108,10 @@
 
 +(NSString *) earningURL{
     return [NSString stringWithFormat:@"%@/copy/earnings.json", HOST_ADDR];
+}
+
++(NSString *) loginCheckURL{
+    return [NSString stringWithFormat:@"%@/users/info.json",HOST_ADDR];
 }
 
 

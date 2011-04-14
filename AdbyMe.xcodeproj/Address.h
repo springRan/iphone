@@ -14,6 +14,7 @@
 
 }
 
++(NSString *) hostURL;
 +(NSString *) loginURL;
 +(NSString *) logoutURL;
 +(NSString *) checkEmailURL;
@@ -29,5 +30,5 @@
 +(NSString *) disconnectSns:(int)type;
 +(NSString *) makeShortLink:(NSString *)adId andLinkType:(int)type;
 +(NSString *) earningURL;
-
++(NSString *) loginCheckURL;
 @end

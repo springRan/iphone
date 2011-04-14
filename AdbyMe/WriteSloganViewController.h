@@ -27,6 +27,8 @@
     
     UIView *loadingView;
     
+    NSString *keyword;
+    
     id <WriteSloganViewControllerDelegate> delegate;
 }
 @property (nonatomic, assign) int snsType;
@@ -42,6 +44,7 @@
 @property (nonatomic, retain) ASIFormDataRequest *request;
 @property (nonatomic, retain) IBOutlet UIView *loadingView;
 @property (nonatomic, assign) id <WriteSloganViewControllerDelegate> delegate;
+@property (nonatomic, retain) NSString *keyword;
 
 -(void)publishButtonClicked;
 -(void)updateLeftLabel:(int)length;

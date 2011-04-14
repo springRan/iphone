@@ -179,7 +179,6 @@
 						<string key="NSFrame">{{20, 159}, {279, 25}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
@@ -214,7 +213,7 @@
 							<object class="IBUILabel" id="366574094">
 								<reference key="NSNextResponder" ref="303672955"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, -1}, {78, 19}}</string>
+								<string key="NSFrame">{{17, 0}, {71, 18}}</string>
 								<reference key="NSSuperview" ref="303672955"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="438616805"/>
@@ -224,12 +223,15 @@
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">필수 키워드</string>
-								<object class="NSFont" key="IBUIFont" id="1059452786">
+								<object class="NSFont" key="IBUIFont" id="1011669928">
 									<string key="NSName">AppleGothic</string>
-									<double key="NSSize">14</double>
+									<double key="NSSize">12</double>
 									<int key="NSfFlags">16</int>
 								</object>
-								<reference key="IBUITextColor" ref="496003484"/>
+								<object class="NSColor" key="IBUITextColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNjE5NjA3ODQzMSAwLjgxMTc2NDcwNTkAA</bytes>
+								</object>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
@@ -237,7 +239,7 @@
 							<object class="IBUILabel" id="438616805">
 								<reference key="NSNextResponder" ref="303672955"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{99, -1}, {169, 20}}</string>
+								<string key="NSFrame">{{86, 0}, {189, 19}}</string>
 								<reference key="NSSuperview" ref="303672955"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="970779787"/>
@@ -247,11 +249,11 @@
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">최시원, 김정근</string>
-								<reference key="IBUIFont" ref="1059452786"/>
+								<reference key="IBUIFont" ref="1011669928"/>
 								<reference key="IBUITextColor" ref="496003484"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
-								<float key="IBUIMinimumFontSize">10</float>
+								<float key="IBUIMinimumFontSize">8</float>
 							</object>
 							<object class="IBUIImageView" id="841476284">
 								<reference key="NSNextResponder" ref="303672955"/>

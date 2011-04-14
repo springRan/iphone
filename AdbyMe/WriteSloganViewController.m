@@ -40,7 +40,7 @@
 @synthesize request;
 @synthesize loadingView;
 @synthesize delegate;
-
+@synthesize keyword;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,6 +57,7 @@
     [publishButton release];
     [snsImageView release];
     [usernameLabel release];
+    [keyword release];
     [leftCharLabel release];
     [linkButton release];
     [keywordView release];
@@ -84,7 +85,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.publishButton = [[UIBarButtonItem alloc]initWithTitle:@"Publish" style:UIBarButtonItemStyleDone target:self action:@selector(publishButtonClicked)];
+    self.publishButton = [[UIBarButtonItem alloc]initWithTitle:@"Publish" style:UIBarButtonItemStylePlain target:self action:@selector(publishButtonClicked)];
     self.navigationItem.rightBarButtonItem = self.publishButton;
 
     UIImage *snsImage;
@@ -97,6 +98,15 @@
     
     [self.snsImageView setImage:snsImage];
     [self.snsImageView setHighlightedImage:snsImage];
+    
+    if ((NSNull *)keyword == [NSNull null] || keyword == nil) {
+        self.keywordView.hidden = YES;
+        CGRect frame = self.copyInputView.frame;
+        frame.size.height += self.keywordView.frame.size.height;
+        [self.copyInputView setFrame:frame];
+    } else {
+        self.keywordLabel.text = self.keyword;
+    }
  
     AdbyMeAppDelegate *adbymeDelegate = [[UIApplication sharedApplication]delegate];
     self.usernameLabel.text = [adbymeDelegate.userDictionary objectForKey:@"username"];

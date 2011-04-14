@@ -58,6 +58,7 @@
 @synthesize imageDownloadsInProgress;
 @synthesize tableViewCellDictionary;
 @synthesize loadingView;
+@synthesize popToRoot;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -109,10 +110,10 @@
     self.imageArray = [[NSMutableArray alloc]init];
     self.imageDownloadsInProgress = [[NSMutableDictionary alloc]init];
     self.tableViewCellDictionary = [[NSMutableDictionary alloc]init];
-    self.settingButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"seticon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingButtonClicked)];
-    self.updateButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(updateButtonClicked)];
-    self.navigationItem.leftBarButtonItem = self.updateButton;
-    self.navigationItem.rightBarButtonItem = self.settingButton;
+    self.settingButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"seticon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(settingButtonClicked)];
+    self.updateButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(updateButtonClicked)];
+    self.navigationItem.leftBarButtonItem = self.settingButton;
+    self.navigationItem.rightBarButtonItem = self.updateButton;
     self.navigationItem.hidesBackButton = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -138,7 +139,9 @@
 }
 
 -(void) viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
+    [super viewWillAppear:animated];
+    if ([self navigationController].navigationBarHidden == YES)
+        [[self navigationController] setNavigationBarHidden:NO animated:YES];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -485,7 +488,10 @@
 
 
 - (void)logoutRequestDone:(ASIHTTPRequest *)aRequest {
-    [[self navigationController] popViewControllerAnimated:YES];
+    if (popToRoot)
+        [[self navigationController] popToRootViewControllerAnimated:YES];
+    else
+        [[self navigationController] popViewControllerAnimated:YES];
 }
 
 @end

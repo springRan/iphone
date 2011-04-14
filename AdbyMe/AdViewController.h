@@ -64,7 +64,7 @@
 
     NSMutableDictionary *imageDownloadsInProgress;
     
-    
+    NSString *keyword;
 }
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
@@ -105,6 +105,7 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView *statusBgImageView;
 @property (nonatomic, retain) IBOutlet UIImageView *statusImageView;
+@property (nonatomic, retain) NSString *keyword;
 
 -(void)loadAd;
 -(void)loadSlogan;

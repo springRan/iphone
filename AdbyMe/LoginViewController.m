@@ -64,7 +64,7 @@
     self.activityIndicatorView.hidesWhenStopped = YES;
 
     self.activityBarButton = [[UIBarButtonItem alloc]initWithCustomView:self.activityIndicatorView];
-    self.loginButton = [[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStyleDone target:self action:@selector(loginCheck)];
+    self.loginButton = [[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginCheck)];
     self.navigationItem.rightBarButtonItem = self.loginButton;
 }
 
@@ -101,6 +101,7 @@
     request = [[ASIFormDataRequest alloc] initWithURL:url];
     [request setPostValue:emailField.text forKey:@"data[User][username_or_email]"];
     [request setPostValue:passwordField.text forKey:@"data[User][password]"];
+    [request setPostValue:@"1" forKey:@"data[User][auto_login]"];
     [request setDelegate:self];
     [request startAsynchronous];
 
@@ -117,7 +118,7 @@
     NSString *error = [dict objectForKey:@"error"];
     if ([NSNull null] == (NSNull *)error) {
         AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
-        delegate.userDictionary = [dict objectForKey:@"user"];
+        delegate.userDictionary = [[dict objectForKey:@"user"] objectForKey:@"User"];
         NSMutableArray *arr = [dict objectForKey:@"snas"];
         if ((NSNull *)arr == [NSNull null]) {
             delegate.snaArray = [[NSMutableArray alloc]initWithCapacity:3];
