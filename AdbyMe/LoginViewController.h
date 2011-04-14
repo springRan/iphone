@@ -29,5 +29,5 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *loginButton;
 
 -(void) loginCheck;
-
+-(IBAction) createNewAccount;
 @end

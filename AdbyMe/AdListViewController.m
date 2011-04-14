@@ -195,7 +195,11 @@
     NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
     [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
     
-    [self.request clearDelegatesAndCancel];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
     self.request = [[ASIHTTPRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
     [self.request startAsynchronous];

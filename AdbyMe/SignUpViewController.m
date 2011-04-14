@@ -273,8 +273,11 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField == self.emailTextField) {
         NSURL *url = [NSURL URLWithString:[Address checkEmailURL]];
-        
-        [self.request clearDelegatesAndCancel];
+        if(request){
+            [request clearDelegatesAndCancel];
+            [request release];
+            request = nil;
+        }
         self.request = [[ASIFormDataRequest alloc] initWithURL:url];
         [self.request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
         [self.request setDelegate:self];
@@ -284,7 +287,11 @@
     } else if (textField == self.usernameTextField) {
         NSURL *url = [NSURL URLWithString:[Address checkUsernameURL]];
 
-        [self.request clearDelegatesAndCancel];
+        if(request){
+            [request clearDelegatesAndCancel];
+            [request release];
+            request = nil;
+        }
         self.request = [[ASIFormDataRequest alloc] initWithURL:url];
         [self.request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
         [self.request setDelegate:self];
@@ -342,6 +349,11 @@
     if ([NSNull null] == (NSNull *)error) {
         NSLog(@"Success");
         NSURL *url = [NSURL URLWithString:[Address loginURL]];
+        if(request){
+            [request clearDelegatesAndCancel];
+            [request release];
+            request = nil;
+        }
         request = [[ASIFormDataRequest alloc] initWithURL:url];
         [request setPostValue:self.emailTextField.text forKey:@"data[User][username_or_email]"];
         [request setPostValue:self.passwordTextField.text forKey:@"data[User][password]"];
@@ -360,7 +372,11 @@
 -(IBAction) submitClicked{
     NSURL *url = [NSURL URLWithString:[Address registerURL]];
 
-    [self.request clearDelegatesAndCancel];    
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     [self.request setPostValue:self.emailTextField.text forKey:@"data[User][email]"];
     [self.request setPostValue:self.usernameTextField.text forKey:@"data[User][username]"];
@@ -402,6 +418,9 @@
         } else {
             delegate.snaArray = arr;
         }
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setValue:self.emailTextField.text forKey:@"email"];
+        [defaults synchronize];
         AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
         aViewController.popToRoot = YES;
         [[self navigationController] pushViewController:aViewController animated:YES];

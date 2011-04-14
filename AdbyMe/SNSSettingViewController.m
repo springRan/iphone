@@ -181,7 +181,11 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex != [actionSheet cancelButtonIndex]) {
         NSURL *url = [NSURL URLWithString:[Address disconnectSns:actionSheet.tag]];
-        [self.request clearDelegatesAndCancel];
+        if(request){
+            [request clearDelegatesAndCancel];
+            [request release];
+            request = nil;
+        }
         self.request = [[ASIFormDataRequest alloc]initWithURL:url];
         [request setDelegate:self];
         if (actionSheet.tag == TWITTER) {

@@ -180,6 +180,8 @@
 		73F21A131350420600554A3C /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F21A111350420600554A3C /* WebViewController.xib */; };
 		73F7FD081351C3D300935829 /* SnsWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F7FD061351C3D300935829 /* SnsWebViewController.m */; };
 		73F7FD091351C3D300935829 /* SnsWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F7FD071351C3D300935829 /* SnsWebViewController.xib */; };
+		73FB96D31357685E00FCFC93 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 73FB96D11357685E00FCFC93 /* icon.png */; };
+		73FB96D41357685E00FCFC93 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73FB96D21357685E00FCFC93 /* icon@2x.png */; };
 		A759DEE3135486FC00C884C3 /* DateDifference.m in Sources */ = {isa = PBXBuildFile; fileRef = A759DEE2135486FC00C884C3 /* DateDifference.m */; };
 /* End PBXBuildFile section */
 
@@ -417,6 +419,8 @@
 		73F7FD051351C3D200935829 /* SnsWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SnsWebViewController.h; path = AdbyMe.xcodeproj/SnsWebViewController.h; sourceTree = SOURCE_ROOT; };
 		73F7FD061351C3D300935829 /* SnsWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SnsWebViewController.m; path = AdbyMe.xcodeproj/SnsWebViewController.m; sourceTree = SOURCE_ROOT; };
 		73F7FD071351C3D300935829 /* SnsWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SnsWebViewController.xib; path = AdbyMe.xcodeproj/SnsWebViewController.xib; sourceTree = SOURCE_ROOT; };
+		73FB96D11357685E00FCFC93 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		73FB96D21357685E00FCFC93 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		A759DEE1135486FC00C884C3 /* DateDifference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateDifference.h; sourceTree = "<group>"; };
 		A759DEE2135486FC00C884C3 /* DateDifference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateDifference.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -681,6 +685,8 @@
 			children = (
 				73F04731135738D6000967A7 /* Default.png */,
 				73F04732135738D7000967A7 /* Default@2x.png */,
+				73FB96D11357685E00FCFC93 /* icon.png */,
+				73FB96D21357685E00FCFC93 /* icon@2x.png */,
 				733C8DCC13486D9900A51FEC /* 1 */,
 				733C8DCD13486DA400A51FEC /* 2 */,
 				73C07C51134C9DB80035AFE4 /* 3 */,
@@ -1002,6 +1008,8 @@
 				73F04734135738D8000967A7 /* Default@2x.png in Resources */,
 				73F047371357392D000967A7 /* homebg.png in Resources */,
 				73F047381357392D000967A7 /* homebg@2x.png in Resources */,
+				73FB96D31357685E00FCFC93 /* icon.png in Resources */,
+				73FB96D41357685E00FCFC93 /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

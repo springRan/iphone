@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "SignUpViewController.h"
 #import "AdListViewController.h"
 #import "CustomCellBackgroundView.h"
 #import "Address.h"
@@ -66,6 +67,10 @@
     self.activityBarButton = [[UIBarButtonItem alloc]initWithCustomView:self.activityIndicatorView];
     self.loginButton = [[UIBarButtonItem alloc]initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginCheck)];
     self.navigationItem.rightBarButtonItem = self.loginButton;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults valueForKey:@"email"] != nil)
+        self.emailField.text = [defaults valueForKey:@"email"];
 }
 
 - (void)viewDidUnload
@@ -125,6 +130,9 @@
         } else {
             delegate.snaArray = arr;
         }
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setValue:self.emailField.text forKey:@"email"];
+        [defaults synchronize];
         AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
         [[self navigationController] pushViewController:aViewController animated:YES];
         [aViewController release];
@@ -155,6 +163,12 @@
         [self loginCheck];
     }
     return YES;
+}
+
+-(IBAction) createNewAccount{
+    SignUpViewController *sViewController = [[SignUpViewController alloc]initWithNibName:@"SignUpViewController" bundle:nil];
+    [[self navigationController] pushViewController:sViewController animated:YES];
+    [sViewController release];
 }
 
 @end

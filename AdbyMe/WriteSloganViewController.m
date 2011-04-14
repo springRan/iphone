@@ -54,6 +54,7 @@
 
 - (void)dealloc
 {
+    [request clearDelegatesAndCancel];
     [publishButton release];
     [snsImageView release];
     [usernameLabel release];
@@ -115,6 +116,11 @@
     [self.copyInputView becomeFirstResponder];
     
     NSURL *url = [NSURL URLWithString:[Address writeCopy:adId andSnsType:self.snsType]];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
     self.request = [[ASIFormDataRequest alloc]initWithURL:url];
     [self.request setDelegate:self];
     [self.request setDidFinishSelector:@selector(initialCheckRequestDone:)];
@@ -137,7 +143,11 @@
 }
 
 -(void)publishButtonClicked{
-    [self.request clearDelegatesAndCancel];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
     NSURL *url = [NSURL URLWithString:[Address writeCopy:adId andSnsType:self.snsType]];
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
@@ -247,7 +257,11 @@
 }
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex != [actionSheet cancelButtonIndex]) {
-        [request clearDelegatesAndCancel];
+        if(request){
+            [request clearDelegatesAndCancel];
+            [request release];
+            request = nil;
+        }
         NSURL *url = [NSURL URLWithString:[Address makeShortLink:adId andLinkType:buttonIndex]];
         request = [[ASIFormDataRequest alloc]initWithURL:url];
         [request setDelegate:self];

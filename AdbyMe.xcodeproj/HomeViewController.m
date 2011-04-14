@@ -30,6 +30,7 @@
 
 - (void)dealloc
 {
+    [request clearDelegatesAndCancel];
     [request release];
     [activityView release];
     [loginButton release];
@@ -52,6 +53,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self startLoginCheck];
+    if (self.request != nil) {
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
     self.request = [[ASIHTTPRequest alloc]initWithURL:[NSURL URLWithString:[Address loginCheckURL]]];
     [self.request setDelegate:self];
     [self.request startAsynchronous];

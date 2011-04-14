@@ -383,7 +383,11 @@
         [self.view addSubview:self.loadingView];
     NSURL *url = [NSURL URLWithString:[Address adUrl:self.adId]];
     NSLog(@"%@",url);
-    [self.request clearDelegatesAndCancel];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
     [self.request startAsynchronous];
@@ -601,7 +605,11 @@
     
     NSURL *url = [NSURL URLWithString:[Address likeUrl:(NSString *)[self.linkIdDictionary objectForKey:indexPath]]];
     
-    [self.request clearDelegatesAndCancel];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     self.request.userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:row] forKey:@"row"];
     [self.request setDelegate:self];
@@ -716,7 +724,11 @@
         } 
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:actionSheet.tag-DISLIKE_ACTIONSHEET inSection:0];
         NSURL *url = [NSURL URLWithString:[Address dislikeUrl:(NSString *)[self.linkIdDictionary objectForKey:indexPath]]];
-        [self.request clearDelegatesAndCancel];
+        if(request){
+            [request clearDelegatesAndCancel];
+            [request release];
+            request = nil;
+        }
         self.request = [[ASIFormDataRequest alloc] initWithURL:url];
         self.request.userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:[indexPath row]] forKey:@"row"];
         [self.request setPostValue:reason forKey:@"data[LinkLikeUv][reason]"];
@@ -812,6 +824,11 @@
     updating = YES;
     NSLog(@"%@",self.sinceUrl);
     NSURL *url = [NSURL URLWithString:[Address makeUrl:self.sinceUrl]];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
     [self.request setDidFinishSelector:@selector(moreRequestDone:)];

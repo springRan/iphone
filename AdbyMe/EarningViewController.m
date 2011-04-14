@@ -41,6 +41,7 @@
 
 - (void)dealloc
 {
+    [request clearDelegatesAndCancel];
     [headerView release];
     [userDictionary release];
     [theTableView release];
@@ -148,7 +149,11 @@
 
 -(void)loadEarning{
     [self loadingStart];
-    [self.request clearDelegatesAndCancel];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
     NSURL *url = [NSURL URLWithString:[Address earningURL]];
     self.request = [[ASIHTTPRequest alloc]initWithURL:url];
     [self.request setDelegate:self];
@@ -252,6 +257,11 @@
     [self loadingStart];
     
     NSURL *url = [NSURL URLWithString:[Address makeUrl:self.sinceUrl]];
+    if(request){
+        [request clearDelegatesAndCancel];
+        [request release];
+        request = nil;
+    }
     self.request = [[ASIHTTPRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
     [self.request setDidFinishSelector:@selector(moreRequestDone:)];
