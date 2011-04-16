@@ -78,7 +78,6 @@
 @synthesize noMoreUpdate;
 @synthesize updating;
 @synthesize footerView;
-@synthesize mainImageDownloader;
 @synthesize imageArray;
 @synthesize imageDownloadsInProgress;
 @synthesize imageUrlDictionary;
@@ -86,6 +85,7 @@
 @synthesize statusBgImageView;
 @synthesize statusImageView;
 @synthesize keyword;
+@synthesize queue;
 
 
 
@@ -101,9 +101,6 @@
 
 - (void)dealloc
 {
-    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
-    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
-
     [request clearDelegatesAndCancel];  // Cancel request.
     
     [adId release];
@@ -118,6 +115,7 @@
     [adImageView release];
     [cpcLabel release];
     [imageArray release];
+    [queue release];
     [imageDownloadsInProgress release];
     [sloganLabel release];
     [linkDictionary release];
@@ -134,7 +132,6 @@
     [linkIdDictionary release];
     [linkScoreDictionary release];
     [loadingView release];
-    [mainImageDownloader release];
     [footerView release];
     [statusBgImageView release];
     [statusImageView release];
@@ -149,8 +146,6 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
-    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
-	[allDownloads performSelector:@selector(cancelDownload)];
     
 }
 
@@ -172,6 +167,8 @@
     self.linkScoreDictionary = [[NSMutableDictionary alloc]init];
     self.imageUrlDictionary = [[NSMutableDictionary alloc]init];
     self.snsDictionary = [[NSMutableDictionary alloc]init];
+    self.queue = [[NSOperationQueue alloc]init];
+    [self.queue setMaxConcurrentOperationCount:10];
     
     self.refreshButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"renewicon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(refreshButtonClicked)];
     self.navigationItem.rightBarButtonItem = self.refreshButton;
@@ -381,6 +378,7 @@
 -(void)loadAd{
     if([self.loadingView superview] == nil)
         [self.view addSubview:self.loadingView];
+        self.refreshButton.enabled = NO;
     NSURL *url = [NSURL URLWithString:[Address adUrl:self.adId]];
     NSLog(@"%@",url);
     if(request){
@@ -392,12 +390,13 @@
     [self.request setDelegate:self];
     [self.request startAsynchronous];
     self.noMoreUpdate = NO;
-
+    
 }
 
 - (void)requestFinished:(ASIFormDataRequest *)aRequest
 {
     // Use when fetching text data
+        self.refreshButton.enabled = YES;
     NSString *responseString = [aRequest responseString];
     SBJsonParser *parser = [SBJsonParser new];
     NSError *error = nil;
@@ -410,11 +409,15 @@
     
     [self loadSlogan];
     
+    
     [self.theTableView reloadData];
+    [self.theTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    [self.theTableView setContentOffset:CGPointMake(0, 0)];
 }
 
 - (void)requestFailed:(ASIFormDataRequest *)aRequest
 {
+        self.refreshButton.enabled = YES;
     NSError *error = [aRequest error];
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
@@ -433,13 +436,14 @@
     self.uvLabel.text = [formatter2 stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"uv"] intValue]]];
     self.sloganLabel.text = [NSString stringWithFormat:@"%@ slogans",[adDict objectForKey:@"copy"]];
     
-    //NSURL *url = [NSURL URLWithString:[adDict objectForKey:@"image"]];
-    //NSData *data = [NSData dataWithContentsOfURL:url];
-    //adImageView.image = [UIImage imageWithData:data];
-    mainImageDownloader = [[ImageDownloader alloc]init];
-    mainImageDownloader.delegate = self;
-    mainImageDownloader.feedURL = [adDict objectForKey:@"image"];
-    [mainImageDownloader startDownload];
+    ASIHTTPRequest *imageRequest = [[ASIHTTPRequest alloc]initWithURL:[NSURL URLWithString:[adDict objectForKey:@"image"]]];
+    [imageRequest setDelegate:self];
+    [imageRequest setDidFinishSelector:@selector(imageDownloadRequestDone:)];
+    [imageRequest setDidFailSelector:@selector(imageDownloadRequestFail:)];
+    imageRequest.userInfo =[NSDictionary dictionaryWithObject:@"main" forKey:@"type"];
+    [self.queue addOperation:imageRequest];
+    [self retain];
+    [imageRequest release];
     
     self.cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
     
@@ -791,15 +795,18 @@
 
 - (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl
 {
-	ImageDownloader *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
+	ASIHTTPRequest *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
 	if (imageDownloader == nil) 
 	{
-		imageDownloader = [[ImageDownloader alloc] init];
-		imageDownloader.indexPathInTableView = indexPath;
+        NSURL *url = [NSURL URLWithString:imageUrl];
+		imageDownloader = [[ASIHTTPRequest alloc] initWithURL:url];
+        imageDownloader.userInfo =[NSDictionary dictionaryWithObject:indexPath forKey:@"indexPath"];
 		imageDownloader.delegate = self;
-		imageDownloader.feedURL = imageUrl;
 		[imageDownloadsInProgress setObject:imageDownloader forKey:indexPath];
-		[imageDownloader startDownload];
+        [imageDownloader setDidFinishSelector:@selector(imageDownloadRequestDone:)];
+        [imageDownloader setDidFailSelector:@selector(imageDownloadRequestFail:)];
+        [self.queue addOperation:imageDownloader];
+        [self retain];
 		[imageDownloader release];
 	}
 }
@@ -822,6 +829,7 @@
 
 -(void) startMoreUpdate{
     updating = YES;
+    self.refreshButton.enabled = NO;
     NSLog(@"%@",self.sinceUrl);
     NSURL *url = [NSURL URLWithString:[Address makeUrl:self.sinceUrl]];
     if(request){
@@ -836,6 +844,7 @@
 }
 
 - (void)moreRequestDone:(ASIFormDataRequest *)aRequest{
+    self.refreshButton.enabled = YES;
     NSString *responseString = [aRequest responseString];
     SBJsonParser *parser = [SBJsonParser new];
     NSError *error = nil;
@@ -859,25 +868,26 @@
     }
 }
 
--(void)imageDidLoad:(id)sender indexPath:(NSIndexPath *)indexPath{
-    ImageDownloader *imageDownloader = (ImageDownloader *)sender;
-    if (imageDownloader == self.mainImageDownloader){
-        adImageView.image = imageDownloader.downloadedImage;
-    } else{
-        ImageDownloader *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
-        if (imageDownloader != nil)
-        {
-            UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:imageDownloader.indexPathInTableView];
-            //UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
-            //[activity stopAnimating];
-            // Display the newly loaded image
-            UIImageView *imageView = (UIImageView *)[cell viewWithTag:AVATAR_VIEW];
-            imageView.image = imageDownloader.downloadedImage;
-            int row = [indexPath row];
-            [self.imageArray replaceObjectAtIndex:row withObject:imageDownloader.downloadedImage];
-        }   
-    }
+- (void)imageDownloadRequestFail:(ASIHTTPRequest *)aRequest {
+    [self release];
 }
+- (void)imageDownloadRequestDone:(ASIHTTPRequest *)aRequest {
+    NSData *data = [aRequest responseData];
+    NSIndexPath *indexPath = [aRequest.userInfo valueForKey:@"indexPath"];
+    if (indexPath == nil) {
+        self.adImageView.image = [UIImage imageWithData:data];
+    }
+    else{
+        UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:indexPath];
+        UIImageView *imageView = (UIImageView *)[cell viewWithTag:AVATAR_VIEW];
+        UIImage *image = [UIImage imageWithData:data];
+        imageView.image = image;
+        int row = [indexPath row];
+        [self.imageArray replaceObjectAtIndex:row withObject:image];
+    }
+    [self release];
+}
+
 #pragma mark -
 #pragma mark Deferred image loading (UIScrollViewDelegate)
 

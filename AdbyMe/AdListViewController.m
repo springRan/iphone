@@ -59,6 +59,7 @@
 @synthesize tableViewCellDictionary;
 @synthesize loadingView;
 @synthesize popToRoot;
+@synthesize queue;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -73,8 +74,6 @@
 - (void)dealloc
 {
     
-    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
-    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
     [request clearDelegatesAndCancel];  // Cancel request.
 
     [theTableView release];
@@ -82,6 +81,7 @@
     [settingButton release];
     [adArray release];
     [updateButton release];
+    [queue release];
     [loadingView release];
     [adCell4 release];
     [reservedLabel release];
@@ -97,8 +97,6 @@
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
-	[allDownloads performSelector:@selector(cancelDownload)];
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -115,6 +113,8 @@
     self.navigationItem.leftBarButtonItem = self.settingButton;
     self.navigationItem.rightBarButtonItem = self.updateButton;
     self.navigationItem.hidesBackButton = YES;
+    queue = [[NSOperationQueue alloc]init];
+    [queue setMaxConcurrentOperationCount:10];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -159,6 +159,10 @@
 }
 
 -(void) logout{
+    if ([self.loadingView superview] == nil){
+        [self.view addSubview:loadingView];
+    }
+    self.updateButton.enabled = NO;
     NSURL *url = [NSURL URLWithString:[Address logoutURL]];
     if(request){
         [request clearDelegatesAndCancel];
@@ -191,9 +195,8 @@
     if ([self.loadingView superview] == nil){
         [self.view addSubview:loadingView];
     }
+    self.updateButton.enabled = NO;
     NSURL *url = [NSURL URLWithString:[Address adListURL]];
-    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
-    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
     
     if(request){
         [request clearDelegatesAndCancel];
@@ -207,6 +210,7 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)aRequest
 {
+    self.updateButton.enabled = YES;
     [self.loadingView removeFromSuperview];
     // Use when fetching text data
     NSString *responseString = [aRequest responseString];
@@ -220,6 +224,7 @@
     [self.imageDownloadsInProgress removeAllObjects];
     [self.tableViewCellDictionary removeAllObjects];
     [self getHeight];
+    [self makeCell];
     [self.theTableView reloadData];
 }
 
@@ -241,6 +246,7 @@
 }
 - (void)requestFailed:(ASIHTTPRequest *)aRequest
 {
+    self.updateButton.enabled = YES;
     [self.loadingView removeFromSuperview];
     NSError *error = [aRequest error];
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -269,6 +275,16 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+-(void)makeCell{
+    for (int i=0; i<[self.adArray count]; i++){
+        [[NSBundle mainBundle] loadNibNamed:@"AdCell4" owner:self options:nil];
+        UITableViewCell *cell = self.adCell4;
+        self.adCell4 = nil;
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        [self configCell:cell andIndexPath:indexPath];
+        [self.tableViewCellDictionary setObject:cell forKey:indexPath];
+    }
 }
 
 -(void) addHeight:(double)addHeight forView:(UIView *)cellView{
@@ -421,15 +437,18 @@
 
 - (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl
 {
-	ImageDownloader *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
+	ASIHTTPRequest *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
 	if (imageDownloader == nil) 
 	{
-		imageDownloader = [[ImageDownloader alloc] init];
-		imageDownloader.indexPathInTableView = indexPath;
+        NSURL *url = [NSURL URLWithString:imageUrl];
+		imageDownloader = [[ASIHTTPRequest alloc] initWithURL:url];
+        imageDownloader.userInfo =[NSDictionary dictionaryWithObject:indexPath forKey:@"indexPath"];
 		imageDownloader.delegate = self;
-		imageDownloader.feedURL = imageUrl;
 		[imageDownloadsInProgress setObject:imageDownloader forKey:indexPath];
-		[imageDownloader startDownload];
+        [imageDownloader setDidFinishSelector:@selector(imageDownloadRequestDone:)];
+        [imageDownloader setDidFailSelector:@selector(imageDownloadRequestFail:)];
+        [self.queue addOperation:imageDownloader];
+        [self retain];
 		[imageDownloader release];
 	}
 }
@@ -456,21 +475,22 @@
 	}
 }
 
-- (void)imageDidLoad:(id)sender indexPath:(NSIndexPath *)indexPath
-{
-	ImageDownloader *imageDownloader = [imageDownloadsInProgress objectForKey:indexPath];
-	if (imageDownloader != nil)
-	{
-//		UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:imageDownloader.indexPathInTableView];
-        UITableViewCell *cell = [self.tableViewCellDictionary objectForKey:indexPath];
-		// Display the newly loaded image
-        UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
-        [activity stopAnimating];
-		UIImageView *imageView = (UIImageView *)[cell viewWithTag:AD_IMAGE];
-		imageView.image = imageDownloader.downloadedImage;
-		int row = [indexPath row];
-		[self.imageArray replaceObjectAtIndex:row withObject:imageDownloader.downloadedImage];
-	}
+- (void)imageDownloadRequestDone:(ASIHTTPRequest *)aRequest {
+    NSData *data = [aRequest responseData];
+    NSIndexPath *indexPath = [aRequest.userInfo valueForKey:@"indexPath"];
+    UITableViewCell *cell = [self.tableViewCellDictionary objectForKey:indexPath];
+    UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+    [activity stopAnimating];
+    UIImageView *imageView = (UIImageView *)[cell viewWithTag:AD_IMAGE];
+    UIImage *image = [UIImage imageWithData:data];
+    imageView.image = image;
+    int row = [indexPath row];
+    [self.imageArray replaceObjectAtIndex:row withObject:image];
+    [self release];
+}
+
+- (void)imageDownloadRequestFail:(ASIHTTPRequest *)aRequest {
+    [self release];
 }
 
 #pragma mark -
@@ -492,10 +512,22 @@
 
 
 - (void)logoutRequestDone:(ASIHTTPRequest *)aRequest {
+    self.updateButton.enabled = YES;
+    [self.loadingView removeFromSuperview];
     if (popToRoot)
         [[self navigationController] popToRootViewControllerAnimated:YES];
     else
         [[self navigationController] popViewControllerAnimated:YES];
+}
+-(IBAction) buttonClicked:(id)sender{
+    UIView *parent = [sender superview];
+    while (true) {
+        if ([parent isKindOfClass:[UITableViewCell class]])
+             break;
+        parent = [parent superview];
+    }
+    NSIndexPath *indexPath = [self.theTableView indexPathForCell:(UITableViewCell *)parent];
+    [self tableView:self.theTableView didSelectRowAtIndexPath:indexPath];
 }
 
 @end

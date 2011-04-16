@@ -114,7 +114,9 @@
     return [NSString stringWithFormat:@"%@/users/info.json",HOST_ADDR];
 }
 
-
++(NSString *) termsURL {
+    return [NSString stringWithFormat:@"%@/users/termAndService",HOST_ADDR];
+}
 -(void)dealloc{
     [super dealloc];
 }

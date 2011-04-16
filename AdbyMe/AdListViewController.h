@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
-#import "ImageDownloader.h"
 
-@interface AdListViewController : UIViewController <UIActionSheetDelegate, ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, ImageDownloaderDelegate>{
+@interface AdListViewController : UIViewController <UIActionSheetDelegate, ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource>{
     UIBarButtonItem *settingButton;
     UIBarButtonItem *updateButton;
     UIView *topView;
@@ -30,6 +29,8 @@
     UIView *loadingView;
     
     BOOL popToRoot;
+    
+    NSOperationQueue *queue;
 }
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *settingButton;
@@ -47,11 +48,13 @@
 @property (nonatomic, retain) NSMutableDictionary *tableViewCellDictionary;
 @property (nonatomic, retain) IBOutlet UIView *loadingView;
 @property (nonatomic, assign) BOOL popToRoot;
+@property (nonatomic, retain) NSOperationQueue *queue;
 
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath;
 -(IBAction) settingButtonClicked;
 -(IBAction) updateButtonClicked;
 -(void)logout;
+-(void)makeCell;
 -(void)loadAd;
 -(void)updateDashboard;
 -(void)getHeight;
@@ -59,4 +62,5 @@
 -(void) addY:(double)addHeight forView:(UIView *)cellView;
 - (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl;
 - (void)loadImagesForOnscreenRows;
+-(IBAction) buttonClicked:(id)sender;
 @end

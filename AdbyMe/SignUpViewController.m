@@ -391,7 +391,7 @@
 
 -(IBAction) termsClicked{
     WebViewController *wViewController = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
-    wViewController.requestURL = @"http://www.acmicpc.net/JudgeOnline";
+    wViewController.requestURL = [Address termsURL];
     [[self navigationController] pushViewController:wViewController animated:YES];
     [wViewController release];
 }

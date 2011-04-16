@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
-#import "ImageDownloader.h"
 #import "WriteSloganViewController.h"
 
-@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, ImageDownloaderDelegate, WriteSloganViewControllerDelegate> {
+@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, WriteSloganViewControllerDelegate> {
     
     NSString *adId;
     
@@ -57,14 +56,14 @@
     BOOL updating;
     
     UIView *footerView;
-    
-    ImageDownloader *mainImageDownloader;
 
     NSMutableArray *imageArray;
 
     NSMutableDictionary *imageDownloadsInProgress;
     
     NSString *keyword;
+    
+    NSOperationQueue *queue;
 }
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
@@ -96,7 +95,6 @@
 @property (nonatomic, assign) BOOL noMoreUpdate;
 @property (nonatomic, assign) BOOL updating;
 @property (nonatomic, retain) IBOutlet UIView *footerView;
-@property (nonatomic, retain) ImageDownloader *mainImageDownloader;
 @property (nonatomic, retain) NSMutableArray *imageArray;
 @property (nonatomic, retain) NSMutableDictionary *imageDownloadsInProgress;
 
@@ -106,6 +104,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *statusBgImageView;
 @property (nonatomic, retain) IBOutlet UIImageView *statusImageView;
 @property (nonatomic, retain) NSString *keyword;
+@property (nonatomic, retain) NSOperationQueue *queue;
 
 -(void)loadAd;
 -(void)loadSlogan;

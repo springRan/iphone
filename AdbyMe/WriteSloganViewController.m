@@ -90,12 +90,19 @@
     self.navigationItem.rightBarButtonItem = self.publishButton;
 
     UIImage *snsImage;
-    if (self.snsType == TWITTER)
+    NSString *networkString = @"twitter";
+    if (self.snsType == TWITTER) {
         snsImage = [UIImage imageNamed:@"twlogo.png"];
-    else if(self.snsType == FACEBOOK)
+        networkString = @"twitter";
+    }
+    else if(self.snsType == FACEBOOK) {
         snsImage = [UIImage imageNamed:@"fblogo.png"];
-    else if(self.snsType == ME2DAY)
+        networkString = @"facebook";
+    }
+    else if(self.snsType == ME2DAY) {
         snsImage = [UIImage imageNamed:@"m2logo.png"];
+        networkString = @"me2day";
+    }
     
     [self.snsImageView setImage:snsImage];
     [self.snsImageView setHighlightedImage:snsImage];
@@ -110,8 +117,15 @@
     }
  
     AdbyMeAppDelegate *adbymeDelegate = [[UIApplication sharedApplication]delegate];
-    self.usernameLabel.text = [adbymeDelegate.userDictionary objectForKey:@"username"];
-    [self.usernameLabel sizeToFit];
+    //self.usernameLabel.text = [adbymeDelegate.userDictionary objectForKey:@"username"];
+    //[self.usernameLabel sizeToFit];
+    for (NSDictionary *dict in adbymeDelegate.snaArray) {
+        NSDictionary *dict2 = [dict objectForKey:@"Sna"];
+        if([networkString isEqualToString:(NSString *)[dict2 objectForKey:@"network"]]) {
+            self.usernameLabel.text = (NSString *)[dict2 objectForKey:@"username"];
+            [self.usernameLabel sizeToFit];
+        }
+    }
     
     [self.copyInputView becomeFirstResponder];
     

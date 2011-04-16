@@ -48,7 +48,7 @@
 					<object class="IBUIImageView" id="434008127">
 						<reference key="NSNextResponder" ref="206337151"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{5, 5}, {97, 84}}</string>
+						<string key="NSFrame">{{5, 5}, {97, 64}}</string>
 						<reference key="NSSuperview" ref="206337151"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="377631649"/>
@@ -73,16 +73,12 @@
 					<object class="IBUIImageView" id="966526325">
 						<reference key="NSNextResponder" ref="206337151"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{5, 69}, {96, 23}}</string>
+						<string key="NSFrame">{{5, 69}, {97, 23}}</string>
 						<reference key="NSSuperview" ref="206337151"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="535883088"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">activeCPUV.png</string>
-						</object>
 					</object>
 					<object class="IBUIImageView" id="535883088">
 						<reference key="NSNextResponder" ref="206337151"/>
@@ -129,7 +125,7 @@
 					<object class="IBUITextView" id="427708103">
 						<reference key="NSNextResponder" ref="206337151"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{102, 43}, {198, 80}}</string>
+						<string key="NSFrame">{{102, 43}, {198, 78}}</string>
 						<reference key="NSSuperview" ref="206337151"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="592193776"/>
@@ -824,7 +820,6 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>activeCPUV.png</string>
 				<string>activeicon.png</string>
 				<string>imgframe.png</string>
 				<string>linkbtn.png</string>
@@ -837,7 +832,6 @@
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{96, 23}</string>
 				<string>{15, 11}</string>
 				<string>{97, 64}</string>
 				<string>{96, 30}</string>
