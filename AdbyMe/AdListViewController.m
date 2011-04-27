@@ -249,12 +249,15 @@
     self.updateButton.enabled = YES;
     [self.loadingView removeFromSuperview];
     NSError *error = [aRequest error];
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
 }
 
 -(IBAction) updateButtonClicked{
+    AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
+    delegate.aViewController = self;
+    [delegate updateUser];
     [self loadAd];
 }
 

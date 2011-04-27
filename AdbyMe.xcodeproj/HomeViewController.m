@@ -13,11 +13,15 @@
 #import "AdbyMeAppDelegate.h"
 #import "AdListViewController.h"
 
+#define SIMPLE 2048
+#define LINKED 2049
+
 @implementation HomeViewController
 @synthesize request;
 @synthesize activityView;
 @synthesize loginButton;
 @synthesize signupButton;
+@synthesize notificationUrl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,6 +39,7 @@
     [activityView release];
     [loginButton release];
     [signupButton release];
+    [notificationUrl release];
     [super dealloc];
 }
 
@@ -105,6 +110,8 @@
     NSDictionary *dict = [parser objectWithString:responseString];
     NSString *error = [dict objectForKey:@"error"];
     NSLog(@"%@",dict);
+    NSDictionary *dict2 = [dict objectForKey:@"message"];
+    
     if ([NSNull null] == (NSNull *)error || error==nil) {
         AdbyMeAppDelegate *delegate = [[UIApplication sharedApplication]delegate];
         delegate.userDictionary = [[dict objectForKey:@"user"] objectForKey:@"User"];
@@ -114,19 +121,72 @@
         } else {
             delegate.snaArray = arr;
         }
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setValue:request.requestCookies forKey:@"requestcookies"];
-        [defaults synchronize];
-        AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
-        [[self navigationController] pushViewController:aViewController animated:YES];
-        [aViewController release];
-
+        [self goNext:dict2 success:YES];
     } else {
-        [self endLoginCheck];
+        [self goNext:dict2 success:NO];
 /*        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         [alertView release];*/
         
+    }
+}
+
+-(void)comeOnNextPage{
+    AdListViewController *aViewController = [[AdListViewController alloc]initWithNibName:@"AdListViewController" bundle:nil];
+    [[self navigationController] pushViewController:aViewController animated:YES];
+    [aViewController release];
+}
+
+-(void)goNext:(NSDictionary *)messageDictionary success:(BOOL)success{
+    NSString *idString = [messageDictionary objectForKey:@"id"];
+    NSString *urlString = [messageDictionary objectForKey:@"url"];
+    NSString *messageString = [messageDictionary objectForKey:@"string"];
+    self.notificationUrl = urlString;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (idString && [defaults valueForKey:idString] == nil) {
+        [defaults setBool:YES forKey:idString];
+        [defaults synchronize];
+        if (urlString == nil){
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification" message:messageString delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            alertView.tag = SIMPLE*10;
+            if(success)
+                alertView.tag += 1;
+            [alertView show];
+            [alertView release];
+        } else {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Notification" message:messageString delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
+            alertView.tag = LINKED*10;   
+            if(success)
+                alertView.tag += 1;
+            [alertView show];
+            [alertView release];
+        }
+    } else{
+        if(success)
+            [self comeOnNextPage];
+        else
+            [self endLoginCheck];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    int type = alertView.tag / 10;
+    int success = alertView.tag % 10;
+    if (type == SIMPLE){
+        if(success)
+            [self comeOnNextPage];
+        else
+            [self endLoginCheck];
+    } else if(type == LINKED){
+        if (buttonIndex == [alertView cancelButtonIndex]){
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:self.notificationUrl]];
+        }
+        else{
+            if(success)
+                [self comeOnNextPage];
+            else
+                [self endLoginCheck];
+        }
     }
 }
 
@@ -135,7 +195,7 @@
 {
     [self endLoginCheck];
     NSError *error = [aRequest error];
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
 }

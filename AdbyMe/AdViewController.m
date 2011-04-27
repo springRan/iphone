@@ -419,7 +419,7 @@
 {
         self.refreshButton.enabled = YES;
     NSError *error = [aRequest error];
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
 }

@@ -150,7 +150,7 @@
 {
     [self.activityIndicatorView stopAnimating];
     NSError *error = [aRequest error];
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Login Failed" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
     self.navigationItem.rightBarButtonItem = self.loginButton;

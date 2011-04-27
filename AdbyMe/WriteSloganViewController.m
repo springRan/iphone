@@ -218,7 +218,7 @@
 - (void)initialCheckRequestFailed:(ASIHTTPRequest *)aRequest {
     [self.loadingView removeFromSuperview];
     NSError *error = [aRequest error];
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:[error description] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     alertView.tag = INITIAL_CHECK_ALERT_VIEW;
     [alertView show];
     [alertView release];
@@ -230,7 +230,7 @@
 
 - (void)publishRequestFailed:(ASIHTTPRequest *)aRequest {
     NSError *error = [aRequest error];
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
 }
@@ -265,7 +265,7 @@
 }
 - (void)linkRequestFailed:(ASIHTTPRequest *)aRequest {
     NSError *error = [aRequest error];
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Change Link Failed" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Change Link Failed" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
 }

@@ -7,9 +7,12 @@
 //
 
 #import "AdbyMeAppDelegate.h"
+#import "Address.h"
+#import "SBJsonParser.h"
 
 @implementation AdbyMeAppDelegate
 
+@synthesize aViewController;
 
 @synthesize window=_window;
 
@@ -22,7 +25,9 @@
 @synthesize hViewController;
 
 @synthesize userDictionary;
+
 @synthesize snaArray;
+@synthesize request;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -88,8 +93,29 @@
     [__persistentStoreCoordinator release];
     [hViewController release];
     [userDictionary release];
+    [aViewController release];
+    [request release];
     [snaArray release];
     [super dealloc];
+}
+-(void) updateUser{
+    self.request = [[ASIHTTPRequest alloc]initWithURL:[NSURL URLWithString:[Address loginCheckURL]]];
+    [self.request setDelegate:self];
+    [self.request startAsynchronous];
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)aRequest{
+    // Use when fetching text data
+    NSString *responseString = [aRequest responseString];
+    SBJsonParser *parser = [SBJsonParser new];
+    NSDictionary *dict = [parser objectWithString:responseString];
+    NSString *error = [dict objectForKey:@"error"];
+    NSLog(@"%@",dict);
+    
+    if ([NSNull null] == (NSNull *)error || error==nil) {
+        self.userDictionary = [[dict objectForKey:@"user"] objectForKey:@"User"];
+        [self.aViewController updateDashboard];
+    }
 }
 
 - (void)awakeFromNib
