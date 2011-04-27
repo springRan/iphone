@@ -179,6 +179,7 @@
             [self endLoginCheck];
     } else if(type == LINKED){
         if (buttonIndex == [alertView cancelButtonIndex]){
+            [self comeOnNextPage];
             [[UIApplication sharedApplication]openURL:[NSURL URLWithString:self.notificationUrl]];
         }
         else{
