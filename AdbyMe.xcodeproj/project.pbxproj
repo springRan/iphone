@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B17DEA01387BDA900D41F94 /* publish button.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B17DE9F1387BDA900D41F94 /* publish button.png */; };
+		5B735B2F1387876B00D240CA /* PublishSloganViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B735B2E1387876B00D240CA /* PublishSloganViewController.m */; };
+		5B87222A13879000007CAC7E /* PublishSloganViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B87222913879000007CAC7E /* PublishSloganViewController.xib */; };
+		5BB7BBEE138B7C8A0047E253 /* imgframe_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BB7BBED138B7C8A0047E253 /* imgframe_1.png */; };
+		5BB7BBF1138B7DC50047E253 /* activeCPUV_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BB7BBF0138B7DC50047E253 /* activeCPUV_1.png */; };
+		5BB7BBF3138B7DD10047E253 /* pausedCPUV_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BB7BBF2138B7DD10047E253 /* pausedCPUV_1.png */; };
 		730A844113597B1200557FF7 /* activeCPUV.png in Resources */ = {isa = PBXBuildFile; fileRef = 730A843D13597B1200557FF7 /* activeCPUV.png */; };
 		730A844213597B1200557FF7 /* activeCPUV@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 730A843E13597B1200557FF7 /* activeCPUV@2x.png */; };
 		730A844313597B1200557FF7 /* pausedCPUV.png in Resources */ = {isa = PBXBuildFile; fileRef = 730A843F13597B1200557FF7 /* pausedCPUV.png */; };
@@ -198,6 +204,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B17DE9F1387BDA900D41F94 /* publish button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "publish button.png"; sourceTree = "<group>"; };
+		5B735B2D1387876B00D240CA /* PublishSloganViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishSloganViewController.h; sourceTree = "<group>"; };
+		5B735B2E1387876B00D240CA /* PublishSloganViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishSloganViewController.m; sourceTree = "<group>"; };
+		5B87222913879000007CAC7E /* PublishSloganViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublishSloganViewController.xib; sourceTree = "<group>"; };
+		5BB7BBED138B7C8A0047E253 /* imgframe_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgframe_1.png; sourceTree = "<group>"; };
+		5BB7BBF0138B7DC50047E253 /* activeCPUV_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = activeCPUV_1.png; sourceTree = "<group>"; };
+		5BB7BBF2138B7DD10047E253 /* pausedCPUV_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pausedCPUV_1.png; sourceTree = "<group>"; };
 		730A843D13597B1200557FF7 /* activeCPUV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = activeCPUV.png; sourceTree = "<group>"; };
 		730A843E13597B1200557FF7 /* activeCPUV@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activeCPUV@2x.png"; sourceTree = "<group>"; };
 		730A843F13597B1200557FF7 /* pausedCPUV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pausedCPUV.png; sourceTree = "<group>"; };
@@ -525,11 +538,15 @@
 				7376850F134CA95D00410773 /* AdViewController.xib */,
 				7361F87E134CC86B00F84E0D /* AdHeaderView.xib */,
 				73988F67134DD69600D0A2EB /* AdCell3.xib */,
+				5B17DE9F1387BDA900D41F94 /* publish button.png */,
 				A759DEE1135486FC00C884C3 /* DateDifference.h */,
 				A759DEE2135486FC00C884C3 /* DateDifference.m */,
 				73F19979134F6FD8009F174D /* WriteSloganViewController.h */,
 				73F1997A134F6FD8009F174D /* WriteSloganViewController.m */,
 				73F1997B134F6FD8009F174D /* WriteSloganViewController.xib */,
+				5B735B2D1387876B00D240CA /* PublishSloganViewController.h */,
+				5B735B2E1387876B00D240CA /* PublishSloganViewController.m */,
+				5B87222913879000007CAC7E /* PublishSloganViewController.xib */,
 				7312C9B71348C80200A33091 /* SNSSettingViewController.h */,
 				7312C9B81348C80200A33091 /* SNSSettingViewController.m */,
 				7312C9B91348C80200A33091 /* SNSSettingViewController.xib */,
@@ -742,14 +759,17 @@
 			isa = PBXGroup;
 			children = (
 				730A843D13597B1200557FF7 /* activeCPUV.png */,
+				5BB7BBF0138B7DC50047E253 /* activeCPUV_1.png */,
 				730A843E13597B1200557FF7 /* activeCPUV@2x.png */,
 				730A843F13597B1200557FF7 /* pausedCPUV.png */,
+				5BB7BBF2138B7DD10047E253 /* pausedCPUV_1.png */,
 				730A844013597B1200557FF7 /* pausedCPUV@2x.png */,
 				733C8DEB13486DCF00A51FEC /* activeicon.png */,
 				733C8DEC13486DCF00A51FEC /* dashboard.png */,
 				733C8DED13486DCF00A51FEC /* fadeout.png */,
 				733C8DEE13486DCF00A51FEC /* goicon.png */,
 				733C8DEF13486DCF00A51FEC /* imgframe.png */,
+				5BB7BBED138B7C8A0047E253 /* imgframe_1.png */,
 				733C8DF213486DCF00A51FEC /* listbd.png */,
 				733C8DF413486DCF00A51FEC /* pausedicon.png */,
 				733C8DF513486DCF00A51FEC /* renewicon.png */,
@@ -1018,6 +1038,11 @@
 				730A844413597B1200557FF7 /* pausedCPUV@2x.png in Resources */,
 				730A844713597C8500557FF7 /* cellBackgroundSelected.png in Resources */,
 				730A844813597C8500557FF7 /* cellBackground.png in Resources */,
+				5B87222A13879000007CAC7E /* PublishSloganViewController.xib in Resources */,
+				5B17DEA01387BDA900D41F94 /* publish button.png in Resources */,
+				5BB7BBEE138B7C8A0047E253 /* imgframe_1.png in Resources */,
+				5BB7BBF1138B7DC50047E253 /* activeCPUV_1.png in Resources */,
+				5BB7BBF3138B7DD10047E253 /* pausedCPUV_1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1098,6 +1123,7 @@
 				73F21A121350420600554A3C /* WebViewController.m in Sources */,
 				73F7FD081351C3D300935829 /* SnsWebViewController.m in Sources */,
 				A759DEE3135486FC00C884C3 /* DateDifference.m in Sources */,
+				5B735B2F1387876B00D240CA /* PublishSloganViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

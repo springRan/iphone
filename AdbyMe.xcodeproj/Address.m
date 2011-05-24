@@ -50,15 +50,10 @@
     return [NSString stringWithFormat:@"%@%@", HOST_ADDR, rest];
 }
 
-+(NSString *) likeUrl:(NSString *)linkId{
-    return [NSString stringWithFormat:@"%@/links/likeOrDislike/%@/like.json",HOST_ADDR,linkId];
++(NSString *) writeSlogan:(NSString *)adId {
+    return [NSString stringWithFormat:@"%@/slogans/write/%@.json", HOST_ADDR, adId];
 }
-
-+(NSString *) dislikeUrl:(NSString *)linkId{
-    return [NSString stringWithFormat:@"%@/links/likeOrDislike/%@/dislike.json",HOST_ADDR,linkId];
-}
-
-+(NSString *) writeCopy:(NSString *)adId andSnsType:(int)type{
++(NSString *) publishSlogan:(NSString *)sloganId andSnsType:(int)type{
     NSString *snsType = @"";
     if (type == TWITTER) {
         snsType = @"twitter";
@@ -67,7 +62,7 @@
     } else if (type == ME2DAY) {
         snsType = @"me2day";
     }
-    return [NSString stringWithFormat:@"%@/slogans/write/%@/%@.json?forcelink=true", HOST_ADDR, adId, snsType];
+    return [NSString stringWithFormat:@"%@/pubs/publish/%@/%@.json", HOST_ADDR, sloganId, snsType];
 }
 
 +(NSString *) connectSns:(int)type {
@@ -94,8 +89,8 @@
     return [NSString stringWithFormat:@"%@/snas/delete/%@.json", HOST_ADDR, snsType];
 }
 
-+(NSString *) makeShortLink:(NSString *)adId andLinkType:(int)type{
-    NSString *linkType = @"";
++(NSString *) makeShortLink:(NSString *)hashId andLinkType:(int)type{
+    NSString *linkType = @"";	
     if (type == 0) {
         linkType = @"adby.me";
     } else if (type == 1) {
@@ -103,7 +98,7 @@
     } else if (type == 2) {
         linkType = @"goo.gl";
     }
-    return [NSString stringWithFormat:@"%@/links/makeShortLink/%@/%@", HOST_ADDR, adId, linkType];
+    return [NSString stringWithFormat:@"%@/pubs/makeShortLink/%@/%@.json", HOST_ADDR, hashId, linkType];
 }
 
 +(NSString *) earningURL{

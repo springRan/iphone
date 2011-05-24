@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#define HOST_ADDR @"https://www.adby.me"
+/*
+ #define HOST_ADDR @"https://www.adby.me"
+ */
+#define HOST_ADDR @"http://exp.hooni.adby.me"
 
 @interface Address : NSObject {
 
@@ -23,12 +25,11 @@
 +(NSString *) adListURL;
 +(NSString *) adUrl:(NSString *)adId;
 +(NSString *) makeUrl:(NSString *)rest;
-+(NSString *) likeUrl:(NSString *)linkId;
-+(NSString *) dislikeUrl:(NSString *)linkId;
-+(NSString *) writeCopy:(NSString *)adId andSnsType:(int)type;
++(NSString *) writeSlogan:(NSString *)adId;
++(NSString *) publishSlogan:(NSString *)sloganId andSnsType:(int)type;
 +(NSString *) connectSns:(int)type;
 +(NSString *) disconnectSns:(int)type;
-+(NSString *) makeShortLink:(NSString *)adId andLinkType:(int)type;
++(NSString *) makeShortLink:(NSString *)hashId andLinkType:(int)type;
 +(NSString *) earningURL;
 +(NSString *) loginCheckURL;
 +(NSString *) termsURL;
