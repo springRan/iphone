@@ -19,7 +19,7 @@
 #define LOGOUT 2
 #define CANCEL 3
 
-#define DEFAULT_CELL_HEIGHT 100.0
+#define DEFAULT_CELL_HEIGHT 95.0
 
 #define FONT_HEIGHT 20
 #define DESCRIPTION_FONT_HEIGHT 14
@@ -340,15 +340,10 @@
     uvLabel.text = [formatter stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"uv"] intValue]]];
     
     UILabel *copyLabel = (UILabel *)[cell viewWithTag:COPY_TEXT];
-    copyLabel.text = [formatter stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"copy"] intValue]]];
+    copyLabel.text = [formatter stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"slogan"] intValue]]];
     
     UILabel *cpcLabel = (UILabel *)[cell viewWithTag:CPC_TEXT];
-    double cpc = [(NSString *)[adDict objectForKey:@"cpc"] doubleValue];
-    if (cpc < 1e-9) {
-        cpcLabel.text = @"Free";
-    } else {
-        cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
-    }
+    cpcLabel.text = (NSString *)[adDict objectForKey:@"cpuv"];
     
     UILabel *descriptionLabel = (UILabel *)[cell viewWithTag:AD_DESCRIPTION];
     UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:11.0];
@@ -393,7 +388,7 @@
         frame.origin.x = 11;
         [statusImageView setFrame:frame];
         [statusImageView setImage:[UIImage imageNamed:@"activeicon.png"]];
-        [statusBgImageView setImage:[UIImage imageNamed:@"activeCPUV.png"]];
+        [statusBgImageView setImage:[UIImage imageNamed:@"activeCPUV_1.png"]];
     } else{
         cpcLabel.text = @"Paused";
         UIImageView *statusBgImageView = (UIImageView *)[cell viewWithTag:STATUS_BGIMAGE];
@@ -403,7 +398,7 @@
         frame.origin.x = 15;
         [statusImageView setFrame:frame];
         [statusImageView setImage:[UIImage imageNamed:@"pausedicon.png"]];
-        [statusBgImageView setImage:[UIImage imageNamed:@"pausedCPUV.png"]];
+        [statusBgImageView setImage:[UIImage imageNamed:@"pausedCPUV_1.png"]];
     }
 }
 

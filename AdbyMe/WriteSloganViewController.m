@@ -11,29 +11,19 @@
 #import "Address.h"
 #import "SBJsonParser.h"
 
-#define TWITTER 1024
-#define FACEBOOK 1025
-#define ME2DAY 1026
-
-#define MAX_COPY_LENGTH 140
+#define MAX_COPY_LENGTH 100
 
 #define SPACE_LENGTH 5
 
 #define INITIAL_CHECK_ALERT_VIEW 2048
 #define PUBLISH_ALERT_VIEW 2049
 
-#define ADBY_ME 0
-#define BIT_LY 1
-#define GOO_GL 2
-
 @implementation WriteSloganViewController
-@synthesize snsType;
-@synthesize publishButton;
-@synthesize snsImageView;
+@synthesize writeButton;
+@synthesize userImageView;
 @synthesize usernameLabel;
 @synthesize leftCharLabel;
 @synthesize copyInputView;
-@synthesize linkButton;
 @synthesize keywordView;
 @synthesize keywordLabel;
 @synthesize adId;
@@ -41,12 +31,12 @@
 @synthesize loadingView;
 @synthesize delegate;
 @synthesize keyword;
+@synthesize queue;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
         self.title = @"Write slogan";
     }
     return self;
@@ -55,19 +45,18 @@
 - (void)dealloc
 {
     [request clearDelegatesAndCancel];
-    [publishButton release];
-    [snsImageView release];
+    [writeButton release];
+    [userImageView release];
     [usernameLabel release];
     [keyword release];
     [leftCharLabel release];
-    [linkButton release];
     [keywordView release];
     [loadingView release];
     [keywordLabel release];
     [copyInputView release];
     [adId release];
     [request release];
-    
+    [queue release];
     delegate = nil;
     [super dealloc];
 }
@@ -85,28 +74,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    self.publishButton = [[UIBarButtonItem alloc]initWithTitle:@"Publish" style:UIBarButtonItemStylePlain target:self action:@selector(publishButtonClicked)];
-    self.navigationItem.rightBarButtonItem = self.publishButton;
 
-    UIImage *snsImage;
-    NSString *networkString = @"twitter";
-    if (self.snsType == TWITTER) {
-        snsImage = [UIImage imageNamed:@"twlogo.png"];
-        networkString = @"twitter";
-    }
-    else if(self.snsType == FACEBOOK) {
-        snsImage = [UIImage imageNamed:@"fblogo.png"];
-        networkString = @"facebook";
-    }
-    else if(self.snsType == ME2DAY) {
-        snsImage = [UIImage imageNamed:@"m2logo.png"];
-        networkString = @"me2day";
-    }
-    
-    [self.snsImageView setImage:snsImage];
-    [self.snsImageView setHighlightedImage:snsImage];
-    
+    // write button
+    self.writeButton = [[UIBarButtonItem alloc]initWithTitle:@"Write" style:UIBarButtonItemStylePlain target:self action:@selector(writeButtonClicked)];
+    self.navigationItem.rightBarButtonItem = self.writeButton;
+
+    // keyword
     if ((NSNull *)keyword == [NSNull null] || keyword == nil) {
         self.keywordView.hidden = YES;
         CGRect frame = self.copyInputView.frame;
@@ -116,31 +89,38 @@
         self.keywordLabel.text = self.keyword;
     }
  
+
     AdbyMeAppDelegate *adbymeDelegate = [[UIApplication sharedApplication]delegate];
-    //self.usernameLabel.text = [adbymeDelegate.userDictionary objectForKey:@"username"];
-    //[self.usernameLabel sizeToFit];
-    for (NSDictionary *dict in adbymeDelegate.snaArray) {
-        NSDictionary *dict2 = [dict objectForKey:@"Sna"];
-        if([networkString isEqualToString:(NSString *)[dict2 objectForKey:@"network"]]) {
-            self.usernameLabel.text = (NSString *)[dict2 objectForKey:@"username"];
-            [self.usernameLabel sizeToFit];
-        }
-    }
+
+    // user avatar
+    self.queue = [[NSOperationQueue alloc]init];
+    [self.queue setMaxConcurrentOperationCount:10];
+    NSString *imageURL = [adbymeDelegate.userDictionary objectForKey:@"avatar"];
+    ASIHTTPRequest *imageRequest = [[ASIHTTPRequest alloc]initWithURL:[NSURL URLWithString:imageURL]];
+    [imageRequest setDelegate:self];
+    [imageRequest setDidFinishSelector:@selector(imageDownloadRequestDone:)];
+    [imageRequest setDidFailSelector:@selector(imageDownloadRequestFail:)];
+    [queue addOperation:imageRequest];
+    [self retain];
+    [imageRequest release];
     
+    // user name
+    self.usernameLabel.text = [adbymeDelegate.userDictionary objectForKey:@"username"];
+    [self.usernameLabel sizeToFit];
     [self.copyInputView becomeFirstResponder];
-    
-    NSURL *url = [NSURL URLWithString:[Address writeCopy:adId andSnsType:self.snsType]];
-    if(request){
-        [request clearDelegatesAndCancel];
-        [request release];
-        request = nil;
-    }
-    self.request = [[ASIFormDataRequest alloc]initWithURL:url];
-    [self.request setDelegate:self];
-    [self.request setDidFinishSelector:@selector(initialCheckRequestDone:)];
-    [self.request setDidFailSelector:@selector(initialCheckRequestFailed:)];
-    [self.request startAsynchronous];
-    
+
+}
+- (void)imageDownloadRequestFail:(ASIHTTPRequest *)aRequest {
+    NSLog(@"imageDownloadRequestFail");
+    [self release];
+}
+- (void)imageDownloadRequestDone:(ASIHTTPRequest *)aRequest {
+    NSLog(@"imageDownloadRequestDone");
+    NSData *imageData = [aRequest responseData];
+    UIImage *myImage = [[UIImage alloc] initWithData:imageData];
+    [self.userImageView setImage:myImage];
+    [self.userImageView setHighlightedImage:myImage];
+    [self release];
 }
 
 - (void)viewDidUnload
@@ -156,23 +136,27 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(void)publishButtonClicked{
+-(void)writeButtonClicked{
+    NSLog(@"writeButtonClicked");
+    
     if(request){
         [request clearDelegatesAndCancel];
         [request release];
         request = nil;
     }
-    NSURL *url = [NSURL URLWithString:[Address writeCopy:adId andSnsType:self.snsType]];
+    NSURL *url = [NSURL URLWithString:[Address writeSlogan:adId]];
+
     self.request = [[ASIFormDataRequest alloc] initWithURL:url];
     [self.request setDelegate:self];
-    [self.request setDidFinishSelector:@selector(publishRequestDone:)];
-    [self.request setDidFailSelector:@selector(publichRequestFailed:)];
-    [self.request setPostValue:self.copyInputView.text forKey:@"data[Slogan][copy]"];
+    [self.request setDidFinishSelector:@selector(writeRequestDone:)];
+    [self.request setDidFailSelector:@selector(writeRequestFailed:)];
+    [self.request setPostValue:self.copyInputView.text forKey:@"data[Slogan][slogan]"];
     [self.request startAsynchronous];
 }
 
 -(void)updateLeftLabel:(int)length{
-    int remain =  MAX_COPY_LENGTH - ([self.linkButton.titleLabel.text length] - SPACE_LENGTH) - length;
+    //  SPACE_LENGTH - [self.linkButton.titleLabel.text length]
+    int remain =  MAX_COPY_LENGTH - length;
     if (remain < 0)
         leftCharLabel.textColor = [UIColor redColor];
     else 
@@ -182,62 +166,20 @@
 - (void)textViewDidChange:(UITextView *)textView{
     [self updateLeftLabel:[textView.text length]];
 }
--(void)setLinkButtonUrl:(NSString *)url{
-    NSString *urlText = [NSString stringWithFormat:@"     %@",url];
-    [self.linkButton setTitle:urlText forState:UIControlStateNormal];
-    [self.linkButton setTitle:urlText forState:UIControlStateHighlighted];
-    [self updateLeftLabel:[self.copyInputView.text length]];
-}
-
-- (void)initialCheckRequestDone:(ASIHTTPRequest *)aRequest {
-    [self.loadingView removeFromSuperview];
-    NSString *responseString = [aRequest responseString];
-    NSLog(@"%@",responseString);
-    SBJsonParser *parser = [SBJsonParser new];
-    NSDictionary *dict = [parser objectWithString:responseString];
-    NSString *error = [dict objectForKey:@"error"];
-    if ([NSNull null] == (NSNull *)error) {
-        //[self setCheckView:EMAIL_FIELD status:OK_STATUS message:@"OK"];
-        NSString *link = [dict objectForKey:@"link"];
-        if ((NSNull *)link == [NSNull null]) {
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:@"Connect a SNS" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            alertView.tag = INITIAL_CHECK_ALERT_VIEW;
-            [alertView show];
-            [alertView release];
-        } else {
-            [self setLinkButtonUrl:[dict objectForKey:@"link"]];
-        }
-    } else {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        alertView.tag = INITIAL_CHECK_ALERT_VIEW;
-        [alertView show];
-        [alertView release];
-    }
-}
-
-- (void)initialCheckRequestFailed:(ASIHTTPRequest *)aRequest {
-    [self.loadingView removeFromSuperview];
-    NSError *error = [aRequest error];
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    alertView.tag = INITIAL_CHECK_ALERT_VIEW;
-    [alertView show];
-    [alertView release];
-}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
-- (void)publishRequestFailed:(ASIHTTPRequest *)aRequest {
+- (void)writeRequestFailed:(ASIHTTPRequest *)aRequest {
     NSError *error = [aRequest error];
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [alertView release];
 }
 
-- (void)publishRequestDone:(ASIHTTPRequest *)aRequest {
+- (void)writeRequestDone:(ASIHTTPRequest *)aRequest {
     NSString *responseString = [aRequest responseString];
-    NSLog(@"Email Request Done");
     NSLog(@"%@",responseString);
     SBJsonParser *parser = [SBJsonParser new];
     NSDictionary *dict = [parser objectWithString:responseString];
@@ -251,37 +193,6 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Write Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         [alertView release];
-    }
-}
--(IBAction) linkButtonClicked {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"adby.me", @"bit.ly", @"goo.gl", nil];
-    [actionSheet showInView:self.view];
-    [actionSheet release];
-}
-
-- (void)linkRequestDone:(ASIHTTPRequest *)aRequest {
-    NSString *response = [aRequest responseString];
-    [self setLinkButtonUrl:response];
-}
-- (void)linkRequestFailed:(ASIHTTPRequest *)aRequest {
-    NSError *error = [aRequest error];
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Change Link Failed" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
-}
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex != [actionSheet cancelButtonIndex]) {
-        if(request){
-            [request clearDelegatesAndCancel];
-            [request release];
-            request = nil;
-        }
-        NSURL *url = [NSURL URLWithString:[Address makeShortLink:adId andLinkType:buttonIndex]];
-        request = [[ASIFormDataRequest alloc]initWithURL:url];
-        [request setDelegate:self];
-        [request setDidFinishSelector:@selector(linkRequestDone:)];
-        [request setDidFailSelector:@selector(linkRequestFailed:)];
-        [request startAsynchronous];
     }
 }
 @end

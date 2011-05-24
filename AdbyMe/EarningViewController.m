@@ -211,7 +211,7 @@
     label.text = [formatter stringFromNumber:[NSNumber numberWithInt:[(NSString *)[self.userDictionary objectForKey:@"uv"] intValue]]];
     
     label = (UILabel *) [cell viewWithTag:EARNINGS_LABEL];
-    label.text = [NSString stringWithFormat:@"$%@",[self.userDictionary objectForKey:@"amount"]];
+    label.text = [NSString stringWithFormat:@"$%@",[self.userDictionary objectForKey:@"earnings"]];
     
 }
 -(void)configCell:(UITableViewCell *)cell row:(int)row{
@@ -228,7 +228,7 @@
     label.text = [formatter stringFromNumber:[NSNumber numberWithInt:[(NSString *)[dict objectForKey:@"uv"] intValue]]];
     
     label = (UILabel *) [cell viewWithTag:EARNINGS_LABEL];
-    label.text = [NSString stringWithFormat:@"$%@",[dict objectForKey:@"amount"]];    
+    label.text = [NSString stringWithFormat:@"$%@",[dict objectForKey:@"earnings"]];    
     
     label = (UILabel *) [cell viewWithTag:STATUS_LABEL];
     label.text = [NSString stringWithFormat:@"%@",[dict objectForKey:@"status"]];    

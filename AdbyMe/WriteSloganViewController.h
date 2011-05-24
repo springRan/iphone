@@ -13,13 +13,11 @@
 @protocol WriteSloganViewControllerDelegate;
 
 @interface WriteSloganViewController : UIViewController <UITextViewDelegate, ASIHTTPRequestDelegate, UIAlertViewDelegate, UIActionSheetDelegate> {
-    int snsType;
-    UIBarButtonItem *publishButton;
-    UIImageView *snsImageView;
+    UIBarButtonItem *writeButton;
+    UIImageView *userImageView;
     UILabel *usernameLabel;
     UILabel *leftCharLabel;
     UITextView *copyInputView;
-    UIButton *linkButton;
     UIView *keywordView;
     UILabel *keywordLabel;
     NSString *adId;
@@ -28,16 +26,15 @@
     UIView *loadingView;
     
     NSString *keyword;
+    NSOperationQueue *queue;
     
     id <WriteSloganViewControllerDelegate> delegate;
 }
-@property (nonatomic, assign) int snsType;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *publishButton;
-@property (nonatomic, retain) IBOutlet UIImageView *snsImageView;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *writeButton;
+@property (nonatomic, retain) IBOutlet UIImageView *userImageView;
 @property (nonatomic, retain) IBOutlet UILabel *usernameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *leftCharLabel;
 @property (nonatomic, retain) IBOutlet UITextView *copyInputView;
-@property (nonatomic, retain) IBOutlet UIButton *linkButton;
 @property (nonatomic, retain) IBOutlet UIView *keywordView;
 @property (nonatomic, retain) IBOutlet UILabel *keywordLabel;
 @property (nonatomic, retain) NSString *adId;
@@ -45,11 +42,10 @@
 @property (nonatomic, retain) IBOutlet UIView *loadingView;
 @property (nonatomic, assign) id <WriteSloganViewControllerDelegate> delegate;
 @property (nonatomic, retain) NSString *keyword;
+@property (nonatomic, retain) NSOperationQueue *queue;
 
--(void)publishButtonClicked;
+-(void)writeButtonClicked;
 -(void)updateLeftLabel:(int)length;
--(void)setLinkButtonUrl:(NSString *)url;
--(IBAction) linkButtonClicked;
 
 @end
 

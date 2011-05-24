@@ -14,21 +14,17 @@
 #import "DateDifference.h"
 
 #define AVATAR_VIEW 1024
-#define UPDOWN_VIEW 1026
 #define UV_VIEW 1027
 #define SLOGAN_LABEL 1028
-#define LINK_BUTTON 1029
+#define PUB_TIME_LABEL 1029
 #define SLOGAN_BORDER 1030
 #define CONTAINER_VIEW 1031
-#define CREATE_DATE_LABEL 1032
+#define PUB_LABEL 1032
 #define UV_LABEL 1033
-#define SCORE_LABEL 1034
-#define SNS_IMAGE_VIEW 1035
-#define ACTIVITY_VIEW 1036
+#define PUB_IMAGE 1034
 
 #define FONT_HEIGHT 18
 
-#define DISLIKE_ACTIONSHEET 2049
 #define WRITE_ACTIONSHEET 2048
 
 #define TWITTER 0
@@ -43,7 +39,8 @@
 #define SLOGAN_LABEL_DEFAULT_X 65
 #define SLOGAN_LABEL_DEFAULT_Y 7
 
-#define LIKEDISLIKE_ACTIONSHEET 10000
+#define PUB_LABEL_DEFAULT_X 0
+#define PUB_LABEL_DEFAULT_Y 30
 
 #define UPDATE_RATE 1.0
 
@@ -61,18 +58,17 @@
 @synthesize adTextView;
 @synthesize adImageView;
 @synthesize cpcLabel;
-@synthesize bestSloganId;
 @synthesize sloganArray;
 @synthesize sinceUrl;
 @synthesize adCell;
 @synthesize numberOfLinesDictionary;
-@synthesize userDictionary;
+@synthesize usernameDictionary;
 @synthesize sloganDictionary;
-@synthesize linkDictionary;
-@synthesize createdDictionary;
 @synthesize uvDictionary;
-@synthesize linkIdDictionary;
-@synthesize linkScoreDictionary;
+@synthesize imageUrlDictionary;
+@synthesize sloganIdDictionary;
+@synthesize numberOfPubDictionary;
+@synthesize pubTimeDictionary;
 @synthesize loadingView;
 @synthesize refreshButton;
 @synthesize noMoreUpdate;
@@ -80,13 +76,12 @@
 @synthesize footerView;
 @synthesize imageArray;
 @synthesize imageDownloadsInProgress;
-@synthesize imageUrlDictionary;
 @synthesize snsDictionary;
 @synthesize statusBgImageView;
 @synthesize statusImageView;
 @synthesize keyword;
 @synthesize queue;
-
+@synthesize timeStamp;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -94,7 +89,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Ad View";
-        // Custom initialization
     }
     return self;
 }
@@ -118,25 +112,26 @@
     [queue release];
     [imageDownloadsInProgress release];
     [sloganLabel release];
-    [linkDictionary release];
     [adTextView release];
-    [bestSloganId release];
-    [createdDictionary release];
     [uvDictionary release];
     [sloganArray release];
     [sinceUrl release];
     [numberOfLinesDictionary release];
     [adCell release];
-    [userDictionary release];
+    [usernameDictionary release];
     [sloganDictionary release];
-    [linkIdDictionary release];
-    [linkScoreDictionary release];
     [loadingView release];
     [footerView release];
     [statusBgImageView release];
     [statusImageView release];
     [refreshButton release];
     [snsDictionary release];
+    [sloganIdDictionary release];
+    [numberOfPubDictionary release];
+    [pubTimeDictionary release];
+    [publishImage release];
+    [publishButton release];
+    [timeStamp release];
     [super dealloc];
 }
 
@@ -154,19 +149,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
     // Do any additional setup after loading the view from its nib.
+
+//    NSLog([[[[NSDate date] timeIntervalSince1970] description]);
+    self.timeStamp = [NSString stringWithFormat:@"%d", (long)[[NSDate date] timeIntervalSince1970]];
+    
     [[NSBundle mainBundle] loadNibNamed:@"AdHeaderView" owner:self options:nil];
     self.theTableView.tableHeaderView = self.adHeaderView;
     self.numberOfLinesDictionary = [[NSMutableDictionary alloc]init];
     self.sloganDictionary = [[NSMutableDictionary alloc]init];
-    self.userDictionary = [[NSMutableDictionary alloc]init];
-    self.linkDictionary = [[NSMutableDictionary alloc]init];
-    self.createdDictionary = [[NSMutableDictionary alloc]init];
+    self.usernameDictionary = [[NSMutableDictionary alloc]init];
     self.uvDictionary = [[NSMutableDictionary alloc]init];
-    self.linkIdDictionary = [[NSMutableDictionary alloc]init];
-    self.linkScoreDictionary = [[NSMutableDictionary alloc]init];
     self.imageUrlDictionary = [[NSMutableDictionary alloc]init];
     self.snsDictionary = [[NSMutableDictionary alloc]init];
+    self.sloganIdDictionary = [[NSMutableDictionary alloc]init];
+    self.numberOfPubDictionary = [[NSMutableDictionary alloc]init];
+    self.pubTimeDictionary = [[NSMutableDictionary alloc]init];
     self.queue = [[NSOperationQueue alloc]init];
     [self.queue setMaxConcurrentOperationCount:10];
     
@@ -183,7 +183,6 @@
     self.imageDownloadsInProgress = [[NSMutableDictionary alloc]init];
 
     [self loadAd];
-    NSLog(@"viewDidLoad");
 }
 
 - (void)viewDidUnload
@@ -200,7 +199,7 @@
 }
 
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"SloganCellIdentifier";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -236,57 +235,41 @@
     [avatarView setFrame:CGRectMake(7, 7, 48, 48)];
     UIView *uvView = (UIView *)[cell viewWithTag:UV_VIEW];
     [uvView setFrame:CGRectMake(65, 66, 220, 24)];
-    UIView *updownView = (UIView *)[cell viewWithTag:UPDOWN_VIEW];
-    [updownView setFrame:CGRectMake(288, 21, 30, 53)];
     UIImageView *sloganBorder = (UIImageView *)[cell viewWithTag:SLOGAN_BORDER];
     [sloganBorder setFrame:CGRectMake(0, 93, 320, 2)];
     UILabel *sloganLabel2 = (UILabel *)[cell viewWithTag:SLOGAN_LABEL];
-    [sloganLabel2 setFrame:CGRectMake(65, 7, 215, 35)];
-    UIButton *linkButton = (UIButton *)[cell viewWithTag:LINK_BUTTON];
-    [linkButton setFrame:CGRectMake(65, 7, 215, 35)];
-    
+    [sloganLabel2 setFrame:CGRectMake(65, 7, 220, 35)];
 }
 
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath{
+
+    NSString *username = (NSString *)[self.usernameDictionary objectForKey:indexPath];
+    NSString *user_slogan = (NSString *)[self.sloganDictionary objectForKey:indexPath];
     
-    //[self restoreCell:cell];
-        
-    NSString *user = (NSString *)[self.userDictionary objectForKey:indexPath];
-    NSString *user_copy = (NSString *)[self.sloganDictionary objectForKey:indexPath];
-    NSString *link = (NSString *)[self.linkDictionary objectForKey:indexPath];
+    UILabel *label = (UILabel *)[cell viewWithTag:SLOGAN_LABEL];
+
+    // slogan
+    label.text = user_slogan;
+    CGRect frame = label.frame;
+
+    // line수에 따라 cell의 높이가 달라짐
     NSNumber *number = (NSNumber *)[self.numberOfLinesDictionary objectForKey:indexPath];
     int lines = [number intValue];
+    double addHeight = (lines - 1) * FONT_HEIGHT;
+    [self addHeight:addHeight forView:cell.contentView];
+    [self addHeight:addHeight forView:label];
+    [self addY:addHeight forView:[cell viewWithTag:UV_VIEW]];
+    [self addY:addHeight forView:[cell viewWithTag:SLOGAN_BORDER]];
+    [self addY:(addHeight/2) forView:[cell viewWithTag:PUB_IMAGE]];
+    [self addHeight:addHeight forView:[cell viewWithTag:CONTAINER_VIEW]];
 
-    UILabel *label = (UILabel *)[cell viewWithTag:SLOGAN_LABEL];
-    label.text = user_copy;
-    CGRect frame = label.frame;
-    [label sizeToFit];
-    frame.origin.x = SLOGAN_LABEL_DEFAULT_X;
-    frame.origin.y = SLOGAN_LABEL_DEFAULT_Y;
-    if(lines == 1)
-        frame.origin.y = frame.origin.y -10;
-    [label setFrame:frame];
-    
-    UIButton *linkButton = (UIButton *)[cell viewWithTag:LINK_BUTTON];
-    [linkButton setTitle:link forState:UIControlStateNormal];
-    [linkButton setTitle:link forState:UIControlStateHighlighted];
-    
-    if (lines > 2){
-        double addHeight = (lines - 2) * FONT_HEIGHT;
-        [self addHeight:addHeight forView:cell.contentView];
-        [self addHeight:addHeight forView:label];
-        [self addY:addHeight forView:linkButton];
-        [self addY:addHeight forView:[cell viewWithTag:UV_VIEW]];
-        [self addY:addHeight/2.0 forView:[cell viewWithTag:UPDOWN_VIEW]];
-        [self addY:addHeight forView:[cell viewWithTag:SLOGAN_BORDER]];
-        [self addHeight:addHeight forView:[cell viewWithTag:CONTAINER_VIEW]];
-    }
-    
+    // user id 임의 삽입
     UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:14.0];
-    CGSize constraintSize = CGSizeMake(215.0f, MAXFLOAT);
-    CGSize labelSize = [user sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    CGSize constraintSize = CGSizeMake(220.0f, MAXFLOAT);
+    CGSize labelSize = [username sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    
     label = [[UILabel alloc]initWithFrame:frame];
-    label.text = user;
+    label.text = username;
     label.font = cellFont;
     label.textColor = [UIColor colorWithRed:14.0/256.0 green:157.0/256.0 blue:209.0/256.0 alpha:1.0];
     UIView *containerView = [cell viewWithTag:CONTAINER_VIEW];
@@ -295,60 +278,85 @@
     frame.size = labelSize;
     frame.origin.x = SLOGAN_LABEL_DEFAULT_X;
     frame.origin.y = SLOGAN_LABEL_DEFAULT_Y;
-    frame.origin.y -= 1;
     [label setFrame:frame];
     [containerView addSubview:label];
     [label release];
     
-    label = (UILabel *)[cell viewWithTag:CREATE_DATE_LABEL];
-    NSString *createdString = (NSString *)[self.createdDictionary objectForKey:indexPath];
-    NSRange range = [createdString rangeOfString:@"+"];
-    
-    createdString = [createdString substringToIndex:range.location];
-    label.text = [NSDateFormatter dateDifferenceStringFromString:createdString withFormat:@"yyyy-MM-dd HH:mm:ss+00"];
-    
+    //
     NSNumberFormatter *formatter2 = [[[NSNumberFormatter alloc]init]autorelease];
     [formatter2 setNumberStyle:NSNumberFormatterDecimalStyle];
+
+    // published
+    label = (UILabel *)[cell viewWithTag:PUB_LABEL];
+    NSString *pub = [[formatter2 stringFromNumber:[NSNumber numberWithInt:[(NSString *)[self.numberOfPubDictionary objectForKey:indexPath] intValue]]] stringByAppendingString:@"명"];
+    label.text =  [pub stringByAppendingString:@"이 퍼블리쉬 했습니다."];
     
+    // published blue number overwrite.
+    cellFont = [UIFont fontWithName:@"Helvetica" size:12.0];
+    constraintSize = CGSizeMake(156.0f, MAXFLOAT);
+    labelSize = [pub sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    label = [[UILabel alloc]initWithFrame:frame];
+    label.text = pub;
+    label.font = cellFont;
+    label.textColor = [UIColor colorWithRed:14.0/256.0 green:157.0/256.0 blue:209.0/256.0 alpha:1.0];
+    containerView = [cell viewWithTag:UV_VIEW];
+    [label sizeToFit];
+    frame = label.frame;
+    frame.size = labelSize;
+    frame.origin.x = PUB_LABEL_DEFAULT_X;
+    frame.origin.y = PUB_LABEL_DEFAULT_Y;
+    [label setFrame:frame];
+    [containerView addSubview:label];
+    [label release];
+
+    // uv
     label = (UILabel *)[cell viewWithTag:UV_LABEL];
     label.text =  [formatter2 stringFromNumber:[NSNumber numberWithInt:[(NSString *)[self.uvDictionary objectForKey:indexPath] intValue]]];
-    
-    label = (UILabel *)[cell viewWithTag:SCORE_LABEL];
-    label.text = (NSString *)[self.linkScoreDictionary objectForKey:indexPath];
-    
+
+    // avatar
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:AVATAR_VIEW];
     imageView.image = nil;
+    
     UIImage *image = (UIImage *)[self.imageArray objectAtIndex:[indexPath row]];
-    //UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
-    //[activity setHidden:NO];
-    //[activity startAnimating];
 
     if ((NSNull *)image == [NSNull null]) {
         if(theTableView.dragging == NO && theTableView.decelerating == NO){
             [self startImageDownload:indexPath andImageUrl:[self.imageUrlDictionary objectForKey:indexPath]];
         }
     } else {
-        //[activity stopAnimating];
+        // [activity stopAnimating];
         imageView.image = image;
     }
     
-    UIImageView *snsImageView = (UIImageView *)[cell viewWithTag:SNS_IMAGE_VIEW];
-    UIImage *snsImage;
-    NSString *sns = [self.snsDictionary objectForKey:indexPath];
-    if ((NSNull *)sns != [NSNull null]) {
-        if ([sns isEqualToString:TWITTER_STR]) {
-            snsImage = [UIImage imageNamed:@"twlogo.png"];
-        } else if([sns isEqualToString:FACEBOOK_STR]) {
-            snsImage = [UIImage imageNamed:@"fblogo.png"];
-        } else if([sns isEqualToString:ME2DAY_STR]) {
-            snsImage = [UIImage imageNamed:@"m2logo.png"];
-        } else {
-            snsImage = [UIImage imageNamed:@"adbylogo.png"];
-        }
+    // published time
+    label = (UILabel *)[cell viewWithTag:PUB_TIME_LABEL];
+
+//    label.text = (NSString *)[self.pubTimeDictionary objectForKey:indexPath];
+//    label.text = [NSString stringWithFormat:@"%@", pubTime];
+
+    label.text = [NSDateFormatter dateDifferenceStringFromTimestamp:
+                  [[self.pubTimeDictionary objectForKey:indexPath] longValue]];
+    
+    
+    /*
+    NSLog(@"%d, %d, %d",[self.timeStamp intValue], [pubTimeStamp intValue], diff);
+
+    diff /= 60; // minute
+    
+    if (diff < 60) {
+        label.text = [NSString stringWithFormat:@"%dminutes ago", diff];
+    } else if(diff < 1440) {
+        diff /= 60;
+        label.text = [NSString stringWithFormat:@"%dhours ago", diff];
     } else {
-        snsImage = [UIImage imageNamed:@"adbylogo.png"];
+        diff /= 1440;
+        label.text = [NSString stringWithFormat:@"%ddays ago", diff];
     }
-    snsImageView.image = snsImage;
+    */
+    // TODO(siwonred): Add ACTIVITY_VIEW for loading image.
+    // UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
+    // [activity setHidden:NO];
+    // [activity startAnimating];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -362,17 +370,19 @@
         return 0;
 }
 
+// row clicked -> publish
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self  cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"twitter",@"facebook",@"me2day", nil];
+//    actionSheet.tag = WRITE_ACTIONSHEET;
+    actionSheet.tag = (NSInteger) [self.sloganIdDictionary objectForKey:indexPath];
+    [actionSheet showInView:self.view];
+    [actionSheet release];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSNumber *number = (NSNumber *)[self.numberOfLinesDictionary objectForKey:indexPath];
     int lines = [number intValue];
-    if (lines <= 2)
-        return 95.0;
-    else
-        return 95.0 + FONT_HEIGHT*(lines-2);
+    return 81.0 + FONT_HEIGHT*(lines-1);
 }
 
 -(void)loadAd{
@@ -434,7 +444,7 @@
     [formatter2 setNumberStyle:NSNumberFormatterDecimalStyle];
 
     self.uvLabel.text = [formatter2 stringFromNumber:[NSNumber numberWithInt:[(NSString *)[adDict objectForKey:@"uv"] intValue]]];
-    self.sloganLabel.text = [NSString stringWithFormat:@"%@ slogans",[adDict objectForKey:@"copy"]];
+    self.sloganLabel.text = [NSString stringWithFormat:@"%@ slogans",[adDict objectForKey:@"slogan"]];
     
     ASIHTTPRequest *imageRequest = [[ASIHTTPRequest alloc]initWithURL:[NSURL URLWithString:[adDict objectForKey:@"image"]]];
     [imageRequest setDelegate:self];
@@ -445,9 +455,7 @@
     [self retain];
     [imageRequest release];
     
-    self.cpcLabel.text = [NSString stringWithFormat:@"$%@",[adDict objectForKey:@"cpc"]];
-    
-    self.bestSloganId = [adDict objectForKey:@"best_slogan_id"];
+    self.cpcLabel.text = (NSString *)[adDict objectForKey:@"cpuv"];
     
     NSString *status = [adDict objectForKey:@"status"];
     if ([status isEqualToString:@"active"]){
@@ -456,7 +464,7 @@
         frame.origin.x = 11;
         [statusImageView setFrame:frame];
         [statusImageView setImage:[UIImage imageNamed:@"activeicon.png"]];
-        [statusBgImageView setImage:[UIImage imageNamed:@"activeCPUV.png"]];
+        [statusBgImageView setImage:[UIImage imageNamed:@"activeCPUV_1.png"]];
     } else{
         cpcLabel.text = @"Paused";
         CGRect frame = statusImageView.frame;
@@ -464,7 +472,7 @@
         frame.origin.x = 15;
         [statusImageView setFrame:frame];
         [statusImageView setImage:[UIImage imageNamed:@"pausedicon.png"]];
-        [statusBgImageView setImage:[UIImage imageNamed:@"pausedCPUV.png"]];
+        [statusBgImageView setImage:[UIImage imageNamed:@"pausedCPUV_1.png"]];
     }
     
     SBJsonParser *parser = [SBJsonParser new];
@@ -483,59 +491,43 @@
 -(void)loadSlogan{
     self.sloganArray = [self.adDictionary objectForKey:@"slogans"];
     [self.numberOfLinesDictionary removeAllObjects];
+    [self.usernameDictionary removeAllObjects];
     [self.sloganDictionary removeAllObjects];
-    [self.userDictionary removeAllObjects];
-    [self.linkDictionary removeAllObjects];
-    [self.createdDictionary removeAllObjects];
     [self.uvDictionary removeAllObjects];
-    [self.linkIdDictionary removeAllObjects];
-    [self.linkScoreDictionary removeAllObjects];
     [self.imageUrlDictionary removeAllObjects];
-    [self.snsDictionary removeAllObjects];
-    
-    NSDictionary *dict;
-    NSDictionary *dict2;
+    [self.sloganIdDictionary removeAllObjects];
+    [self.numberOfPubDictionary removeAllObjects];
+    [self.pubTimeDictionary removeAllObjects];
+
+    NSDictionary *sloganDict;
+    NSDictionary *userDict;
     UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:14.0];
-    CGSize constraintSize = CGSizeMake(215.0f, MAXFLOAT);
-        
+    CGSize constraintSize = CGSizeMake(220.0f, MAXFLOAT);
     for(int i = 0; i<[self.sloganArray count]; i++){
         NSIndexPath *indexPath  = [NSIndexPath indexPathForRow:i inSection:0];
-        
-        dict = [self.sloganArray objectAtIndex:i];
-        dict2 = [dict objectForKey:@"User"];
-        NSString *user = [dict2 objectForKey:@"username"];
-        
-        dict2 = [dict objectForKey:@"Slogan"];
-        NSString *copy = [dict2 objectForKey:@"copy"];
-        
-        NSString *user_copy = [NSString stringWithFormat:@"%@ %@",user,copy];
-        [self.userDictionary setObject:user forKey:indexPath];
-        [self.sloganDictionary setObject:user_copy forKey:indexPath];
-        
-        CGSize labelSize = [user_copy sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
-        
+
+        sloganDict = [self.sloganArray objectAtIndex:i];
+
+        // user
+        userDict = [sloganDict objectForKey:@"User"];
+        NSString *username = [userDict objectForKey:@"username"];
+        [self.usernameDictionary setObject:username forKey:indexPath];
+        [self.imageUrlDictionary setObject:(NSString *)[userDict objectForKey:@"avatar"] forKey:indexPath];
+
+        // slogan
+        sloganDict = [sloganDict objectForKey:@"Slogan"];
+
+        NSString *slogan = [sloganDict objectForKey:@"slogan"];
+        NSString *user_slogan = [NSString stringWithFormat:@"%@ %@", username, slogan];
+        [self.sloganDictionary setObject:user_slogan forKey:indexPath];
+        CGSize labelSize = [user_slogan sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
         int numberOfLines = labelSize.height / 18.0;
-        
         [self.numberOfLinesDictionary setObject:[NSNumber numberWithInt:numberOfLines] forKey:indexPath];
-        
-        [self.linkDictionary setObject:(NSString *)[dict2 objectForKey:@"link"] forKey:indexPath];
-        
-        [self.createdDictionary setObject:(NSString *)[dict2 objectForKey:@"created"] forKey:indexPath];
-        
-        dict2 = [dict objectForKey:@"Link"];
-        
-        [self.uvDictionary setObject:(NSString *)[dict2 objectForKey:@"uv"] forKey:indexPath];
-        [self.linkIdDictionary setObject:(NSString *)[dict2 objectForKey:@"id"] forKey:indexPath];
-        int like,dislike;
-        like = [(NSString *)[dict2 objectForKey:@"like"] intValue];
-        dislike = [(NSString *)[dict2 objectForKey:@"dislike"] intValue];
-        [self.linkScoreDictionary setObject:[NSString stringWithFormat:@"%d",like-dislike] forKey:indexPath];
-        
-        dict2 = [dict objectForKey:@"Sna"];
-        [self.imageUrlDictionary setObject:(NSString *)[dict2 objectForKey:@"avatar"] forKey:indexPath];
-        [self.snsDictionary setObject:(NSString *)[dict2 objectForKey:@"network"] forKey:indexPath];
-        //NSLog(@"%@",user_copy);
-        //NSLog(@"%lf %lf",labelSize.width, labelSize.height);
+        [self.numberOfPubDictionary setObject:(NSString *)[sloganDict objectForKey:@"pub"] forKey:indexPath];
+        [self.pubTimeDictionary setObject:(NSString *)[(NSDictionary *)[sloganDict objectForKey:@"published"] objectForKey:@"sec"] forKey:indexPath];
+        [self.uvDictionary setObject:(NSString *)[sloganDict objectForKey:@"uv"] forKey:indexPath];
+        [self.sloganIdDictionary setObject:(NSString *)[sloganDict objectForKey:@"_id"] forKey:indexPath];
+
         [self.imageArray addObject:[NSNull null]];
     }
     
@@ -552,47 +544,35 @@
 -(void)reloadSlogan:(NSDictionary *)moreAdDictionary{
     NSArray *moreSloganArray = [moreAdDictionary objectForKey:@"slogans"];
     
-    NSDictionary *dict;
-    NSDictionary *dict2;
+    NSDictionary *sloganDict;
+    NSDictionary *userDict;
     UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:14.0];
-    CGSize constraintSize = CGSizeMake(215.0f, MAXFLOAT);
+    CGSize constraintSize = CGSizeMake(220.0f, MAXFLOAT);
     
     for(int i = 0; i<[moreSloganArray count]; i++){
         NSIndexPath *indexPath  = [NSIndexPath indexPathForRow:i+[self.sloganArray count] inSection:0];
         
-        dict = [moreSloganArray objectAtIndex:i];
-        dict2 = [dict objectForKey:@"User"];
-        NSString *user = [dict2 objectForKey:@"username"];
+        sloganDict = [moreSloganArray objectAtIndex:i];
         
-        dict2 = [dict objectForKey:@"Slogan"];
-        NSString *copy = [dict2 objectForKey:@"copy"];
+        // user
+        userDict = [sloganDict objectForKey:@"User"];
+        NSString *username = [userDict objectForKey:@"username"];
+        [self.usernameDictionary setObject:username forKey:indexPath];
+        [self.imageUrlDictionary setObject:(NSString *)[userDict objectForKey:@"avatar"] forKey:indexPath];
         
-        NSString *user_copy = [NSString stringWithFormat:@"%@ %@",user,copy];
-        [self.userDictionary setObject:user forKey:indexPath];
-        [self.sloganDictionary setObject:user_copy forKey:indexPath];
-        
-        CGSize labelSize = [user_copy sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
-        
+        // slogan
+        sloganDict = [sloganDict objectForKey:@"Slogan"];
+        NSString *slogan = [sloganDict objectForKey:@"slogan"];
+        NSString *user_slogan = [NSString stringWithFormat:@"%@ %@", username, slogan];
+        [self.sloganDictionary setObject:user_slogan forKey:indexPath];
+        CGSize labelSize = [user_slogan sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
         int numberOfLines = labelSize.height / 18.0;
-        
         [self.numberOfLinesDictionary setObject:[NSNumber numberWithInt:numberOfLines] forKey:indexPath];
+        [self.numberOfPubDictionary setObject:(NSString *)[sloganDict objectForKey:@"pub"] forKey:indexPath];
+        [self.pubTimeDictionary setObject:(NSString *)[(NSDictionary *)[sloganDict objectForKey:@"published"] objectForKey:@"sec"] forKey:indexPath];
+        [self.uvDictionary setObject:(NSString *)[sloganDict objectForKey:@"uv"] forKey:indexPath];
+        [self.sloganIdDictionary setObject:(NSString *)[sloganDict objectForKey:@"_id"] forKey:indexPath];
         
-        [self.linkDictionary setObject:(NSString *)[dict2 objectForKey:@"link"] forKey:indexPath];
-        
-        [self.createdDictionary setObject:(NSString *)[dict2 objectForKey:@"created"] forKey:indexPath];
-        
-        dict2 = [dict objectForKey:@"Link"];
-        
-        [self.uvDictionary setObject:(NSString *)[dict2 objectForKey:@"uv"] forKey:indexPath];
-        [self.linkIdDictionary setObject:(NSString *)[dict2 objectForKey:@"id"] forKey:indexPath];
-        int like,dislike;
-        like = [(NSString *)[dict2 objectForKey:@"like"] intValue];
-        dislike = [(NSString *)[dict2 objectForKey:@"dislike"] intValue];
-        [self.linkScoreDictionary setObject:[NSString stringWithFormat:@"%d",like-dislike] forKey:indexPath];
-        
-        dict2 = [dict objectForKey:@"Sna"];
-        [self.imageUrlDictionary setObject:(NSString *)[dict2 objectForKey:@"avatar"] forKey:indexPath];
-        [self.snsDictionary setObject:(NSString *)[dict2 objectForKey:@"network"] forKey:indexPath];
         [self.imageArray addObject:[NSNull null]];
     }
     
@@ -602,191 +582,37 @@
     [self.sloganArray addObjectsFromArray:moreSloganArray];
 }
 
--(IBAction) likeButtonClicked:(int)row{
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-    NSLog(@"Like");
-    NSLog(@"%d",[indexPath row]);
-    
-    NSURL *url = [NSURL URLWithString:[Address likeUrl:(NSString *)[self.linkIdDictionary objectForKey:indexPath]]];
-    
-    if(request){
-        [request clearDelegatesAndCancel];
-        [request release];
-        request = nil;
-    }
-    self.request = [[ASIFormDataRequest alloc] initWithURL:url];
-    self.request.userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:row] forKey:@"row"];
-    [self.request setDelegate:self];
-    [self.request setDidFinishSelector:@selector(likeRequestDone:)];
-    [self.request startAsynchronous];
-}
--(IBAction) dislikeButtonClicked:(int)row{
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-    NSLog(@"Dislike");
-    NSLog(@"%d",[indexPath row]);
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self  cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Irrelevant subject",@"Malicious contents",@"Plagiarism", @"False message", nil];
-    actionSheet.tag = DISLIKE_ACTIONSHEET+[indexPath row];
-    [actionSheet showInView:self.view];
-    [actionSheet release];
-}
-
-- (void)likeRequestDone:(ASIFormDataRequest *)aRequest{
-    NSString *responseString = [aRequest responseString];
-    NSLog(@"%@",responseString);
-    SBJsonParser *parser = [SBJsonParser new];
-    NSDictionary *dict = [parser objectWithString:responseString];
-    NSString *error = [dict objectForKey:@"error"];
-    if ([NSNull null] == (NSNull *)error) {
-        NSLog(@"Like Success");
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Like Success" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
-        NSDictionary *dict = [aRequest userInfo];
-        NSNumber *number = (NSNumber *)[dict objectForKey:@"row"];
-        int row = [number intValue];
-        UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-        UILabel *label = (UILabel *)[cell viewWithTag:SCORE_LABEL];
-        int curScore = [label.text intValue];
-        curScore++;
-        label.text = [NSString stringWithFormat:@"%d",curScore];
-    } else {
-        NSLog(@"Like Failed");
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Vote Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
-    }
-}
-
-- (void)dislikeRequestDone:(ASIFormDataRequest *)aRequest{
-    NSString *responseString = [aRequest responseString];
-    NSLog(@"%@",responseString);
-    SBJsonParser *parser = [SBJsonParser new];
-    NSDictionary *dict = [parser objectWithString:responseString];
-    NSString *error = [dict objectForKey:@"error"];
-    if ([NSNull null] == (NSNull *)error) {
-        NSLog(@"Disike Success");
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Dislike Success" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
-        NSDictionary *dict = [aRequest userInfo];
-        NSNumber *number = (NSNumber *)[dict objectForKey:@"row"];
-        int row = [number intValue];
-        UITableViewCell *cell = [self.theTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-        UILabel *label = (UILabel *)[cell viewWithTag:SCORE_LABEL];
-        int curScore = [label.text intValue];
-        curScore--;
-        label.text = [NSString stringWithFormat:@"%d",curScore];
-
-    } else {
-        NSLog(@"Disike Failed");
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Vote Failed" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
-    }
-}
-
 -(IBAction) writeButtonClicked{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self  cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"twitter",@"facebook",@"me2day", nil];
-    actionSheet.tag = WRITE_ACTIONSHEET;
-    [actionSheet showInView:self.view];
-    [actionSheet release];
+    WriteSloganViewController *wViewController = [[WriteSloganViewController alloc]initWithNibName:@"WriteSloganViewController" bundle:nil];
+    wViewController.keyword = self.keyword;
+    wViewController.adId = self.adId;
+    wViewController.delegate = self;
+    [[self navigationController] pushViewController:wViewController animated:YES];
+    [wViewController release];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (actionSheet.tag == WRITE_ACTIONSHEET) {
-        if (buttonIndex != CANCEL){
-            WriteSloganViewController *wViewController = [[WriteSloganViewController alloc]initWithNibName:@"WriteSloganViewController" bundle:nil];
-            wViewController.snsType = 1024+buttonIndex;
-            wViewController.keyword = self.keyword;
-            wViewController.adId = self.adId;
-            wViewController.delegate = self;
-            [[self navigationController] pushViewController:wViewController animated:YES];
-            [wViewController release];
-        }
-    } else if(actionSheet.tag >= LIKEDISLIKE_ACTIONSHEET) {
-        if (buttonIndex == 2)
-            return;
-        int row = actionSheet.tag - LIKEDISLIKE_ACTIONSHEET;
-        if (buttonIndex == 0){
-            [self likeButtonClicked:row];
-        } else if(buttonIndex == 1) {
-            [self dislikeButtonClicked:row];
-        }
-        
-    } else if (actionSheet.tag >= DISLIKE_ACTIONSHEET) {
-        if(buttonIndex == 4)
-            return;
-        NSString *reason = @"unfaithful";
-        if (buttonIndex == 0) {
-            reason = @"unfaithful";
-        } else if (buttonIndex == 1) {
-            reason = @"malicious";
-        } else if(buttonIndex == 2) {
-            reason = @"steal";
-        } else if(buttonIndex == 3) {
-            reason = @"unclear";
-        } 
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:actionSheet.tag-DISLIKE_ACTIONSHEET inSection:0];
-        NSURL *url = [NSURL URLWithString:[Address dislikeUrl:(NSString *)[self.linkIdDictionary objectForKey:indexPath]]];
-        if(request){
-            [request clearDelegatesAndCancel];
-            [request release];
-            request = nil;
-        }
-        self.request = [[ASIFormDataRequest alloc] initWithURL:url];
-        self.request.userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:[indexPath row]] forKey:@"row"];
-        [self.request setPostValue:reason forKey:@"data[LinkLikeUv][reason]"];
-        [self.request setDelegate:self];
-        [self.request setDidFinishSelector:@selector(dislikeRequestDone:)];
-        [self.request startAsynchronous];
+//  if (actionSheet.tag == WRITE_ACTIONSHEET)
+    if (buttonIndex != CANCEL){
+        PublishSloganViewController *pViewController = [[PublishSloganViewController alloc]initWithNibName:@"PublishSloganViewController" bundle:nil];
+        pViewController.snsType = 1024+buttonIndex;
+        pViewController.sloganId = [NSString stringWithFormat:@"%@", actionSheet.tag];
+        pViewController.delegate = self;
+        [[self navigationController] pushViewController:pViewController animated:YES];
+        [pViewController release];
     }
-}
--(IBAction) linkButtonClicked:(id)sender{
-    UIButton *button = (UIButton *)sender;
-    WebViewController *wViewController = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
-    wViewController.requestURL = button.titleLabel.text;
-    [[self navigationController] pushViewController:wViewController animated:YES];
-    [wViewController release];
 }
 
 -(IBAction) goPageButtonClicked{
     NSString *urlString=@"";
-    NSDictionary *dict = [self.adDictionary objectForKey:@"best_slogan"];
-    if (dict!= nil) {
-        NSDictionary *dict2 = [dict objectForKey:@"Slogan"];
-        urlString = [dict2 objectForKey:@"link"];
-    }
-    else {
-        NSDictionary *dict2 = [self.adDictionary objectForKey:@"ad"];
-        dict2 = [dict2 objectForKey:@"Ad"];
-        urlString = [dict2 objectForKey:@"link"];
-    }
+    NSDictionary *dict = [self.adDictionary objectForKey:@"ad"];
+    dict = [dict objectForKey:@"Ad"];
+    urlString = [dict objectForKey:@"link"];
+    NSLog(@"web view with %@", urlString);
     WebViewController *wViewController = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
     wViewController.requestURL = urlString;
     [[self navigationController] pushViewController:wViewController animated:YES];
     [wViewController release];
-}
-
--(IBAction) likeDislikeButtonClicked:(id)sender{
-    UIButton *button = (UIButton *)sender;
-    UIView *parent = [button superview];
-    UITableViewCell *cell;
-    while (parent != nil) {
-        if( [parent isMemberOfClass:[UITableViewCell class]] ){
-            cell = (UITableViewCell *)parent;
-            break;
-        }
-        parent = [parent superview];
-    }
-    NSIndexPath *indexPath = [theTableView indexPathForCell:cell];
-    NSLog(@"Like");
-    NSLog(@"%d",[indexPath row]);
-
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Up", @"Down", nil];
-    actionSheet.tag = LIKEDISLIKE_ACTIONSHEET + [indexPath row];
-    [actionSheet showInView:self.view];
-    [actionSheet release];
-    
 }
 
 -(IBAction) refreshButtonClicked{
@@ -855,8 +681,9 @@
 }
 
 -(void)updateMore{
-    if (noMoreUpdate || updating)
+    if (noMoreUpdate || updating) {
         return;
+    }
     NSArray *visiblePaths = [self.theTableView indexPathsForVisibleRows];
     for (NSIndexPath *indexPath in visiblePaths)
     {
@@ -908,4 +735,5 @@
 - (void)writeSuccess{
     [self loadAd];
 }
+
 @end

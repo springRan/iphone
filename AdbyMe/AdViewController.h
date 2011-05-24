@@ -10,6 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "WriteSloganViewController.h"
+#import "PublishSloganViewController.h"
 
 @interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, WriteSloganViewControllerDelegate> {
     
@@ -28,9 +29,11 @@
     UITextView *adTextView;
     UIImageView *adImageView;
     UILabel *cpcLabel;
-    NSString *bestSloganId;
     UIImageView *statusBgImageView;
     UIImageView *statusImageView;
+    
+    UIImageView *publishImage;
+    UIButton *publishButton;
     
     NSMutableArray *sloganArray;
     
@@ -38,15 +41,13 @@
     
     UITableViewCell *adCell;
     NSMutableDictionary *numberOfLinesDictionary;
-    NSMutableDictionary *userDictionary;
+    NSMutableDictionary *usernameDictionary;
     NSMutableDictionary *sloganDictionary;
-    NSMutableDictionary *linkDictionary;
-    NSMutableDictionary *createdDictionary;
     NSMutableDictionary *uvDictionary;
-    NSMutableDictionary *linkIdDictionary;
-    NSMutableDictionary *linkScoreDictionary;
     NSMutableDictionary *imageUrlDictionary;
-    NSMutableDictionary *snsDictionary;
+    NSMutableDictionary *sloganIdDictionary;
+    NSMutableDictionary *numberOfPubDictionary;
+    NSMutableDictionary *pubTimeDictionary;
     
     UIView *loadingView;
     
@@ -64,7 +65,10 @@
     NSString *keyword;
     
     NSOperationQueue *queue;
+    
+    NSString *timeStamp;
 }
+@property (nonatomic, retain) NSString *timeStamp;
 @property (nonatomic, retain) NSString *adId;
 @property (nonatomic, retain) IBOutlet UIView *adHeaderView;
 @property (nonatomic, retain) IBOutlet UITableView *theTableView;
@@ -77,18 +81,18 @@
 @property (nonatomic, retain) IBOutlet UITextView *adTextView;
 @property (nonatomic, retain) IBOutlet UIImageView *adImageView;
 @property (nonatomic, retain) IBOutlet UILabel *cpcLabel;
-@property (nonatomic, retain) NSString *bestSloganId;
+
+
 @property (nonatomic, retain) NSMutableArray *sloganArray;
 @property (nonatomic, retain) NSString *sinceUrl;
 @property (nonatomic, retain) IBOutlet UITableViewCell *adCell;
 @property (nonatomic, retain) NSMutableDictionary *numberOfLinesDictionary;
-@property (nonatomic, retain) NSMutableDictionary *userDictionary;
+@property (nonatomic, retain) NSMutableDictionary *usernameDictionary;
 @property (nonatomic, retain) NSMutableDictionary *sloganDictionary;
-@property (nonatomic, retain) NSMutableDictionary *linkDictionary;
-@property (nonatomic, retain) NSMutableDictionary *createdDictionary;
 @property (nonatomic, retain) NSMutableDictionary *uvDictionary;
-@property (nonatomic, retain) NSMutableDictionary *linkIdDictionary;
-@property (nonatomic, retain) NSMutableDictionary *linkScoreDictionary;
+@property (nonatomic, retain) NSMutableDictionary *sloganIdDictionary;
+@property (nonatomic, retain) NSMutableDictionary *numberOfPubDictionary;
+@property (nonatomic, retain) NSMutableDictionary *pubTimeDictionary;
 
 @property (nonatomic, retain) IBOutlet UIView *loadingView;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
@@ -112,13 +116,11 @@
 -(void)configCell:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath;
 -(void) addHeight:(double)addHeight forView:(UIView *)cellView;
 -(void) addY:(double)addHeight forView:(UIView *)cellView;
--(IBAction) likeButtonClicked:(int)row;
--(IBAction) dislikeButtonClicked:(int)row;
+
 -(IBAction) writeButtonClicked;
--(IBAction) linkButtonClicked:(id)sender;
 -(IBAction) goPageButtonClicked;
 -(void) restoreCell:(UITableViewCell *)cell;
--(IBAction) likeDislikeButtonClicked:(id)sender;
+
 -(IBAction) refreshButtonClicked;
 - (void)startImageDownload:(NSIndexPath *)indexPath andImageUrl:(NSString *)imageUrl;
 @end
