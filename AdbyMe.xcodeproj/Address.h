@@ -7,11 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
- #define HOST_ADDR @"https://www.adby.me"
+#define HOST_ADDR @"https://www.adby.me"
 /*
-#define HOST_ADDR @"http://exp.hooni.adby.me"
- */
-
+#define HOST_ADDR @"http://hooni.adby.me"
+*/
 @interface Address : NSObject {
 
 }

@@ -493,7 +493,12 @@
         userDict = [sloganDict objectForKey:@"User"];
         NSString *username = [userDict objectForKey:@"username"];
         [self.usernameDictionary setObject:username forKey:indexPath];
-        [self.imageUrlDictionary setObject:(NSString *)[userDict objectForKey:@"avatar"] forKey:indexPath];
+
+        NSString *imageURL = (NSString *)[userDict objectForKey:@"avatar"];
+        if ([imageURL isEqualToString:@"/img/noFace.jpg"] == true) {
+            imageURL = @"https://www.adby.me/img/noFace.jpg";
+        }
+        [self.imageUrlDictionary setObject:imageURL forKey:indexPath];
 
         // slogan
         sloganDict = [sloganDict objectForKey:@"Slogan"];
@@ -539,7 +544,11 @@
         userDict = [sloganDict objectForKey:@"User"];
         NSString *username = [userDict objectForKey:@"username"];
         [self.usernameDictionary setObject:username forKey:indexPath];
-        [self.imageUrlDictionary setObject:(NSString *)[userDict objectForKey:@"avatar"] forKey:indexPath];
+        NSString *imageURL = (NSString *)[userDict objectForKey:@"avatar"];
+        if ([imageURL isEqualToString:@"/img/noFace.jpg"] == true) {
+            imageURL = @"https://www.adby.me/img/noFace.jpg";
+        }
+        [self.imageUrlDictionary setObject:imageURL forKey:indexPath];
         
         // slogan
         sloganDict = [sloganDict objectForKey:@"Slogan"];

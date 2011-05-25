@@ -96,6 +96,9 @@
     self.queue = [[NSOperationQueue alloc]init];
     [self.queue setMaxConcurrentOperationCount:10];
     NSString *imageURL = [adbymeDelegate.userDictionary objectForKey:@"avatar"];
+    if ([NSNull null] == (NSNull *)imageURL) {
+        imageURL = @"https://www.adby.me/img/noFace.jpg";
+    }
     ASIHTTPRequest *imageRequest = [[ASIHTTPRequest alloc]initWithURL:[NSURL URLWithString:imageURL]];
     [imageRequest setDelegate:self];
     [imageRequest setDidFinishSelector:@selector(imageDownloadRequestDone:)];
