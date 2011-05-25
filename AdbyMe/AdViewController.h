@@ -12,7 +12,7 @@
 #import "WriteSloganViewController.h"
 #import "PublishSloganViewController.h"
 
-@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, WriteSloganViewControllerDelegate> {
+@interface AdViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, WriteSloganViewControllerDelegate, PublishSloganViewControllerDelegate> {
     
     NSString *adId;
     

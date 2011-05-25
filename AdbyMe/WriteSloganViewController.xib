@@ -223,13 +223,12 @@
 								<string key="NSFrame">{{86, 0}, {189, 19}}</string>
 								<reference key="NSSuperview" ref="303672955"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">최시원, 김정근마마마마마마마마마마마마마마마마</string>
+								<string key="IBUIText">필스 키워드</string>
 								<reference key="IBUIFont" ref="1011669928"/>
 								<reference key="IBUITextColor" ref="496003484"/>
 								<nil key="IBUIHighlightedColor"/>

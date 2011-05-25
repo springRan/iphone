@@ -330,29 +330,10 @@
     
     // published time
     label = (UILabel *)[cell viewWithTag:PUB_TIME_LABEL];
-
-//    label.text = (NSString *)[self.pubTimeDictionary objectForKey:indexPath];
-//    label.text = [NSString stringWithFormat:@"%@", pubTime];
-
     label.text = [NSDateFormatter dateDifferenceStringFromTimestamp:
                   [[self.pubTimeDictionary objectForKey:indexPath] longValue]];
     
-    
-    /*
-    NSLog(@"%d, %d, %d",[self.timeStamp intValue], [pubTimeStamp intValue], diff);
 
-    diff /= 60; // minute
-    
-    if (diff < 60) {
-        label.text = [NSString stringWithFormat:@"%dminutes ago", diff];
-    } else if(diff < 1440) {
-        diff /= 60;
-        label.text = [NSString stringWithFormat:@"%dhours ago", diff];
-    } else {
-        diff /= 1440;
-        label.text = [NSString stringWithFormat:@"%ddays ago", diff];
-    }
-    */
     // TODO(siwonred): Add ACTIVITY_VIEW for loading image.
     // UIActivityIndicatorView *activity = (UIActivityIndicatorView *)[cell viewWithTag:ACTIVITY_VIEW];
     // [activity setHidden:NO];

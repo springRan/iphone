@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B17DEA01387BDA900D41F94 /* publish button.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B17DE9F1387BDA900D41F94 /* publish button.png */; };
 		5B735B2F1387876B00D240CA /* PublishSloganViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B735B2E1387876B00D240CA /* PublishSloganViewController.m */; };
 		5B87222A13879000007CAC7E /* PublishSloganViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B87222913879000007CAC7E /* PublishSloganViewController.xib */; };
 		5BB7BBEE138B7C8A0047E253 /* imgframe_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BB7BBED138B7C8A0047E253 /* imgframe_1.png */; };
@@ -204,7 +203,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5B17DE9F1387BDA900D41F94 /* publish button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "publish button.png"; sourceTree = "<group>"; };
 		5B735B2D1387876B00D240CA /* PublishSloganViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishSloganViewController.h; sourceTree = "<group>"; };
 		5B735B2E1387876B00D240CA /* PublishSloganViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishSloganViewController.m; sourceTree = "<group>"; };
 		5B87222913879000007CAC7E /* PublishSloganViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublishSloganViewController.xib; sourceTree = "<group>"; };
@@ -538,7 +536,6 @@
 				7376850F134CA95D00410773 /* AdViewController.xib */,
 				7361F87E134CC86B00F84E0D /* AdHeaderView.xib */,
 				73988F67134DD69600D0A2EB /* AdCell3.xib */,
-				5B17DE9F1387BDA900D41F94 /* publish button.png */,
 				A759DEE1135486FC00C884C3 /* DateDifference.h */,
 				A759DEE2135486FC00C884C3 /* DateDifference.m */,
 				73F19979134F6FD8009F174D /* WriteSloganViewController.h */,
@@ -1039,7 +1036,6 @@
 				730A844713597C8500557FF7 /* cellBackgroundSelected.png in Resources */,
 				730A844813597C8500557FF7 /* cellBackground.png in Resources */,
 				5B87222A13879000007CAC7E /* PublishSloganViewController.xib in Resources */,
-				5B17DEA01387BDA900D41F94 /* publish button.png in Resources */,
 				5BB7BBEE138B7C8A0047E253 /* imgframe_1.png in Resources */,
 				5BB7BBF1138B7DC50047E253 /* activeCPUV_1.png in Resources */,
 				5BB7BBF3138B7DD10047E253 /* pausedCPUV_1.png in Resources */,
@@ -1177,7 +1173,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Red Choi (7KU355J4S4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Red Choi (7KU355J4S4)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -1186,6 +1183,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PROVISIONING_PROFILE = "AA2AEC9E-C36B-4232-8AD8-7477EBD13D44";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AA2AEC9E-C36B-4232-8AD8-7477EBD13D44";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1194,13 +1193,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: AdbyMe";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: AdbyMe";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "BED2487E-FAA3-4222-BC1D-EEC83A09078F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BED2487E-FAA3-4222-BC1D-EEC83A09078F";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -1214,6 +1216,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AdbyMe/AdbyMe-Prefix.pch";
 				INFOPLIST_FILE = "AdbyMe/AdbyMe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1227,6 +1230,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AdbyMe/AdbyMe-Prefix.pch";
 				INFOPLIST_FILE = "AdbyMe/AdbyMe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -1281,15 +1285,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: AdbyMe";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: AdbyMe";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				"PROVISIONING_PROFILE[sdk=*]" = "";
+				PROVISIONING_PROFILE = "BED2487E-FAA3-4222-BC1D-EEC83A09078F";
+				"PROVISIONING_PROFILE[sdk=*]" = "BED2487E-FAA3-4222-BC1D-EEC83A09078F";
 				SDKROOT = iphoneos;
 			};
 			name = "Ad Hoc";
@@ -1302,6 +1307,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AdbyMe/AdbyMe-Prefix.pch";
 				INFOPLIST_FILE = "AdbyMe/AdbyMe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
